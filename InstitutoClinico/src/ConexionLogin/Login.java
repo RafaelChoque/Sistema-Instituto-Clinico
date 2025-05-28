@@ -215,14 +215,14 @@ public class RoundedPanel extends JPanel {
                             ventanaadmin.setVisible(true);
                             this.dispose();
                         } else {
-                            JOptionPane.showMessageDialog(null, "LA CONTRASEÑA NO ES CORRECTA");
+                            JOptionPane.showMessageDialog(null, "La contraseña no es correcta.");
                         }
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "SU USUARIO ESTÁ INACTIVO. CONTACTE AL ADMINISTRADOR.");
+                    JOptionPane.showMessageDialog(null, "Su usuario está inactivo. Contacte al administrador.");
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "EL USUARIO NO EXISTE");
+                JOptionPane.showMessageDialog(null, "El usuario no existe.");
             }
         } catch (SQLException ex) {
             System.out.println(ex.toString());

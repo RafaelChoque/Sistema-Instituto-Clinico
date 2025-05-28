@@ -52,14 +52,15 @@ public class AdministradorDoctores extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        Superior = new javax.swing.JLabel();
+        Superior = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         ListaPersonal = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaMedicos = new javax.swing.JTable();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -86,14 +87,15 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         NombreCategoria = new javax.swing.JTextField();
-        FondoBlanco = new javax.swing.JLabel();
         FondoGris = new javax.swing.JLabel();
+        FondoBlanco = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Superior.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/SuperiorInterfaz.png"))); // NOI18N
+        Superior.setBackground(new java.awt.Color(80, 35, 100));
+        Superior.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         getContentPane().add(Superior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1920, 60));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -102,6 +104,45 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         ListaPersonal.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
         ListaPersonal.setText("Lista de Médicos");
         jPanel2.add(ListaPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 340, -1));
+
+        TablaMedicos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Nombre", "Apellido", "CI", "Teléfono", "Fecha de Nacimiento", "Dirección", "Categoria Profesional", "Especialidad"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        TablaMedicos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaMedicosMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(TablaMedicos);
+
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 1190, 860));
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
+        jPanel4.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 15, -1, -1));
 
         jTextField1.setBackground(new java.awt.Color(233, 236, 239));
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -113,7 +154,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
                 jTextField1ActionPerformed(evt);
             }
         });
-        jPanel2.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, 90, 20));
+        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 15, 90, 20));
         String placeholder = "Buscar CI";
 
         jTextField1.setText(placeholder);
@@ -172,43 +213,10 @@ public class AdministradorDoctores extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
-        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, -1, -1));
-
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo_1.png"))); // NOI18N
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 190, 40));
+        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 5, 190, 40));
 
-        TablaMedicos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Nombre", "Apellido", "CI", "Teléfono", "Fecha de Nacimiento", "Dirección", "Categoria Profesional", "Especialidad"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        TablaMedicos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TablaMedicosMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(TablaMedicos);
-
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 1160, 850));
+        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 1190, 910));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(194, 194, 194)));
@@ -218,43 +226,43 @@ public class AdministradorDoctores extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Nombre:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, 20));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, 20));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("Apellido:");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, 20));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, 20));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setText("CI:");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, -1, 20));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, 20));
 
         Telefono.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TelefonoActionPerformed(evt);
             }
         });
-        jPanel1.add(Telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 140, 440, -1));
+        jPanel1.add(Telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 140, 440, -1));
 
         Nombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NombreActionPerformed(evt);
             }
         });
-        jPanel1.add(Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 50, 440, -1));
+        jPanel1.add(Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 440, -1));
 
         Apellido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ApellidoActionPerformed(evt);
             }
         });
-        jPanel1.add(Apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 80, 440, -1));
+        jPanel1.add(Apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 440, -1));
 
         CI.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CIActionPerformed(evt);
             }
         });
-        jPanel1.add(CI, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 110, 440, -1));
+        jPanel1.add(CI, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 110, 440, -1));
 
         ID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -265,11 +273,11 @@ public class AdministradorDoctores extends javax.swing.JFrame {
 
         AgregarTecnico.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
         AgregarTecnico.setText("Agregar Médicos");
-        jPanel1.add(AgregarTecnico, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        jPanel1.add(AgregarTecnico, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
         EspecialidadLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         EspecialidadLabel.setText("Especialidad:");
-        jPanel1.add(EspecialidadLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 230, -1, 20));
+        jPanel1.add(EspecialidadLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 230, -1, 20));
 
         guardar.setBackground(new java.awt.Color(29, 41, 57));
         guardar.setForeground(new java.awt.Color(255, 255, 255));
@@ -322,8 +330,8 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         jPanel1.add(HabilitarDeshabilitar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 290, -1, -1));
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel14.setText("Dirección");
-        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, -1, 20));
+        jLabel14.setText("Dirección:");
+        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, -1, 20));
 
         Categoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "General", "Especialista", "Otro"}));
         Especialidad.setVisible(false);
@@ -342,11 +350,11 @@ public class AdministradorDoctores extends javax.swing.JFrame {
                 }
             }
         });
-        jPanel1.add(Categoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 230, 170, -1));
+        jPanel1.add(Categoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 230, 170, -1));
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel15.setText("Nombre de Categoria:");
-        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, -1, 20));
+        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, -1, 20));
 
         Especialidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
             "Cardiología",
@@ -369,32 +377,32 @@ public class AdministradorDoctores extends javax.swing.JFrame {
             "Oftalmología",
             "Otorrinolaringología",
             "Radiología" }));
-jPanel1.add(Especialidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 230, 170, -1));
+jPanel1.add(Especialidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 230, 170, -1));
 
 jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 jLabel16.setText("Teléfono:");
-jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, -1, 20));
-jPanel1.add(FechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, 440, -1));
-jPanel1.add(Direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 200, 440, -1));
+jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, 20));
+jPanel1.add(FechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 170, 440, -1));
+jPanel1.add(Direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 200, 440, -1));
 
 jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-jLabel17.setText("Fecha de Nacicimiento");
-jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, -1, 20));
+jLabel17.setText("Fecha de Nacimiento:");
+jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, -1, 20));
 
 jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 jLabel18.setText("Categoría Profesional:");
-jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, -1, 20));
-jPanel1.add(NombreCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 260, 440, -1));
+jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, -1, 20));
+jPanel1.add(NombreCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 260, 440, -1));
 
-jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 100, 630, 330));
+jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 50, 660, 330));
+
+getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1880, 980));
+
+FondoGris.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Background.jpg"))); // NOI18N
+getContentPane().add(FondoGris, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1920, 1080));
 
 FondoBlanco.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo_2.png"))); // NOI18N
-jPanel2.add(FondoBlanco, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 120, 680, 410));
-
-getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 1870, 980));
-
-FondoGris.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo_3.png"))); // NOI18N
-getContentPane().add(FondoGris, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1920, 1080));
+getContentPane().add(FondoBlanco, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 120, 680, 410));
 
 pack();
 }// </editor-fold>//GEN-END:initComponents
@@ -429,90 +437,6 @@ pack();
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
-
-    private void TablaMedicosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaMedicosMouseClicked
-        try {
-            int fila = TablaMedicos.getSelectedRow();
-            if (fila == -1) {
-
-                return;
-            }
-            int id = Integer.parseInt(TablaMedicos.getValueAt(fila, 0).toString());
-
-            Connection con = Conexion.obtenerConexion();
-            PreparedStatement ps = con.prepareStatement(
-                    "SELECT CI, nombre, apellido, fecha_nacimiento, telefono, direccion, categoria_profesional, especialidad "
-                    + "FROM medicos WHERE id_medico = ?"
-            );
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                ID.setText(String.valueOf(id));
-                CI.setText(rs.getString("CI"));
-                Nombre.setText(rs.getString("nombre"));
-                Apellido.setText(rs.getString("apellido"));
-
-                java.sql.Date fecha = rs.getDate("fecha_nacimiento");
-                if (fecha != null) {
-                    FechaNacimiento.setDate(new java.util.Date(fecha.getTime()));
-                } else {
-                    FechaNacimiento.setDate(null);
-                }
-
-                Telefono.setText(rs.getString("telefono"));
-                Direccion.setText(rs.getString("direccion"));
-
-
-                String categoria = rs.getString("categoria_profesional");
-                String especialidad = rs.getString("especialidad");
-
-                if (categoria != null) {
-                    categoria = categoria.trim();
-                } else {
-                    categoria = "";
-                }
-                if (especialidad != null) {
-                    especialidad = especialidad.trim();
-                } else {
-                    especialidad = "";
-                }
-
-                if (categoria.equalsIgnoreCase("General") || categoria.equalsIgnoreCase("General")) {
-                    Categoria.setSelectedItem("General");
-                    Especialidad.setVisible(false);
-                    EspecialidadLabel.setVisible(false);
-                    Especialidad.setSelectedIndex(-1);
-                } else if (categoria.equalsIgnoreCase("Especialista") || categoria.equalsIgnoreCase("Especialista")) {
-                    Categoria.setSelectedItem("Especialista");
-                    Especialidad.setVisible(true);
-                    EspecialidadLabel.setVisible(true);
-
-                    boolean encontrada = false;
-                    for (int i = 0; i < Especialidad.getItemCount(); i++) {
-                        String item = Especialidad.getItemAt(i).trim();
-                        if (item.equalsIgnoreCase(especialidad)) {
-                            Especialidad.setSelectedIndex(i);
-                            encontrada = true;
-                            break;
-                        }
-                    }
-
-                    if (!encontrada && !especialidad.isEmpty()) {
-                        Especialidad.addItem(especialidad);
-                        Especialidad.setSelectedItem(especialidad);
-                    }
-                } else {
-                    Categoria.setSelectedIndex(-1);
-                    Especialidad.setVisible(false);
-                    EspecialidadLabel.setVisible(false);
-                    Especialidad.setSelectedIndex(-1);
-                }
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.toString());
-        }
-    }//GEN-LAST:event_TablaMedicosMouseClicked
 
     private void TelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TelefonoActionPerformed
         // TODO add your handling code here:
@@ -566,7 +490,7 @@ pack();
         }
 
         if (categoriatxt.equals("Otro")) {
-            categoriaProfesionalOtro = NombreCategoria.getText().trim();  // Aquí el JTextField para "Otro"
+            categoriaProfesionalOtro = NombreCategoria.getText().trim();  
             if (categoriaProfesionalOtro.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Por favor, ingrese la categoría profesional.");
                 return;
@@ -867,6 +791,89 @@ pack();
         }
     }//GEN-LAST:event_HabilitarDeshabilitarActionPerformed
 
+    private void TablaMedicosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaMedicosMouseClicked
+        try {
+            int fila = TablaMedicos.getSelectedRow();
+            if (fila == -1) {
+
+                return;
+            }
+            int id = Integer.parseInt(TablaMedicos.getValueAt(fila, 0).toString());
+
+            Connection con = Conexion.obtenerConexion();
+            PreparedStatement ps = con.prepareStatement(
+                "SELECT CI, nombre, apellido, fecha_nacimiento, telefono, direccion, categoria_profesional, especialidad "
+                + "FROM medicos WHERE id_medico = ?"
+            );
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                ID.setText(String.valueOf(id));
+                CI.setText(rs.getString("CI"));
+                Nombre.setText(rs.getString("nombre"));
+                Apellido.setText(rs.getString("apellido"));
+
+                java.sql.Date fecha = rs.getDate("fecha_nacimiento");
+                if (fecha != null) {
+                    FechaNacimiento.setDate(new java.util.Date(fecha.getTime()));
+                } else {
+                    FechaNacimiento.setDate(null);
+                }
+
+                Telefono.setText(rs.getString("telefono"));
+                Direccion.setText(rs.getString("direccion"));
+
+                String categoria = rs.getString("categoria_profesional");
+                String especialidad = rs.getString("especialidad");
+
+                if (categoria != null) {
+                    categoria = categoria.trim();
+                } else {
+                    categoria = "";
+                }
+                if (especialidad != null) {
+                    especialidad = especialidad.trim();
+                } else {
+                    especialidad = "";
+                }
+
+                if (categoria.equalsIgnoreCase("General") || categoria.equalsIgnoreCase("General")) {
+                    Categoria.setSelectedItem("General");
+                    Especialidad.setVisible(false);
+                    EspecialidadLabel.setVisible(false);
+                    Especialidad.setSelectedIndex(-1);
+                } else if (categoria.equalsIgnoreCase("Especialista") || categoria.equalsIgnoreCase("Especialista")) {
+                    Categoria.setSelectedItem("Especialista");
+                    Especialidad.setVisible(true);
+                    EspecialidadLabel.setVisible(true);
+
+                    boolean encontrada = false;
+                    for (int i = 0; i < Especialidad.getItemCount(); i++) {
+                        String item = Especialidad.getItemAt(i).trim();
+                        if (item.equalsIgnoreCase(especialidad)) {
+                            Especialidad.setSelectedIndex(i);
+                            encontrada = true;
+                            break;
+                        }
+                    }
+
+                    if (!encontrada && !especialidad.isEmpty()) {
+                        Especialidad.addItem(especialidad);
+                        Especialidad.setSelectedItem(especialidad);
+                    }
+                } else {
+                    Categoria.setSelectedIndex(-1);
+                    Especialidad.setVisible(false);
+                    EspecialidadLabel.setVisible(false);
+                    Especialidad.setSelectedIndex(-1);
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.toString());
+        }
+    }//GEN-LAST:event_TablaMedicosMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -907,7 +914,7 @@ pack();
     private javax.swing.JLabel ListaPersonal;
     private javax.swing.JTextField Nombre;
     private javax.swing.JTextField NombreCategoria;
-    private javax.swing.JLabel Superior;
+    private javax.swing.JPanel Superior;
     private javax.swing.JTable TablaMedicos;
     private javax.swing.JTextField Telefono;
     private javax.swing.JButton eliminar;
@@ -924,6 +931,7 @@ pack();
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton limpiar;
