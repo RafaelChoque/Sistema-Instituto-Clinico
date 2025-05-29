@@ -4,6 +4,24 @@
  */
 package Administrador;
 
+import ConexionLogin.Conexion;
+import com.formdev.flatlaf.FlatLightLaf;
+import java.awt.Color;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.sql.*;
+import java.util.Date;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.UIManager;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+import org.mindrot.jbcrypt.BCrypt;
+
 /**
  *
  * @author Rafael
@@ -15,6 +33,10 @@ public class AdministradorCajeros extends javax.swing.JFrame {
      */
     public AdministradorCajeros() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        ID.setVisible(false);
+        cargarTabla();
     }
 
     /**
@@ -26,21 +48,652 @@ public class AdministradorCajeros extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        Superior = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        ListaPersonal = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TablaCajeros = new javax.swing.JTable();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        Telefono = new javax.swing.JTextField();
+        Nombre = new javax.swing.JTextField();
+        Apellido = new javax.swing.JTextField();
+        CI = new javax.swing.JTextField();
+        ID = new javax.swing.JTextField();
+        guardar = new javax.swing.JButton();
+        modificar = new javax.swing.JButton();
+        eliminar = new javax.swing.JButton();
+        limpiar = new javax.swing.JButton();
+        HabilitarDeshabilitar = new javax.swing.JButton();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        FechaNacimiento = new com.toedter.calendar.JDateChooser();
+        Direccion = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        AgregarTecnico1 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        AgregarTecnico = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        NombreCajero = new javax.swing.JTextField();
+        UsuarioCajero = new javax.swing.JTextField();
+        ContraseñaCajero = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        FondoGris = new javax.swing.JLabel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Superior.setBackground(new java.awt.Color(80, 35, 100));
+        Superior.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().add(Superior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1920, 60));
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        ListaPersonal.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        ListaPersonal.setText("Lista de Cajeros");
+        jPanel2.add(ListaPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 180, -1));
+
+        TablaCajeros.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Nombre", "Apellido", "CI", "Teléfono", "Fecha de Nacimiento", "Dirección"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        TablaCajeros.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaCajerosMouseClicked(evt);
+            }
+        });
+        TablaCajeros.getTableHeader().setReorderingAllowed(false);
+        TablaCajeros.getTableHeader().setResizingAllowed(false);
+        TablaCajeros.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        TablaCajeros.setFocusable(false);
+        jScrollPane1.setViewportView(TablaCajeros);
+
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 1190, 860));
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
+        jPanel4.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 15, -1, -1));
+
+        jTextField1.setBackground(new java.awt.Color(233, 236, 239));
+        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jTextField1.setText("Buscar");
+        jTextField1.setToolTipText("");
+        jTextField1.setBorder(null);
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 15, 90, 20));
+        String placeholder = "Buscar CI";
+
+        jTextField1.setText(placeholder);
+        jTextField1.setForeground(Color.GRAY);
+
+        jTextField1.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (jTextField1.getText().equals(placeholder)) {
+                    jTextField1.setText("");
+                    jTextField1.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (jTextField1.getText().isEmpty()) {
+                    jTextField1.setText(placeholder);
+                    jTextField1.setForeground(Color.GRAY);
+                }
+            }
+        });
+
+        jTextField1.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                filterTable();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filterTable();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                filterTable();
+            }
+
+            private void filterTable() {
+                String query = jTextField1.getText().toLowerCase();
+
+                if (query.equals(placeholder.toLowerCase())) {
+                    TablaCajeros.setRowSorter(null);
+                    return;
+                }
+
+                TableRowSorter<TableModel> sorter = new TableRowSorter<>(TablaCajeros.getModel());
+                TablaCajeros.setRowSorter(sorter);
+
+                if (query.trim().isEmpty()) {
+                    sorter.setRowFilter(null);
+                } else {
+                    sorter.setRowFilter(RowFilter.regexFilter("(?i)" + query, 1, 3));
+                }
+            }
+        });
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo_1.png"))); // NOI18N
+        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 5, 190, 40));
+
+        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 1190, 910));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(194, 194, 194)));
+        jPanel1.setToolTipText("");
+        jPanel1.setOpaque(false);
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel5.setText("Apellido:");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, 20));
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel6.setText("CI:");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, 20));
+
+        Telefono.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TelefonoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(Telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 140, 440, -1));
+
+        Nombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NombreActionPerformed(evt);
+            }
+        });
+        jPanel1.add(Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 440, -1));
+
+        Apellido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ApellidoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(Apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 440, 20));
+
+        CI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CIActionPerformed(evt);
+            }
+        });
+        jPanel1.add(CI, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 110, 440, -1));
+
+        ID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                IDActionPerformed(evt);
+            }
+        });
+        jPanel1.add(ID, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, 10, -1));
+
+        guardar.setBackground(new java.awt.Color(80, 35, 100));
+        guardar.setForeground(new java.awt.Color(255, 255, 255));
+        guardar.setText("Guardar");
+        guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 100, -1));
+
+        modificar.setBackground(new java.awt.Color(80, 35, 100));
+        modificar.setForeground(new java.awt.Color(255, 255, 255));
+        modificar.setText("Modificar");
+        modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modificarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 230, 100, -1));
+
+        eliminar.setBackground(new java.awt.Color(255, 0, 0));
+        eliminar.setForeground(new java.awt.Color(255, 255, 255));
+        eliminar.setText("Eliminar");
+        eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 230, 100, -1));
+
+        limpiar.setBackground(new java.awt.Color(80, 35, 100));
+        limpiar.setForeground(new java.awt.Color(255, 255, 255));
+        limpiar.setText("Limpiar");
+        limpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                limpiarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 230, 100, -1));
+
+        HabilitarDeshabilitar.setBackground(new java.awt.Color(80, 35, 100));
+        HabilitarDeshabilitar.setForeground(new java.awt.Color(255, 255, 255));
+        HabilitarDeshabilitar.setText("Habilitar/Deshabilitar");
+        HabilitarDeshabilitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HabilitarDeshabilitarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(HabilitarDeshabilitar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, 150, -1));
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel14.setText("Dirección:");
+        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, -1, 20));
+
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel16.setText("Teléfono:");
+        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, 20));
+        jPanel1.add(FechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 170, 440, -1));
+        jPanel1.add(Direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 200, 440, -1));
+
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel17.setText("Fecha de Nacimiento:");
+        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, -1, 20));
+
+        AgregarTecnico1.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        AgregarTecnico1.setText("Agregar Cajeros");
+        jPanel1.add(AgregarTecnico1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel7.setText("Nombre:");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, 20));
+
+        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 50, 660, 270));
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        AgregarTecnico.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        AgregarTecnico.setText("Modificación de Usuario y Contraseña (Cajeros)");
+        jPanel3.add(AgregarTecnico, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel8.setText("Nombre:");
+        jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, -1));
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel10.setText("Usuario:");
+        jPanel3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel4.setText("Contraseña");
+        jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
+        jPanel3.add(NombreCajero, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 440, -1));
+        jPanel3.add(UsuarioCajero, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 440, -1));
+        jPanel3.add(ContraseñaCajero, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 110, 440, -1));
+
+        jButton1.setBackground(new java.awt.Color(80, 35, 100));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Restablecer Contraseña");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 160, -1));
+
+        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 320, 660, 190));
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1880, 980));
+
+        FondoGris.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Background.jpg"))); // NOI18N
+        getContentPane().add(FondoGris, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1920, 1080));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    private void cargarTabla() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.setColumnIdentifiers(new Object[]{
+            "ID", "CI", "Nombre", "Apellido", "Fecha Nacimiento", "Teléfono", "Dirección", "Estado"
+        });
+
+        try {
+            Connection con = Conexion.obtenerConexion();
+            PreparedStatement ps = con.prepareStatement(
+                    "SELECT c.id_cajero, c.CI, c.nombre, c.apellido, c.fecha_nacimiento, c.telefono, c.direccion, u.activo "
+                    + "FROM cajeros c "
+                    + "INNER JOIN usuarios u ON c.id_usuario = u.id_usuario "
+                    + "WHERE c.estado = 1"
+            );
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                modelo.addRow(new Object[]{
+                    rs.getInt("id_cajero"),
+                    rs.getString("CI"),
+                    rs.getString("nombre"),
+                    rs.getString("apellido"),
+                    rs.getDate("fecha_nacimiento"),
+                    rs.getString("telefono"),
+                    rs.getString("direccion"),
+                    rs.getInt("activo") == 1 ? "Activo" : "Inactivo"
+                });
+            }
+
+            TablaCajeros.setModel(modelo);
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al cargar los cajeros: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+
+    private void TablaCajerosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaCajerosMouseClicked
+        try {
+            int fila = TablaCajeros.getSelectedRow();
+            if (fila == -1) {
+                return;
+            }
+
+            int id = Integer.parseInt(TablaCajeros.getValueAt(fila, 0).toString());
+
+            Connection con = Conexion.obtenerConexion();
+            PreparedStatement ps = con.prepareStatement(
+                    "SELECT CI, nombre, apellido, fecha_nacimiento, telefono, direccion, id_usuario FROM cajeros WHERE id_cajero = ?"
+            );
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                ID.setText(String.valueOf(id));
+                CI.setText(rs.getString("CI"));
+                Nombre.setText(rs.getString("nombre"));
+                Apellido.setText(rs.getString("apellido"));
+
+                java.sql.Date fecha = rs.getDate("fecha_nacimiento");
+                if (fecha != null) {
+                    FechaNacimiento.setDate(new java.util.Date(fecha.getTime()));
+                } else {
+                    FechaNacimiento.setDate(null);
+                }
+
+                Telefono.setText(rs.getString("telefono"));
+                Direccion.setText(rs.getString("direccion"));
+
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.toString());
+        }
+    }//GEN-LAST:event_TablaCajerosMouseClicked
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void TelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TelefonoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TelefonoActionPerformed
+
+    private void NombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NombreActionPerformed
+
+    private void ApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ApellidoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ApellidoActionPerformed
+
+    private void CIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CIActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CIActionPerformed
+
+    private void IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDActionPerformed
+        ID.setVisible(false);
+    }//GEN-LAST:event_IDActionPerformed
+
+    private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
+        String nombretxt = Nombre.getText().trim();
+        String apellidotxt = Apellido.getText().trim();
+        String citxt = CI.getText().trim();
+        String telefonotxt = Telefono.getText().trim();
+        Date fechanacimientotxt = FechaNacimiento.getDate();
+        String direcciontxt = Direccion.getText().trim();
+
+        if (nombretxt.isEmpty() || apellidotxt.isEmpty() || citxt.isEmpty() || fechanacimientotxt == null) {
+            JOptionPane.showMessageDialog(null, "Por favor, rellene todos los campos obligatorios.");
+            return;
+        }
+
+        try {
+            Integer.parseInt(citxt);
+            if (!telefonotxt.isEmpty()) {
+                Integer.parseInt(telefonotxt);
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "CI y Teléfono deben ser números válidos.");
+            return;
+        }
+
+        String username = JOptionPane.showInputDialog("Ingrese nombre de usuario:");
+        String contrasena = JOptionPane.showInputDialog("Ingrese contraseña:");
+        if (username == null || contrasena == null || username.trim().isEmpty() || contrasena.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar nombre de usuario y contraseña.");
+            return;
+        }
+
+        try {
+            Connection con = Conexion.obtenerConexion();
+
+            String contrasenaEncriptada = BCrypt.hashpw(contrasena, BCrypt.gensalt());
+
+            PreparedStatement psUsuario = con.prepareStatement(
+                    "INSERT INTO usuarios (username, contrasena, rol, activo) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS
+            );
+            psUsuario.setString(1, username);
+            psUsuario.setString(2, contrasenaEncriptada); // ← aquí se inserta ya encriptada
+            psUsuario.setString(3, "Cajero");
+            psUsuario.setInt(4, 1);
+            psUsuario.executeUpdate();
+
+            ResultSet rs = psUsuario.getGeneratedKeys();
+            int idUsuario = 0;
+            if (rs.next()) {
+                idUsuario = rs.getInt(1);
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo obtener el ID del usuario.");
+                return;
+            }
+
+            PreparedStatement psCajero = con.prepareStatement(
+                    "INSERT INTO cajeros (id_usuario, CI, nombre, apellido, fecha_nacimiento, telefono, direccion, estado) VALUES (?, ?, ?, ?, ?, ?, ?, 1)"
+            );
+            psCajero.setInt(1, idUsuario);
+            psCajero.setString(2, citxt);
+            psCajero.setString(3, nombretxt);
+            psCajero.setString(4, apellidotxt);
+            psCajero.setDate(5, new java.sql.Date(fechanacimientotxt.getTime()));
+
+            if (!telefonotxt.isEmpty()) {
+                psCajero.setString(6, telefonotxt);
+            } else {
+                psCajero.setNull(6, java.sql.Types.VARCHAR);
+            }
+
+            if (!direcciontxt.isEmpty()) {
+                psCajero.setString(7, direcciontxt);
+            } else {
+                psCajero.setNull(7, java.sql.Types.VARCHAR);
+            }
+
+            psCajero.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Registro guardado correctamente.");
+            limpiar();
+            cargarTabla();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error en la base de datos: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_guardarActionPerformed
+
+    private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
+        int fila = TablaCajeros.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione un cajero para modificar.");
+            return;
+        }
+
+        String nombretxt = Nombre.getText().trim();
+        String apellidotxt = Apellido.getText().trim();
+        String citxt = CI.getText().trim();
+        String telefonotxt = Telefono.getText().trim();
+        Date fechanacimientotxt = FechaNacimiento.getDate();
+        String direcciontxt = Direccion.getText().trim();
+        int id = Integer.parseInt(ID.getText());
+
+        if (nombretxt.isEmpty() || apellidotxt.isEmpty() || citxt.isEmpty() || fechanacimientotxt == null) {
+            JOptionPane.showMessageDialog(null, "Por favor, rellene todos los campos obligatorios.");
+            return;
+        }
+
+        try {
+            Integer.parseInt(citxt);
+            if (!telefonotxt.isEmpty()) {
+                Integer.parseInt(telefonotxt);
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "CI y Teléfono deben ser números válidos.");
+            return;
+        }
+
+        try {
+            Connection con = Conexion.obtenerConexion();
+            PreparedStatement ps = con.prepareStatement(
+                    "UPDATE cajeros SET CI = ?, nombre = ?, apellido = ?, fecha_nacimiento = ?, telefono = ?, direccion = ? WHERE id_cajero = ?"
+            );
+            ps.setString(1, citxt);
+            ps.setString(2, nombretxt);
+            ps.setString(3, apellidotxt);
+            ps.setDate(4, new java.sql.Date(fechanacimientotxt.getTime()));
+
+            if (!telefonotxt.isEmpty()) {
+                ps.setString(5, telefonotxt);
+            } else {
+                ps.setNull(5, java.sql.Types.VARCHAR);
+            }
+
+            if (!direcciontxt.isEmpty()) {
+                ps.setString(6, direcciontxt);
+            } else {
+                ps.setNull(6, java.sql.Types.VARCHAR);
+            }
+
+            ps.setInt(7, id);
+
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Registro modificado correctamente.");
+            limpiar();
+            cargarTabla();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al modificar el registro: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_modificarActionPerformed
+
+    private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
+        int fila = TablaCajeros.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione un cajero para eliminar.");
+            return;
+        }
+
+        int id = Integer.parseInt(ID.getText());
+
+        int confirmacion = JOptionPane.showConfirmDialog(
+                null,
+                "¿Está seguro que desea eliminar este cajero?\nEsto desactivará su acceso.",
+                "Confirmar eliminación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        if (confirmacion != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        try {
+            Connection con = Conexion.obtenerConexion();
+            PreparedStatement ps = con.prepareStatement(
+                    "UPDATE cajeros SET estado = 0 WHERE id_cajero = ?"
+            );
+            ps.setInt(1, id);
+            ps.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Cajero eliminado (desactivado) correctamente.");
+            limpiar();
+            cargarTabla();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar el cajero: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_eliminarActionPerformed
+    private void limpiar() {
+        CI.setText("");
+        Nombre.setText("");
+        Apellido.setText("");
+        FechaNacimiento.setDate(null);
+        Telefono.setText("");
+        Direccion.setText("");
+    }
+    private void limpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarActionPerformed
+        limpiar();
+    }//GEN-LAST:event_limpiarActionPerformed
+
+    private void HabilitarDeshabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HabilitarDeshabilitarActionPerformed
+
+    }//GEN-LAST:event_HabilitarDeshabilitarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -52,20 +705,9 @@ public class AdministradorCajeros extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdministradorCajeros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdministradorCajeros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdministradorCajeros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdministradorCajeros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            UIManager.setLookAndFeel(new FlatLightLaf());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         //</editor-fold>
 
@@ -78,5 +720,44 @@ public class AdministradorCajeros extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel AgregarTecnico;
+    private javax.swing.JLabel AgregarTecnico1;
+    private javax.swing.JTextField Apellido;
+    private javax.swing.JTextField CI;
+    private javax.swing.JTextField ContraseñaCajero;
+    private javax.swing.JTextField Direccion;
+    private com.toedter.calendar.JDateChooser FechaNacimiento;
+    private javax.swing.JLabel FondoGris;
+    private javax.swing.JButton HabilitarDeshabilitar;
+    private javax.swing.JTextField ID;
+    private javax.swing.JLabel ListaPersonal;
+    private javax.swing.JTextField Nombre;
+    private javax.swing.JTextField NombreCajero;
+    private javax.swing.JPanel Superior;
+    private javax.swing.JTable TablaCajeros;
+    private javax.swing.JTextField Telefono;
+    private javax.swing.JTextField UsuarioCajero;
+    private javax.swing.JButton eliminar;
+    private javax.swing.JButton guardar;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton limpiar;
+    private javax.swing.JButton modificar;
     // End of variables declaration//GEN-END:variables
 }

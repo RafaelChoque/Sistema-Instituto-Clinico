@@ -2,7 +2,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Reportes;
+package Servicios;
+
+import com.formdev.flatlaf.FlatLightLaf;
+import java.awt.Color;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import javax.swing.JFrame;
+import javax.swing.RowFilter;
+import javax.swing.UIManager;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -15,6 +27,7 @@ public class GenerarFicha extends javax.swing.JFrame {
      */
     public GenerarFicha() {
         initComponents();
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     /**
@@ -41,7 +54,7 @@ public class GenerarFicha extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         FechaNacimiento = new com.toedter.calendar.JDateChooser();
         Doctor = new javax.swing.JTextField();
-        modificar1 = new javax.swing.JButton();
+        SeleccionarDoc = new javax.swing.JButton();
         jSpinner1 = new javax.swing.JSpinner();
         jComboBox3 = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
@@ -53,8 +66,6 @@ public class GenerarFicha extends javax.swing.JFrame {
         AgregarTecnico = new javax.swing.JLabel();
         guardar = new javax.swing.JButton();
         limpiar = new javax.swing.JButton();
-        modificar = new javax.swing.JButton();
-        eliminar = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         AgregarTecnico3 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -75,6 +86,7 @@ public class GenerarFicha extends javax.swing.JFrame {
         FondoGris = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Superior.setBackground(new java.awt.Color(80, 35, 100));
@@ -225,19 +237,19 @@ public class GenerarFicha extends javax.swing.JFrame {
         });
         jPanel3.add(Doctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 40, 300, -1));
 
-        modificar1.setBackground(new java.awt.Color(29, 41, 57));
-        modificar1.setForeground(new java.awt.Color(255, 255, 255));
-        modificar1.setText("Seleccionar Doctor");
-        modificar1.addActionListener(new java.awt.event.ActionListener() {
+        SeleccionarDoc.setBackground(new java.awt.Color(29, 41, 57));
+        SeleccionarDoc.setForeground(new java.awt.Color(255, 255, 255));
+        SeleccionarDoc.setText("Seleccionar Doctor");
+        SeleccionarDoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modificar1ActionPerformed(evt);
+                SeleccionarDocActionPerformed(evt);
             }
         });
-        jPanel3.add(modificar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 40, 130, -1));
+        jPanel3.add(SeleccionarDoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 40, 140, -1));
         jPanel3.add(jSpinner1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 70, 70, -1));
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel3.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 70, 80, -1));
+        jPanel3.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 70, 90, -1));
 
         jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 160, 670, 110));
 
@@ -248,11 +260,11 @@ public class GenerarFicha extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel4.setText("Paciente:");
+        jLabel4.setText("Nombre del Paciente:");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, 20));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel5.setText("Apellido:");
+        jLabel5.setText("Apellido del Paciente:");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, 20));
 
         Nombre.addActionListener(new java.awt.event.ActionListener() {
@@ -302,26 +314,6 @@ public class GenerarFicha extends javax.swing.JFrame {
         });
         jPanel2.add(limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1330, 530, 100, -1));
 
-        modificar.setBackground(new java.awt.Color(29, 41, 57));
-        modificar.setForeground(new java.awt.Color(255, 255, 255));
-        modificar.setText("Modificar");
-        modificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modificarActionPerformed(evt);
-            }
-        });
-        jPanel2.add(modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 910, 100, -1));
-
-        eliminar.setBackground(new java.awt.Color(255, 0, 0));
-        eliminar.setForeground(new java.awt.Color(255, 255, 255));
-        eliminar.setText("Eliminar");
-        eliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eliminarActionPerformed(evt);
-            }
-        });
-        jPanel2.add(eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 940, 100, -1));
-
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -370,7 +362,7 @@ public class GenerarFicha extends javax.swing.JFrame {
                 Doctor3ActionPerformed(evt);
             }
         });
-        jPanel6.add(Doctor3, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 50, 90, -1));
+        jPanel6.add(Doctor3, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 50, 100, -1));
 
         jLabel3.setText("Total:");
         jPanel6.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, -1, 20));
@@ -404,10 +396,10 @@ public class GenerarFicha extends javax.swing.JFrame {
         jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, -1));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel5.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 430, -1));
+        jPanel5.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 440, -1));
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel5.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, 430, -1));
+        jPanel5.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, 440, -1));
 
         jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 400, 670, 120));
 
@@ -420,86 +412,7 @@ public class GenerarFicha extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void TablaMedicosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaMedicosMouseClicked
-        try {
-            int fila = TablaMedicos.getSelectedRow();
-            if (fila == -1) {
 
-                return;
-            }
-            int id = Integer.parseInt(TablaMedicos.getValueAt(fila, 0).toString());
-
-            Connection con = Conexion.obtenerConexion();
-            PreparedStatement ps = con.prepareStatement(
-                "SELECT CI, nombre, apellido, fecha_nacimiento, telefono, direccion, categoria_profesional, especialidad "
-                + "FROM medicos WHERE id_medico = ?"
-            );
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                ID.setText(String.valueOf(id));
-                CI.setText(rs.getString("CI"));
-                Nombre.setText(rs.getString("nombre"));
-                Apellido.setText(rs.getString("apellido"));
-
-                java.sql.Date fecha = rs.getDate("fecha_nacimiento");
-                if (fecha != null) {
-                    FechaNacimiento.setDate(new java.util.Date(fecha.getTime()));
-                } else {
-                    FechaNacimiento.setDate(null);
-                }
-
-                Telefono.setText(rs.getString("telefono"));
-                Direccion.setText(rs.getString("direccion"));
-
-                String categoria = rs.getString("categoria_profesional");
-                String especialidad = rs.getString("especialidad");
-
-                if (categoria != null) {
-                    categoria = categoria.trim();
-                } else {
-                    categoria = "";
-                }
-                if (especialidad != null) {
-                    especialidad = especialidad.trim();
-                } else {
-                    especialidad = "";
-                }
-
-                if (categoria.equalsIgnoreCase("General") || categoria.equalsIgnoreCase("General")) {
-                    Categoria.setSelectedItem("General");
-                    Especialidad.setVisible(false);
-                    EspecialidadLabel.setVisible(false);
-                    Especialidad.setSelectedIndex(-1);
-                } else if (categoria.equalsIgnoreCase("Especialista") || categoria.equalsIgnoreCase("Especialista")) {
-                    Categoria.setSelectedItem("Especialista");
-                    Especialidad.setVisible(true);
-                    EspecialidadLabel.setVisible(true);
-
-                    boolean encontrada = false;
-                    for (int i = 0; i < Especialidad.getItemCount(); i++) {
-                        String item = Especialidad.getItemAt(i).trim();
-                        if (item.equalsIgnoreCase(especialidad)) {
-                            Especialidad.setSelectedIndex(i);
-                            encontrada = true;
-                            break;
-                        }
-                    }
-
-                    if (!encontrada && !especialidad.isEmpty()) {
-                        Especialidad.addItem(especialidad);
-                        Especialidad.setSelectedItem(especialidad);
-                    }
-                } else {
-                    Categoria.setSelectedIndex(-1);
-                    Especialidad.setVisible(false);
-                    EspecialidadLabel.setVisible(false);
-                    Especialidad.setSelectedIndex(-1);
-                }
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.toString());
-        }
     }//GEN-LAST:event_TablaMedicosMouseClicked
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -519,282 +432,22 @@ public class GenerarFicha extends javax.swing.JFrame {
     }//GEN-LAST:event_IDActionPerformed
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
-        String nombretxt = Nombre.getText().trim();
-        String apellidotxt = Apellido.getText().trim();
-        String citxt = CI.getText().trim();
-        String telefonotxt = Telefono.getText().trim();
-        Date fechanacimientotxt = FechaNacimiento.getDate();
-        String direcciontxt = Direccion.getText().trim();
-        String categoriatxt = Categoria.getSelectedItem().toString();  // "General", "Especialista", "Otro"
-        String especialidadtxt = null;
-        String categoriaProfesionalOtro = null;
 
-        if (nombretxt.isEmpty() || apellidotxt.isEmpty() || citxt.isEmpty() || telefonotxt.isEmpty()
-            || fechanacimientotxt == null || direcciontxt.isEmpty() || categoriatxt.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, rellene todos los campos obligatorios.");
-            return;
-        }
-
-        if (categoriatxt.equals("Especialista")) {
-            if (Especialidad.getSelectedItem() == null) {
-                JOptionPane.showMessageDialog(null, "Por favor, seleccione una especialidad.");
-                return;
-            }
-            especialidadtxt = Especialidad.getSelectedItem().toString().trim();
-            if (especialidadtxt.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Por favor, seleccione una especialidad.");
-                return;
-            }
-        } else {
-            especialidadtxt = null;
-        }
-
-        if (categoriatxt.equals("Otro")) {
-            categoriaProfesionalOtro = NombreCategoria.getText().trim();
-            if (categoriaProfesionalOtro.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Por favor, ingrese la categoría profesional.");
-                return;
-            }
-        }
-
-        try {
-            Integer.parseInt(citxt);
-            Integer.parseInt(telefonotxt);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "CI y Teléfono deben ser números válidos.");
-            return;
-        }
-
-        String rol = "";
-        if (categoriatxt.equals("General")) {
-            rol = "Medico General";
-        } else if (categoriatxt.equals("Especialista")) {
-            rol = "Medico Especialista";
-        } else if (categoriatxt.equals("Otro")) {
-            rol = "Medico Otro";
-        } else {
-            JOptionPane.showMessageDialog(null, "Categoría inválida.");
-            return;
-        }
-
-        String username = JOptionPane.showInputDialog("Ingrese el nombre de usuario");
-        if (username == null || username.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "El nombre de usuario no puede estar vacío.");
-            return;
-        }
-
-        String contrasena = JOptionPane.showInputDialog("Ingrese la contraseña");
-        if (contrasena == null || contrasena.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "La contraseña no puede estar vacía.");
-            return;
-        }
-
-        try {
-            Connection con = Conexion.obtenerConexion();
-            String contrasenaEncriptada = BCrypt.hashpw(contrasena, BCrypt.gensalt());
-
-            PreparedStatement psUsuario = con.prepareStatement(
-                "INSERT INTO usuarios(username, contrasena, rol, activo) VALUES (?, ?, ?, ?)",
-                Statement.RETURN_GENERATED_KEYS);
-            psUsuario.setString(1, username);
-            psUsuario.setString(2, contrasenaEncriptada);
-            psUsuario.setString(3, rol);
-            psUsuario.setBoolean(4, true);
-            psUsuario.executeUpdate();
-
-            ResultSet rs = psUsuario.getGeneratedKeys();
-            int idUsuario = 0;
-            if (rs.next()) {
-                idUsuario = rs.getInt(1);
-            } else {
-                JOptionPane.showMessageDialog(null, "Error al obtener el ID del usuario.");
-                return;
-            }
-
-            PreparedStatement psMedico = con.prepareStatement(
-                "INSERT INTO medicos(id_usuario, CI, nombre, apellido, fecha_nacimiento, telefono, direccion, categoria_profesional, categoria_profesional_otro, especialidad, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)");
-            psMedico.setInt(1, idUsuario);
-            psMedico.setString(2, citxt);
-            psMedico.setString(3, nombretxt);
-            psMedico.setString(4, apellidotxt);
-            psMedico.setDate(5, new java.sql.Date(fechanacimientotxt.getTime()));
-            psMedico.setString(6, telefonotxt);
-            psMedico.setString(7, direcciontxt);
-            psMedico.setString(8, categoriatxt);
-
-            if (categoriatxt.equals("Otro")) {
-                psMedico.setString(9, categoriaProfesionalOtro);
-            } else {
-                psMedico.setNull(9, java.sql.Types.VARCHAR);
-            }
-
-            if (categoriatxt.equals("Especialista")) {
-                psMedico.setString(10, especialidadtxt);
-            } else {
-                psMedico.setNull(10, java.sql.Types.VARCHAR);
-            }
-
-            psMedico.executeUpdate();
-
-            JOptionPane.showMessageDialog(null, "Registro guardado correctamente.");
-
-            limpiar();
-            cargarTabla();
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error en la base de datos: " + ex.getMessage());
-            ex.printStackTrace();
-        }
     }//GEN-LAST:event_guardarActionPerformed
 
-    private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
-        int fila = TablaMedicos.getSelectedRow();
-        if (fila == -1) {
-            JOptionPane.showMessageDialog(null, "Por favor, seleccione un médico para modificar.");
-            return;
-        }
-
-        int medicoId = Integer.parseInt(TablaMedicos.getValueAt(fila, 0).toString());
-
-        String nombretxt = Nombre.getText().trim();
-        String apellidotxt = Apellido.getText().trim();
-        String citxt = CI.getText().trim();
-        String telefonotxt = Telefono.getText().trim();
-        Date fechanacimientotxt = FechaNacimiento.getDate();
-        String direcciontxt = Direccion.getText().trim();
-        String categoriatxt = Categoria.getSelectedItem().toString();  // "General" o "Especialista"
-        String especialidadtxt = null;
-
-        if (nombretxt.isEmpty() || apellidotxt.isEmpty() || citxt.isEmpty() || telefonotxt.isEmpty()
-            || fechanacimientotxt == null || direcciontxt.isEmpty() || categoriatxt.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, rellene todos los campos obligatorios.");
-            return;
-        }
-
-        if (categoriatxt.equals("Especialista")) {
-            if (Especialidad.getSelectedItem() == null) {
-                JOptionPane.showMessageDialog(null, "Por favor, seleccione una especialidad.");
-                return;
-            }
-            especialidadtxt = Especialidad.getSelectedItem().toString().trim();
-            if (especialidadtxt.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Por favor, seleccione una especialidad.");
-                return;
-            }
-        } else {
-            especialidadtxt = null;
-        }
-
-        try {
-            Connection con = Conexion.obtenerConexion();
-
-            String sqlUpdate = "UPDATE medicos SET CI=?, nombre=?, apellido=?, fecha_nacimiento=?, telefono=?, direccion=?, categoria_profesional=?, especialidad=? WHERE id_medico=?";
-            PreparedStatement ps = con.prepareStatement(sqlUpdate);
-            ps.setString(1, citxt);
-            ps.setString(2, nombretxt);
-            ps.setString(3, apellidotxt);
-            ps.setDate(4, new java.sql.Date(fechanacimientotxt.getTime()));
-            ps.setString(5, telefonotxt);
-            ps.setString(6, direcciontxt);
-
-            if (categoriatxt.equals("General")) {
-                ps.setString(7, "General");
-                ps.setNull(8, java.sql.Types.VARCHAR);
-            } else {
-                ps.setString(7, "Especialista");
-                ps.setString(8, especialidadtxt);
-            }
-
-            ps.setInt(9, medicoId);
-
-            int res = ps.executeUpdate();
-            if (res > 0) {
-                JOptionPane.showMessageDialog(null, "Registro modificado correctamente.");
-                limpiar();
-                cargarTabla();
-            } else {
-                JOptionPane.showMessageDialog(null, "Error al modificar el registro.");
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error en la base de datos: " + ex.getMessage());
-            ex.printStackTrace();
-        }
-    }//GEN-LAST:event_modificarActionPerformed
-
-    private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
-        int fila = TablaMedicos.getSelectedRow();
-        if (fila == -1) {
-            JOptionPane.showMessageDialog(null, "Por favor, seleccione un médico para eliminar");
-            return;
-        }
-
-        int opcion = JOptionPane.showConfirmDialog(
-            null,
-            "¿Está seguro de que desea eliminar este registro?\nEsta acción deshabilitará al usuario del sistema.",
-            "Confirmar eliminación",
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.WARNING_MESSAGE
-        );
-
-        if (opcion != JOptionPane.YES_OPTION) {
-            return;
-        }
-
-        int medicoId = Integer.parseInt(ID.getText());
-
-        try {
-            Connection con = Conexion.obtenerConexion();
-
-            PreparedStatement psVerificar = con.prepareStatement(
-                "SELECT estado, id_usuario FROM medicos WHERE id_medico = ?"
-            );
-            psVerificar.setInt(1, medicoId);
-            ResultSet rs = psVerificar.executeQuery();
-
-            if (rs.next()) {
-                int estado = rs.getInt("estado");
-                int idUsuario = rs.getInt("id_usuario");
-
-                if (estado == 0) {
-                    JOptionPane.showMessageDialog(null, "El médico ya fue eliminado anteriormente");
-                    return;
-                }
-
-                PreparedStatement psActualizarEstado = con.prepareStatement(
-                    "UPDATE medicos SET estado = 0 WHERE id_medico = ?"
-                );
-                psActualizarEstado.setInt(1, medicoId);
-                psActualizarEstado.executeUpdate();
-
-                PreparedStatement psActualizarUsuario = con.prepareStatement(
-                    "UPDATE usuarios SET activo = 0 WHERE id_usuario = ?"
-                );
-                psActualizarUsuario.setInt(1, idUsuario);
-                psActualizarUsuario.executeUpdate();
-
-                JOptionPane.showMessageDialog(null, "Registro marcado como eliminado e inhabilitado para el sistema");
-                limpiar();
-                cargarTabla();
-            } else {
-                JOptionPane.showMessageDialog(null, "No se encontró al médico seleccionado");
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error en eliminación lógica: " + ex.toString());
-            JOptionPane.showMessageDialog(null, "Error en la eliminación lógica: " + ex.getMessage());
-        }
-    }//GEN-LAST:event_eliminarActionPerformed
-
     private void limpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarActionPerformed
-        limpiar();
+
     }//GEN-LAST:event_limpiarActionPerformed
 
     private void DoctorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoctorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_DoctorActionPerformed
 
-    private void modificar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificar1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_modificar1ActionPerformed
+    private void SeleccionarDocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SeleccionarDocActionPerformed
+        SeleccionarDoc SelecDoc = new SeleccionarDoc();
+        SelecDoc.setLocationRelativeTo(null);
+        SelecDoc.setVisible(true);
+    }//GEN-LAST:event_SeleccionarDocActionPerformed
 
     private void Doctor2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Doctor2ActionPerformed
         // TODO add your handling code here:
@@ -826,20 +479,9 @@ public class GenerarFicha extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GenerarFicha.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GenerarFicha.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GenerarFicha.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GenerarFicha.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            UIManager.setLookAndFeel(new FlatLightLaf());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         //</editor-fold>
 
@@ -866,9 +508,9 @@ public class GenerarFicha extends javax.swing.JFrame {
     private javax.swing.JTextField ID;
     private javax.swing.JLabel ListaPersonal;
     private javax.swing.JTextField Nombre;
+    private javax.swing.JButton SeleccionarDoc;
     private javax.swing.JPanel Superior;
     private javax.swing.JTable TablaMedicos;
-    private javax.swing.JButton eliminar;
     private javax.swing.JButton guardar;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox<String> jComboBox1;
@@ -895,8 +537,6 @@ public class GenerarFicha extends javax.swing.JFrame {
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton limpiar;
-    private javax.swing.JButton modificar;
-    private javax.swing.JButton modificar1;
     private javax.swing.JButton modificar2;
     private javax.swing.JButton modificar3;
     // End of variables declaration//GEN-END:variables

@@ -17,8 +17,10 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.RowFilter;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -76,10 +78,9 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         modificar = new javax.swing.JButton();
         eliminar = new javax.swing.JButton();
         limpiar = new javax.swing.JButton();
-        HabilitarDeshabilitar = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
         Categoria = new javax.swing.JComboBox<>();
-        jLabel15 = new javax.swing.JLabel();
+        OtroLabel = new javax.swing.JLabel();
         Especialidad = new javax.swing.JComboBox<>();
         jLabel16 = new javax.swing.JLabel();
         FechaNacimiento = new com.toedter.calendar.JDateChooser();
@@ -89,6 +90,24 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         NombreCategoria = new javax.swing.JTextField();
         FondoGris = new javax.swing.JLabel();
         FondoBlanco = new javax.swing.JLabel();
+        panelSidebar = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        btnCerrarSesion = new javax.swing.JButton();
+        btnInicio = new javax.swing.JButton();
+        lblFlecha = new javax.swing.JLabel();
+        btnListaLaboratorios = new javax.swing.JButton();
+        btnListaPrestamos = new javax.swing.JButton();
+        btnSolicitudes = new javax.swing.JButton();
+        btnSancionesDesignar = new javax.swing.JButton();
+        btnReportes = new javax.swing.JButton();
+        btnMateriales = new javax.swing.JButton();
+        btnComputadoras = new javax.swing.JButton();
+        panelSubReportes = new javax.swing.JPanel();
+        btnReporteLaboratorios = new javax.swing.JButton();
+        btnReporteMantenimiento = new javax.swing.JButton();
+        btnReporteSanciones = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -133,6 +152,10 @@ public class AdministradorDoctores extends javax.swing.JFrame {
                 TablaMedicosMouseClicked(evt);
             }
         });
+        TablaMedicos.getTableHeader().setReorderingAllowed(false);
+        TablaMedicos.getTableHeader().setResizingAllowed(false);
+        TablaMedicos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        TablaMedicos.setFocusable(false);
         jScrollPane1.setViewportView(TablaMedicos);
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 1190, 860));
@@ -155,7 +178,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
             }
         });
         jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 15, 90, 20));
-        String placeholder = "Buscar CI";
+        String placeholder = "Buscar Nombre";
 
         jTextField1.setText(placeholder);
         jTextField1.setForeground(Color.GRAY);
@@ -269,7 +292,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
                 IDActionPerformed(evt);
             }
         });
-        jPanel1.add(ID, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, 10, -1));
+        jPanel1.add(ID, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, 10, -1));
 
         AgregarTecnico.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
         AgregarTecnico.setText("Agregar Médicos");
@@ -279,7 +302,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         EspecialidadLabel.setText("Especialidad:");
         jPanel1.add(EspecialidadLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 230, -1, 20));
 
-        guardar.setBackground(new java.awt.Color(29, 41, 57));
+        guardar.setBackground(new java.awt.Color(80, 35, 100));
         guardar.setForeground(new java.awt.Color(255, 255, 255));
         guardar.setText("Guardar");
         guardar.addActionListener(new java.awt.event.ActionListener() {
@@ -289,7 +312,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         });
         jPanel1.add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 100, -1));
 
-        modificar.setBackground(new java.awt.Color(29, 41, 57));
+        modificar.setBackground(new java.awt.Color(80, 35, 100));
         modificar.setForeground(new java.awt.Color(255, 255, 255));
         modificar.setText("Modificar");
         modificar.addActionListener(new java.awt.event.ActionListener() {
@@ -297,7 +320,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
                 modificarActionPerformed(evt);
             }
         });
-        jPanel1.add(modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 290, 100, -1));
+        jPanel1.add(modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 290, 100, -1));
 
         eliminar.setBackground(new java.awt.Color(255, 0, 0));
         eliminar.setForeground(new java.awt.Color(255, 255, 255));
@@ -307,9 +330,9 @@ public class AdministradorDoctores extends javax.swing.JFrame {
                 eliminarActionPerformed(evt);
             }
         });
-        jPanel1.add(eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 290, 100, -1));
+        jPanel1.add(eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 290, 100, -1));
 
-        limpiar.setBackground(new java.awt.Color(29, 41, 57));
+        limpiar.setBackground(new java.awt.Color(80, 35, 100));
         limpiar.setForeground(new java.awt.Color(255, 255, 255));
         limpiar.setText("Limpiar");
         limpiar.addActionListener(new java.awt.event.ActionListener() {
@@ -317,17 +340,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
                 limpiarActionPerformed(evt);
             }
         });
-        jPanel1.add(limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 290, 100, -1));
-
-        HabilitarDeshabilitar.setBackground(new java.awt.Color(29, 41, 57));
-        HabilitarDeshabilitar.setForeground(new java.awt.Color(255, 255, 255));
-        HabilitarDeshabilitar.setText("Habilitar/Deshabilitar");
-        HabilitarDeshabilitar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                HabilitarDeshabilitarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(HabilitarDeshabilitar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 290, -1, -1));
+        jPanel1.add(limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 290, 100, -1));
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel14.setText("Dirección:");
@@ -336,25 +349,38 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         Categoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "General", "Especialista", "Otro"}));
         Especialidad.setVisible(false);
         EspecialidadLabel.setVisible(false);
+        OtroLabel.setVisible(false);
+        NombreCategoria.setVisible(false);
+
         Categoria.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
                     String seleccionado = (String) Categoria.getSelectedItem();
+
                     if ("General".equals(seleccionado)) {
                         Especialidad.setVisible(false);
                         EspecialidadLabel.setVisible(false);
-                    } else {
+                        OtroLabel.setVisible(false);
+                        NombreCategoria.setVisible(false);
+                    } else if ("Especialista".equals(seleccionado)) {
                         Especialidad.setVisible(true);
                         EspecialidadLabel.setVisible(true);
+                        OtroLabel.setVisible(false);
+                        NombreCategoria.setVisible(false);
+                    } else if ("Otro".equals(seleccionado)) {
+                        Especialidad.setVisible(false);
+                        EspecialidadLabel.setVisible(false);
+                        OtroLabel.setVisible(true);
+                        NombreCategoria.setVisible(true);
                     }
                 }
             }
         });
         jPanel1.add(Categoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 230, 170, -1));
 
-        jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel15.setText("Nombre de Categoria:");
-        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, -1, 20));
+        OtroLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        OtroLabel.setText("Nombre de Categoria:");
+        jPanel1.add(OtroLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, -1, 20));
 
         Especialidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
             "Cardiología",
@@ -404,36 +430,303 @@ getContentPane().add(FondoGris, new org.netbeans.lib.awtextra.AbsoluteConstraint
 FondoBlanco.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo_2.png"))); // NOI18N
 getContentPane().add(FondoBlanco, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 120, 680, 410));
 
-pack();
-}// </editor-fold>//GEN-END:initComponents
-    private void cargarTabla() {
-            DefaultTableModel modeloTabla = (DefaultTableModel) TablaMedicos.getModel();
-            modeloTabla.setRowCount(0);
+panelSidebar.setBackground(new java.awt.Color(33, 14, 68));
+panelSidebar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-            try {
-                Connection con = Conexion.obtenerConexion();
-                PreparedStatement ps = con.prepareStatement(
-                        "SELECT id_medico, CI, nombre, apellido, fecha_nacimiento, telefono, direccion, categoria_profesional, especialidad FROM medicos WHERE estado = 1"
-                );
-                ResultSet rs = ps.executeQuery();
+jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+jLabel15.setForeground(new java.awt.Color(102, 102, 102));
+jLabel15.setText("Panel de Control");
+panelSidebar.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, -1));
 
-                while (rs.next()) {
-                    modeloTabla.addRow(new Object[]{
-                        rs.getInt("id_medico"),
-                        rs.getString("nombre"),
-                        rs.getString("apellido"),
-                        rs.getString("CI"),
-                        rs.getString("telefono"),
-                        rs.getDate("fecha_nacimiento"),
-                        rs.getString("direccion"),
-                        rs.getString("categoria_profesional"),
-                        rs.getString("especialidad")
-                    });
-                }
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Error al cargar datos: " + ex.toString());
-            }
+jPanel7.setBackground(new java.awt.Color(0, 0, 0));
+panelSidebar.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 230, 30));
+
+jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cerrarsesion.png"))); // NOI18N
+panelSidebar.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 1040, 20, 40));
+
+btnCerrarSesion.setBackground(new java.awt.Color(33, 14, 68));
+btnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+btnCerrarSesion.setForeground(new java.awt.Color(241, 241, 241));
+btnCerrarSesion.setText("Cerrar Sesión");
+btnCerrarSesion.setBorder(null);
+btnCerrarSesion.setHorizontalAlignment(SwingConstants.LEFT);
+btnCerrarSesion.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+btnCerrarSesion.setIconTextGap(10);
+btnCerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+    public void mouseExited(java.awt.event.MouseEvent evt) {
+        btnCerrarSesionMouseExited(evt);
+    }
+    });
+    btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnCerrarSesionActionPerformed(evt);
         }
+    });
+    panelSidebar.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 1040, 229, 40));
+
+    btnInicio.setBackground(new java.awt.Color(33, 14, 68));
+    btnInicio.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+    btnInicio.setForeground(new java.awt.Color(241, 241, 241));
+    btnInicio.setText("Inicio");
+    btnInicio.setBorder(null);
+    btnInicio.setHorizontalAlignment(SwingConstants.LEFT);
+    btnInicio.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+    btnInicio.setIconTextGap(10);
+    btnInicio.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseExited(java.awt.event.MouseEvent evt) {
+            btnInicioMouseExited(evt);
+        }
+    });
+    btnInicio.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnInicioActionPerformed(evt);
+        }
+    });
+    panelSidebar.add(btnInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 229, 40));
+
+    lblFlecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/MostrarMasBoton.png"))); // NOI18N
+    panelSidebar.add(lblFlecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 382, 20, 20));
+
+    btnListaLaboratorios.setBackground(new java.awt.Color(33, 14, 68));
+    btnListaLaboratorios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+    btnListaLaboratorios.setForeground(new java.awt.Color(241, 241, 241));
+    btnListaLaboratorios.setText("Laboratorios");
+    btnListaLaboratorios.setBorder(null);
+    btnListaLaboratorios.setHorizontalAlignment(SwingConstants.LEFT);
+    btnListaLaboratorios.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+    btnListaLaboratorios.setIconTextGap(10);
+    btnListaLaboratorios.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseExited(java.awt.event.MouseEvent evt) {
+            btnListaLaboratoriosMouseExited(evt);
+        }
+    });
+    btnListaLaboratorios.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnListaLaboratoriosActionPerformed(evt);
+        }
+    });
+    panelSidebar.add(btnListaLaboratorios, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 229, 40));
+
+    btnListaPrestamos.setBackground(new java.awt.Color(33, 14, 68));
+    btnListaPrestamos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+    btnListaPrestamos.setForeground(new java.awt.Color(241, 241, 241));
+    btnListaPrestamos.setText("Prestamos");
+    btnListaPrestamos.setBorder(null);
+    btnListaPrestamos.setHorizontalAlignment(SwingConstants.LEFT);
+    btnListaPrestamos.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+    btnListaPrestamos.setIconTextGap(10);
+    btnListaPrestamos.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseExited(java.awt.event.MouseEvent evt) {
+            btnListaPrestamosMouseExited(evt);
+        }
+    });
+    btnListaPrestamos.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnListaPrestamosActionPerformed(evt);
+        }
+    });
+    panelSidebar.add(btnListaPrestamos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 229, 40));
+
+    btnSolicitudes.setBackground(new java.awt.Color(33, 14, 68));
+    btnSolicitudes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+    btnSolicitudes.setForeground(new java.awt.Color(241, 241, 241));
+    btnSolicitudes.setText("Solicitudes");
+    btnSolicitudes.setBorder(null);
+    btnSolicitudes.setHorizontalAlignment(SwingConstants.LEFT);
+    btnSolicitudes.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+    btnSolicitudes.setIconTextGap(10);
+    btnSolicitudes.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseExited(java.awt.event.MouseEvent evt) {
+            btnSolicitudesMouseExited(evt);
+        }
+    });
+    btnSolicitudes.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnSolicitudesActionPerformed(evt);
+        }
+    });
+    panelSidebar.add(btnSolicitudes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, 229, 40));
+
+    btnSancionesDesignar.setBackground(new java.awt.Color(33, 14, 68));
+    btnSancionesDesignar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+    btnSancionesDesignar.setForeground(new java.awt.Color(241, 241, 241));
+    btnSancionesDesignar.setText("Sanciones");
+    btnSancionesDesignar.setBorder(null);
+    btnSancionesDesignar.setHorizontalAlignment(SwingConstants.LEFT);
+    btnSancionesDesignar.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+    btnSancionesDesignar.setIconTextGap(10);
+    btnSancionesDesignar.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseExited(java.awt.event.MouseEvent evt) {
+            btnSancionesDesignarMouseExited(evt);
+        }
+    });
+    btnSancionesDesignar.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnSancionesDesignarActionPerformed(evt);
+        }
+    });
+    panelSidebar.add(btnSancionesDesignar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 229, 40));
+
+    btnReportes.setBackground(new java.awt.Color(33, 14, 68));
+    btnReportes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+    btnReportes.setForeground(new java.awt.Color(241, 241, 241));
+    btnReportes.setText("Reportes");
+    btnReportes.setBorder(null);
+    btnReportes.setHorizontalAlignment(SwingConstants.LEFT);
+    btnReportes.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+    btnReportes.setIconTextGap(10);
+    btnReportes.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseExited(java.awt.event.MouseEvent evt) {
+            btnReportesMouseExited(evt);
+        }
+    });
+    btnReportes.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnReportesActionPerformed(evt);
+        }
+    });
+    panelSidebar.add(btnReportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 229, 40));
+
+    btnMateriales.setBackground(new java.awt.Color(33, 14, 68));
+    btnMateriales.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+    btnMateriales.setForeground(new java.awt.Color(241, 241, 241));
+    btnMateriales.setText("Materiales");
+    btnMateriales.setBorder(null);
+    btnMateriales.setHorizontalAlignment(SwingConstants.LEFT);
+    btnMateriales.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+    btnMateriales.setIconTextGap(10);
+    btnMateriales.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseExited(java.awt.event.MouseEvent evt) {
+            btnMaterialesMouseExited(evt);
+        }
+    });
+    btnMateriales.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnMaterialesActionPerformed(evt);
+        }
+    });
+    panelSidebar.add(btnMateriales, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 290, 229, 40));
+
+    btnComputadoras.setBackground(new java.awt.Color(33, 14, 68));
+    btnComputadoras.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+    btnComputadoras.setForeground(new java.awt.Color(241, 241, 241));
+    btnComputadoras.setText("Computadoras");
+    btnComputadoras.setBorder(null);
+    btnComputadoras.setHorizontalAlignment(SwingConstants.LEFT);
+    btnComputadoras.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+    btnComputadoras.setIconTextGap(10);
+    btnComputadoras.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseExited(java.awt.event.MouseEvent evt) {
+            btnComputadorasMouseExited(evt);
+        }
+    });
+    btnComputadoras.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnComputadorasActionPerformed(evt);
+        }
+    });
+    panelSidebar.add(btnComputadoras, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 229, 40));
+
+    panelSubReportes.setBackground(new java.awt.Color(16, 23, 32));
+    panelSubReportes.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+    btnReporteLaboratorios.setBackground(new java.awt.Color(16, 23, 32));
+    btnReporteLaboratorios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+    btnReporteLaboratorios.setForeground(new java.awt.Color(241, 241, 241));
+    btnReporteLaboratorios.setText("Prestamos");
+    btnReporteLaboratorios.setBorder(null);
+    btnReporteLaboratorios.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseExited(java.awt.event.MouseEvent evt) {
+            btnReporteLaboratoriosMouseExited(evt);
+        }
+    });
+    btnReporteLaboratorios.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnReporteLaboratoriosActionPerformed(evt);
+        }
+    });
+    panelSubReportes.add(btnReporteLaboratorios, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 230, 40));
+
+    btnReporteMantenimiento.setBackground(new java.awt.Color(16, 23, 32));
+    btnReporteMantenimiento.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+    btnReporteMantenimiento.setForeground(new java.awt.Color(241, 241, 241));
+    btnReporteMantenimiento.setText("Mantenimiento");
+    btnReporteMantenimiento.setBorder(null);
+    btnReporteMantenimiento.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseExited(java.awt.event.MouseEvent evt) {
+            btnReporteMantenimientoMouseExited(evt);
+        }
+    });
+    btnReporteMantenimiento.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnReporteMantenimientoActionPerformed(evt);
+        }
+    });
+    panelSubReportes.add(btnReporteMantenimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, 230, 40));
+
+    btnReporteSanciones.setBackground(new java.awt.Color(16, 23, 32));
+    btnReporteSanciones.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+    btnReporteSanciones.setForeground(new java.awt.Color(255, 255, 255));
+    btnReporteSanciones.setText("Sanciones");
+    btnReporteSanciones.setBorder(null);
+    btnReporteSanciones.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnReporteSancionesActionPerformed(evt);
+        }
+    });
+    panelSubReportes.add(btnReporteSanciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 290, 230, 40));
+
+    panelSidebar.add(panelSubReportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 230, 330));
+
+    getContentPane().add(panelSidebar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 1080));
+
+    pack();
+    }// </editor-fold>//GEN-END:initComponents
+    private void cargarTabla() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.setColumnIdentifiers(new Object[]{
+            "ID", "CI", "Nombre", "Apellido", "Fecha Nacimiento", "Teléfono", "Dirección", "Categoría Profesional", "Especialidad"
+        });
+
+        try {
+            Connection con = Conexion.obtenerConexion();
+            PreparedStatement ps = con.prepareStatement(
+                    "SELECT id_medico, CI, nombre, apellido, fecha_nacimiento, telefono, direccion, categoria_profesional, categoria_profesional_otro, especialidad FROM medicos WHERE estado = 1 "
+            );
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String categoria = rs.getString("categoria_profesional");
+                String otro = rs.getString("categoria_profesional_otro");
+
+                String categoriaMostrar;
+                if ("Otro".equalsIgnoreCase(categoria)) {
+                    categoriaMostrar = (otro != null && !otro.trim().isEmpty()) ? otro : "Otro";
+                } else {
+                    categoriaMostrar = categoria;
+                }
+
+                modelo.addRow(new Object[]{
+                    rs.getInt("id_medico"),
+                    rs.getString("CI"),
+                    rs.getString("nombre"),
+                    rs.getString("apellido"),
+                    rs.getDate("fecha_nacimiento"),
+                    rs.getString("telefono"),
+                    rs.getString("direccion"),
+                    categoriaMostrar,
+                    rs.getString("especialidad")
+                });
+            }
+
+            TablaMedicos.setModel(modelo);
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al cargar los médicos: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
@@ -465,12 +758,12 @@ pack();
         String telefonotxt = Telefono.getText().trim();
         Date fechanacimientotxt = FechaNacimiento.getDate();
         String direcciontxt = Direccion.getText().trim();
-        String categoriatxt = Categoria.getSelectedItem().toString();  // "General", "Especialista", "Otro"
+        String categoriatxt = Categoria.getSelectedItem().toString(); 
         String especialidadtxt = null;
         String categoriaProfesionalOtro = null;
 
-        if (nombretxt.isEmpty() || apellidotxt.isEmpty() || citxt.isEmpty() || telefonotxt.isEmpty()
-                || fechanacimientotxt == null || direcciontxt.isEmpty() || categoriatxt.isEmpty()) {
+        if (nombretxt.isEmpty() || apellidotxt.isEmpty() || citxt.isEmpty()
+                || fechanacimientotxt == null || categoriatxt.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, rellene todos los campos obligatorios.");
             return;
         }
@@ -485,12 +778,10 @@ pack();
                 JOptionPane.showMessageDialog(null, "Por favor, seleccione una especialidad.");
                 return;
             }
-        } else {
-            especialidadtxt = null;
         }
 
         if (categoriatxt.equals("Otro")) {
-            categoriaProfesionalOtro = NombreCategoria.getText().trim();  
+            categoriaProfesionalOtro = NombreCategoria.getText().trim();
             if (categoriaProfesionalOtro.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Por favor, ingrese la categoría profesional.");
                 return;
@@ -499,80 +790,50 @@ pack();
 
         try {
             Integer.parseInt(citxt);
-            Integer.parseInt(telefonotxt);
+            if (!telefonotxt.isEmpty()) {
+                Integer.parseInt(telefonotxt);
+            }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "CI y Teléfono deben ser números válidos.");
             return;
         }
 
-        String rol = "";
-        if (categoriatxt.equals("General")) {
-            rol = "Medico General";
-        } else if (categoriatxt.equals("Especialista")) {
-            rol = "Medico Especialista";
-        } else if (categoriatxt.equals("Otro")) {
-            rol = "Medico Otro";
-        } else {
-            JOptionPane.showMessageDialog(null, "Categoría inválida.");
-            return;
-        }
-
-        String username = JOptionPane.showInputDialog("Ingrese el nombre de usuario");
-        if (username == null || username.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "El nombre de usuario no puede estar vacío.");
-            return;
-        }
-
-        String contrasena = JOptionPane.showInputDialog("Ingrese la contraseña");
-        if (contrasena == null || contrasena.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "La contraseña no puede estar vacía.");
-            return;
-        }
-
         try {
             Connection con = Conexion.obtenerConexion();
-            String contrasenaEncriptada = BCrypt.hashpw(contrasena, BCrypt.gensalt());
-
-            PreparedStatement psUsuario = con.prepareStatement(
-                    "INSERT INTO usuarios(username, contrasena, rol, activo) VALUES (?, ?, ?, ?)",
-                    Statement.RETURN_GENERATED_KEYS);
-            psUsuario.setString(1, username);
-            psUsuario.setString(2, contrasenaEncriptada);
-            psUsuario.setString(3, rol);
-            psUsuario.setBoolean(4, true);
-            psUsuario.executeUpdate();
-
-            ResultSet rs = psUsuario.getGeneratedKeys();
-            int idUsuario = 0;
-            if (rs.next()) {
-                idUsuario = rs.getInt(1);
-            } else {
-                JOptionPane.showMessageDialog(null, "Error al obtener el ID del usuario.");
-                return;
-            }
-
 
             PreparedStatement psMedico = con.prepareStatement(
-                    "INSERT INTO medicos(id_usuario, CI, nombre, apellido, fecha_nacimiento, telefono, direccion, categoria_profesional, categoria_profesional_otro, especialidad, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)");
-            psMedico.setInt(1, idUsuario);
-            psMedico.setString(2, citxt);
-            psMedico.setString(3, nombretxt);
-            psMedico.setString(4, apellidotxt);
-            psMedico.setDate(5, new java.sql.Date(fechanacimientotxt.getTime()));
-            psMedico.setString(6, telefonotxt);
-            psMedico.setString(7, direcciontxt);
-            psMedico.setString(8, categoriatxt);
+                    "INSERT INTO medicos(CI, nombre, apellido, fecha_nacimiento, telefono, direccion, categoria_profesional, categoria_profesional_otro, especialidad, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1)");
+            psMedico.setString(1, citxt);
+            psMedico.setString(2, nombretxt);
+            psMedico.setString(3, apellidotxt);
+            psMedico.setDate(4, new java.sql.Date(fechanacimientotxt.getTime()));
+
+            
+            if (!telefonotxt.isEmpty()) {
+                psMedico.setString(5, telefonotxt);
+            } else {
+                psMedico.setNull(5, java.sql.Types.VARCHAR);
+            }
+
+            
+            if (!direcciontxt.isEmpty()) {
+                psMedico.setString(6, direcciontxt);
+            } else {
+                psMedico.setNull(6, java.sql.Types.VARCHAR);
+            }
+
+            psMedico.setString(7, categoriatxt);
 
             if (categoriatxt.equals("Otro")) {
-                psMedico.setString(9, categoriaProfesionalOtro);
+                psMedico.setString(8, categoriaProfesionalOtro);
             } else {
-                psMedico.setNull(9, java.sql.Types.VARCHAR);
+                psMedico.setNull(8, java.sql.Types.VARCHAR);
             }
 
             if (categoriatxt.equals("Especialista")) {
-                psMedico.setString(10, especialidadtxt);
+                psMedico.setString(9, especialidadtxt);
             } else {
-                psMedico.setNull(10, java.sql.Types.VARCHAR);
+                psMedico.setNull(9, java.sql.Types.VARCHAR);
             }
 
             psMedico.executeUpdate();
@@ -589,25 +850,18 @@ pack();
     }//GEN-LAST:event_guardarActionPerformed
 
     private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
-        int fila = TablaMedicos.getSelectedRow();
-        if (fila == -1) {
-            JOptionPane.showMessageDialog(null, "Por favor, seleccione un médico para modificar.");
-            return;
-        }
-
-        int medicoId = Integer.parseInt(TablaMedicos.getValueAt(fila, 0).toString());
-
         String nombretxt = Nombre.getText().trim();
         String apellidotxt = Apellido.getText().trim();
         String citxt = CI.getText().trim();
         String telefonotxt = Telefono.getText().trim();
         Date fechanacimientotxt = FechaNacimiento.getDate();
         String direcciontxt = Direccion.getText().trim();
-        String categoriatxt = Categoria.getSelectedItem().toString();  // "General" o "Especialista"
+        String categoriatxt = Categoria.getSelectedItem().toString();
         String especialidadtxt = null;
+        String categoriaProfesionalOtro = null;
 
-        if (nombretxt.isEmpty() || apellidotxt.isEmpty() || citxt.isEmpty() || telefonotxt.isEmpty()
-                || fechanacimientotxt == null || direcciontxt.isEmpty() || categoriatxt.isEmpty()) {
+        if (nombretxt.isEmpty() || apellidotxt.isEmpty() || citxt.isEmpty()
+                || fechanacimientotxt == null || categoriatxt.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, rellene todos los campos obligatorios.");
             return;
         }
@@ -622,40 +876,76 @@ pack();
                 JOptionPane.showMessageDialog(null, "Por favor, seleccione una especialidad.");
                 return;
             }
-        } else {
-            especialidadtxt = null;
+        }
+
+        if (categoriatxt.equals("Otro")) {
+            categoriaProfesionalOtro = NombreCategoria.getText().trim();
+            if (categoriaProfesionalOtro.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Por favor, ingrese la categoría profesional.");
+                return;
+            }
+        }
+
+        try {
+            Integer.parseInt(citxt);
+            if (!telefonotxt.isEmpty()) {
+                Integer.parseInt(telefonotxt);
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "CI y Teléfono deben ser números válidos.");
+            return;
         }
 
         try {
             Connection con = Conexion.obtenerConexion();
 
-            String sqlUpdate = "UPDATE medicos SET CI=?, nombre=?, apellido=?, fecha_nacimiento=?, telefono=?, direccion=?, categoria_profesional=?, especialidad=? WHERE id_medico=?";
-            PreparedStatement ps = con.prepareStatement(sqlUpdate);
-            ps.setString(1, citxt);
-            ps.setString(2, nombretxt);
-            ps.setString(3, apellidotxt);
-            ps.setDate(4, new java.sql.Date(fechanacimientotxt.getTime()));
-            ps.setString(5, telefonotxt);
-            ps.setString(6, direcciontxt);
+            PreparedStatement psMedico = con.prepareStatement(
+                    "UPDATE medicos SET nombre=?, apellido=?, fecha_nacimiento=?, telefono=?, direccion=?, categoria_profesional=?, categoria_profesional_otro=?, especialidad=? WHERE CI=?");
 
-            if (categoriatxt.equals("General")) {
-                ps.setString(7, "General");
-                ps.setNull(8, java.sql.Types.VARCHAR);
+            psMedico.setString(1, nombretxt);
+            psMedico.setString(2, apellidotxt);
+            psMedico.setDate(3, new java.sql.Date(fechanacimientotxt.getTime()));
+
+            
+            if (!telefonotxt.isEmpty()) {
+                psMedico.setString(4, telefonotxt);
             } else {
-                ps.setString(7, "Especialista");
-                ps.setString(8, especialidadtxt);
+                psMedico.setNull(4, java.sql.Types.VARCHAR);
             }
 
-            ps.setInt(9, medicoId);
+            
+            if (!direcciontxt.isEmpty()) {
+                psMedico.setString(5, direcciontxt);
+            } else {
+                psMedico.setNull(5, java.sql.Types.VARCHAR);
+            }
 
-            int res = ps.executeUpdate();
-            if (res > 0) {
+            psMedico.setString(6, categoriatxt);
+
+            if (categoriatxt.equals("Otro")) {
+                psMedico.setString(7, categoriaProfesionalOtro);
+            } else {
+                psMedico.setNull(7, java.sql.Types.VARCHAR);
+            }
+
+            if (categoriatxt.equals("Especialista")) {
+                psMedico.setString(8, especialidadtxt);
+            } else {
+                psMedico.setNull(8, java.sql.Types.VARCHAR);
+            }
+
+            psMedico.setString(9, citxt); 
+
+            int filasAfectadas = psMedico.executeUpdate();
+
+            if (filasAfectadas > 0) {
                 JOptionPane.showMessageDialog(null, "Registro modificado correctamente.");
                 limpiar();
                 cargarTabla();
             } else {
-                JOptionPane.showMessageDialog(null, "Error al modificar el registro.");
+                JOptionPane.showMessageDialog(null, "No se encontró el médico con la CI especificada.");
             }
+
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error en la base de datos: " + ex.getMessage());
             ex.printStackTrace();
@@ -671,7 +961,7 @@ pack();
 
         int opcion = JOptionPane.showConfirmDialog(
                 null,
-                "¿Está seguro de que desea eliminar este registro?\nEsta acción deshabilitará al usuario del sistema.",
+                "¿Está seguro de que desea eliminar este registro?",
                 "Confirmar eliminación",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE
@@ -707,13 +997,8 @@ pack();
                 psActualizarEstado.setInt(1, medicoId);
                 psActualizarEstado.executeUpdate();
 
-                PreparedStatement psActualizarUsuario = con.prepareStatement(
-                        "UPDATE usuarios SET activo = 0 WHERE id_usuario = ?"
-                );
-                psActualizarUsuario.setInt(1, idUsuario);
-                psActualizarUsuario.executeUpdate();
 
-                JOptionPane.showMessageDialog(null, "Registro marcado como eliminado e inhabilitado para el sistema");
+                JOptionPane.showMessageDialog(null, "Registro marcado como eliminado");
                 limpiar();
                 cargarTabla();
             } else {
@@ -739,71 +1024,18 @@ pack();
         limpiar();
     }//GEN-LAST:event_limpiarActionPerformed
 
-    private void HabilitarDeshabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HabilitarDeshabilitarActionPerformed
-        int fila = TablaMedicos.getSelectedRow();
-        if (fila == -1) {
-            JOptionPane.showMessageDialog(null, "Por favor, seleccione un médico.");
-            return;
-        }
-
-        int medicoId = Integer.parseInt(TablaMedicos.getValueAt(fila, 0).toString());
-
-        try {
-            Connection con = Conexion.obtenerConexion();
-
-            PreparedStatement psObtenerUsuario = con.prepareStatement("SELECT id_usuario FROM medicos WHERE id_medico=?");
-            psObtenerUsuario.setInt(1, medicoId);
-            ResultSet rsUsuario = psObtenerUsuario.executeQuery();
-
-            if (!rsUsuario.next()) {
-                JOptionPane.showMessageDialog(null, "Error al encontrar el usuario asociado al médico.");
-                return;
-            }
-
-            int idUsuario = rsUsuario.getInt("id_usuario");
-
-
-            PreparedStatement psEstado = con.prepareStatement("SELECT activo FROM usuarios WHERE id_usuario=?");
-            psEstado.setInt(1, idUsuario);
-            ResultSet rsEstado = psEstado.executeQuery();
-
-            if (!rsEstado.next()) {
-                JOptionPane.showMessageDialog(null, "Error al encontrar el estado del usuario.");
-                return;
-            }
-
-            int estadoActual = rsEstado.getInt("activo");
-
-            int nuevoEstado = (estadoActual == 1) ? 0 : 1;
-
-            PreparedStatement psActualizar = con.prepareStatement("UPDATE usuarios SET activo=? WHERE id_usuario=?");
-            psActualizar.setInt(1, nuevoEstado);
-            psActualizar.setInt(2, idUsuario);
-            psActualizar.executeUpdate();
-
-            String mensaje = (nuevoEstado == 1) ? "Médico habilitado." : "Médico deshabilitado.";
-            JOptionPane.showMessageDialog(null, mensaje);
-
-            cargarTabla();
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
-        }
-    }//GEN-LAST:event_HabilitarDeshabilitarActionPerformed
-
     private void TablaMedicosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaMedicosMouseClicked
         try {
             int fila = TablaMedicos.getSelectedRow();
             if (fila == -1) {
-
                 return;
             }
+
             int id = Integer.parseInt(TablaMedicos.getValueAt(fila, 0).toString());
 
             Connection con = Conexion.obtenerConexion();
             PreparedStatement ps = con.prepareStatement(
-                "SELECT CI, nombre, apellido, fecha_nacimiento, telefono, direccion, categoria_profesional, especialidad "
-                + "FROM medicos WHERE id_medico = ?"
+                    "SELECT CI, nombre, apellido, fecha_nacimiento, telefono, direccion, categoria_profesional, categoria_profesional_otro, especialidad FROM medicos WHERE id_medico = ?"
             );
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
@@ -826,53 +1058,129 @@ pack();
 
                 String categoria = rs.getString("categoria_profesional");
                 String especialidad = rs.getString("especialidad");
+                String otroCategoria = rs.getString("categoria_profesional_otro");
 
-                if (categoria != null) {
-                    categoria = categoria.trim();
-                } else {
-                    categoria = "";
-                }
-                if (especialidad != null) {
-                    especialidad = especialidad.trim();
-                } else {
-                    especialidad = "";
-                }
-
-                if (categoria.equalsIgnoreCase("General") || categoria.equalsIgnoreCase("General")) {
+                if (categoria.equalsIgnoreCase("General")) {
                     Categoria.setSelectedItem("General");
                     Especialidad.setVisible(false);
                     EspecialidadLabel.setVisible(false);
-                    Especialidad.setSelectedIndex(-1);
-                } else if (categoria.equalsIgnoreCase("Especialista") || categoria.equalsIgnoreCase("Especialista")) {
+                    NombreCategoria.setVisible(false);
+                    OtroLabel.setVisible(false);
+                } else if (categoria.equalsIgnoreCase("Especialista")) {
                     Categoria.setSelectedItem("Especialista");
                     Especialidad.setVisible(true);
                     EspecialidadLabel.setVisible(true);
+                    NombreCategoria.setVisible(false);
+                    OtroLabel.setVisible(false);
 
-                    boolean encontrada = false;
-                    for (int i = 0; i < Especialidad.getItemCount(); i++) {
-                        String item = Especialidad.getItemAt(i).trim();
-                        if (item.equalsIgnoreCase(especialidad)) {
-                            Especialidad.setSelectedIndex(i);
-                            encontrada = true;
-                            break;
-                        }
-                    }
-
-                    if (!encontrada && !especialidad.isEmpty()) {
-                        Especialidad.addItem(especialidad);
+                    if (especialidad != null) {
                         Especialidad.setSelectedItem(especialidad);
                     }
                 } else {
-                    Categoria.setSelectedIndex(-1);
+                    Categoria.setSelectedItem("Otro");
+                    NombreCategoria.setVisible(true);
+                    OtroLabel.setVisible(true);
+                    NombreCategoria.setText(otroCategoria != null ? otroCategoria : "");
                     Especialidad.setVisible(false);
                     EspecialidadLabel.setVisible(false);
-                    Especialidad.setSelectedIndex(-1);
                 }
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.toString());
         }
     }//GEN-LAST:event_TablaMedicosMouseClicked
+
+    private void btnCerrarSesionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarSesionMouseExited
+
+    }//GEN-LAST:event_btnCerrarSesionMouseExited
+
+    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
+
+    }//GEN-LAST:event_btnCerrarSesionActionPerformed
+
+    private void btnInicioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInicioMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnInicioMouseExited
+
+    private void btnInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInicioActionPerformed
+
+    }//GEN-LAST:event_btnInicioActionPerformed
+
+    private void btnListaLaboratoriosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnListaLaboratoriosMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnListaLaboratoriosMouseExited
+
+    private void btnListaLaboratoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListaLaboratoriosActionPerformed
+
+    }//GEN-LAST:event_btnListaLaboratoriosActionPerformed
+
+    private void btnListaPrestamosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnListaPrestamosMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnListaPrestamosMouseExited
+
+    private void btnListaPrestamosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListaPrestamosActionPerformed
+
+    }//GEN-LAST:event_btnListaPrestamosActionPerformed
+
+    private void btnSolicitudesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSolicitudesMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSolicitudesMouseExited
+
+    private void btnSolicitudesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitudesActionPerformed
+
+    }//GEN-LAST:event_btnSolicitudesActionPerformed
+
+    private void btnSancionesDesignarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSancionesDesignarMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSancionesDesignarMouseExited
+
+    private void btnSancionesDesignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSancionesDesignarActionPerformed
+
+    }//GEN-LAST:event_btnSancionesDesignarActionPerformed
+
+    private void btnReportesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportesMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnReportesMouseExited
+
+    private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
+
+    }//GEN-LAST:event_btnReportesActionPerformed
+
+    private void btnMaterialesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMaterialesMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnMaterialesMouseExited
+
+    private void btnMaterialesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaterialesActionPerformed
+
+    }//GEN-LAST:event_btnMaterialesActionPerformed
+
+    private void btnComputadorasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnComputadorasMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnComputadorasMouseExited
+
+    private void btnComputadorasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComputadorasActionPerformed
+
+    }//GEN-LAST:event_btnComputadorasActionPerformed
+
+    private void btnReporteLaboratoriosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReporteLaboratoriosMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnReporteLaboratoriosMouseExited
+
+    private void btnReporteLaboratoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteLaboratoriosActionPerformed
+
+    }//GEN-LAST:event_btnReporteLaboratoriosActionPerformed
+
+    private void btnReporteMantenimientoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReporteMantenimientoMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnReporteMantenimientoMouseExited
+
+    private void btnReporteMantenimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteMantenimientoActionPerformed
+
+    }//GEN-LAST:event_btnReporteMantenimientoActionPerformed
+
+    private void btnReporteSancionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteSancionesActionPerformed
+
+    }//GEN-LAST:event_btnReporteSancionesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -909,16 +1217,29 @@ pack();
     private com.toedter.calendar.JDateChooser FechaNacimiento;
     private javax.swing.JLabel FondoBlanco;
     private javax.swing.JLabel FondoGris;
-    private javax.swing.JButton HabilitarDeshabilitar;
     private javax.swing.JTextField ID;
     private javax.swing.JLabel ListaPersonal;
     private javax.swing.JTextField Nombre;
     private javax.swing.JTextField NombreCategoria;
+    private javax.swing.JLabel OtroLabel;
     private javax.swing.JPanel Superior;
     private javax.swing.JTable TablaMedicos;
     private javax.swing.JTextField Telefono;
+    private javax.swing.JButton btnCerrarSesion;
+    private javax.swing.JButton btnComputadoras;
+    private javax.swing.JButton btnInicio;
+    private javax.swing.JButton btnListaLaboratorios;
+    private javax.swing.JButton btnListaPrestamos;
+    private javax.swing.JButton btnMateriales;
+    private javax.swing.JButton btnReporteLaboratorios;
+    private javax.swing.JButton btnReporteMantenimiento;
+    private javax.swing.JButton btnReporteSanciones;
+    private javax.swing.JButton btnReportes;
+    private javax.swing.JButton btnSancionesDesignar;
+    private javax.swing.JButton btnSolicitudes;
     private javax.swing.JButton eliminar;
     private javax.swing.JButton guardar;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -932,9 +1253,13 @@ pack();
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel lblFlecha;
     private javax.swing.JButton limpiar;
     private javax.swing.JButton modificar;
+    private javax.swing.JPanel panelSidebar;
+    private javax.swing.JPanel panelSubReportes;
     // End of variables declaration//GEN-END:variables
 }
