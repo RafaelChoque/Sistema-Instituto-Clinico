@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import com.formdev.flatlaf.FlatLightLaf;
+import java.awt.Color;
 import javax.swing.UIManager;
 
 /**
@@ -34,7 +35,7 @@ public class Login extends javax.swing.JFrame {
         contrasena.setEchoChar('•');
         btnMostrarContraseña.setIcon(ojoOcultar);
         contrasena.addActionListener(e -> IniciaSesion.doClick());
-        sesion.addActionListener(e -> IniciaSesion.doClick());
+        usuario.addActionListener(e -> IniciaSesion.doClick());
     }
 
     /**
@@ -46,26 +47,27 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
         jPanel2 = new RoundedPanel();
         btnMostrarContraseña = new javax.swing.JButton();
         Contraseña = new javax.swing.JLabel();
-        Linea3 = new javax.swing.JLabel();
-        contrasena = new javax.swing.JPasswordField();
         IniciaSesion = new javax.swing.JButton();
         Usuario = new javax.swing.JLabel();
-        Linea2 = new javax.swing.JLabel();
-        sesion = new javax.swing.JTextField();
         lblErrorUsuario = new javax.swing.JLabel();
         lblErrorContrasena = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        contrasena = new javax.swing.JPasswordField();
+        usuario = new javax.swing.JTextField();
+        lblTitulo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/CandadoInicioSesion.png"))); // NOI18N
-        jLabel2.setPreferredSize(new java.awt.Dimension(30, 30));
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 310, 100, 80));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -76,26 +78,14 @@ public class Login extends javax.swing.JFrame {
                 btnMostrarContraseñaActionPerformed(evt);
             }
         });
-        jPanel2.add(btnMostrarContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 190, 30, 20));
+        jPanel2.add(btnMostrarContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 190, 30, 20));
 
         Contraseña.setFont(new java.awt.Font("Candara", 0, 24)); // NOI18N
         Contraseña.setForeground(new java.awt.Color(51, 51, 51));
         Contraseña.setText("Contraseña");
         jPanel2.add(Contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 168, 120, -1));
 
-        Linea3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/BarraAzulLogin.png"))); // NOI18N
-        jPanel2.add(Linea3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, 410, 10));
-
-        contrasena.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        contrasena.setBorder(null);
-        contrasena.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                contrasenaActionPerformed(evt);
-            }
-        });
-        jPanel2.add(contrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 190, 370, 20));
-
-        IniciaSesion.setBackground(new java.awt.Color(29, 41, 57));
+        IniciaSesion.setBackground(new java.awt.Color(81, 17, 114));
         IniciaSesion.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         IniciaSesion.setForeground(new java.awt.Color(255, 255, 255));
         IniciaSesion.setText("Iniciar Sesión");
@@ -104,24 +94,12 @@ public class Login extends javax.swing.JFrame {
                 IniciaSesionActionPerformed(evt);
             }
         });
-        jPanel2.add(IniciaSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 250, 170, 40));
+        jPanel2.add(IniciaSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 280, 170, 40));
 
         Usuario.setFont(new java.awt.Font("Candara", 0, 24)); // NOI18N
         Usuario.setForeground(new java.awt.Color(51, 51, 51));
         Usuario.setText("Usuario");
-        jPanel2.add(Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 68, 80, 30));
-
-        Linea2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/BarraAzulLogin.png"))); // NOI18N
-        jPanel2.add(Linea2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 410, 10));
-
-        sesion.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        sesion.setBorder(null);
-        sesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sesionActionPerformed(evt);
-            }
-        });
-        jPanel2.add(sesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 90, 360, 20));
+        jPanel2.add(Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 80, 30));
 
         lblErrorUsuario.setForeground(new java.awt.Color(255, 0, 0));
         jPanel2.add(lblErrorUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 260, 20));
@@ -129,7 +107,42 @@ public class Login extends javax.swing.JFrame {
         lblErrorContrasena.setForeground(new java.awt.Color(255, 0, 0));
         jPanel2.add(lblErrorContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 270, 20));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 360, 490, 320));
+        jPanel1.setBackground(new java.awt.Color(81, 17, 114));
+        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 115, 420, 3));
+
+        jPanel3.setBackground(new java.awt.Color(81, 17, 114));
+        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 215, 420, 3));
+
+        contrasena.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        contrasena.setBorder(null);
+        contrasena.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                contrasenaFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                contrasenaFocusLost(evt);
+            }
+        });
+        contrasena.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contrasenaActionPerformed(evt);
+            }
+        });
+        jPanel2.add(contrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 190, 380, 30));
+
+        usuario.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        usuario.setBorder(null);
+        usuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usuarioActionPerformed(evt);
+            }
+        });
+        jPanel2.add(usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 90, 410, 30));
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 390, 490, 320));
+
+        lblTitulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoFinalFinal.png"))); // NOI18N
+        getContentPane().add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1920, 1080));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -165,37 +178,50 @@ public class RoundedPanel extends JPanel {
     }//GEN-LAST:event_btnMostrarContraseñaActionPerformed
 
     private void contrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contrasenaActionPerformed
-        // TODO add your handling code here:
+String textoActual = String.valueOf(contrasena.getPassword());
+Color colorTexto = contrasena.getForeground();
+if (textoActual.equals("Ingrese su contraseña") && colorTexto.equals(Color.LIGHT_GRAY)) {
+    return;
+}
+
+// Mostrar u ocultar
+if (contrasena.getEchoChar() == '•') {
+    contrasena.setEchoChar((char) 0);
+    btnMostrarContraseña.setIcon(ojoMostrar);
+} else {
+    contrasena.setEchoChar('•');
+    btnMostrarContraseña.setIcon(ojoOcultar);
+}
     }//GEN-LAST:event_contrasenaActionPerformed
 
     private void IniciaSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IniciaSesionActionPerformed
-        String user = sesion.getText();
-        @SuppressWarnings("deprecation")
-        String pass = contrasena.getText();
+String user = usuario.getText();
+@SuppressWarnings("deprecation")
+String pass = contrasena.getText();
 
-        lblErrorUsuario.setText("");
-        lblErrorContrasena.setText("");
-        lblErrorUsuario.setIcon(null);
-        lblErrorContrasena.setIcon(null);
+lblErrorUsuario.setText("");
+lblErrorContrasena.setText("");
+lblErrorUsuario.setIcon(null);
+lblErrorContrasena.setIcon(null);
 
-        boolean camposValidos = true;
-        if (user.isEmpty()) {
-            ImageIcon iconoAdvertencia = new ImageIcon(getClass().getResource("/imagenes/Exclamacion3.png"));
-            lblErrorUsuario.setIcon(iconoAdvertencia);
-            lblErrorUsuario.setText("Por favor introduzca un usuario.");
-            camposValidos = false;
-        }
-        if (pass.isEmpty()) {
-            ImageIcon iconoAdvertencia = new ImageIcon(getClass().getResource("/imagenes/Exclamacion3.png"));
-            lblErrorContrasena.setIcon(iconoAdvertencia);
-            lblErrorContrasena.setText("Por favor introduzca una contraseña.");
-            camposValidos = false;
-        }
+boolean camposValidos = true;
 
-        if (!camposValidos) {
-            return;
-        }
+if (user.isEmpty() || user.equals("Ingrese su usuario")) {
+    ImageIcon iconoAdvertencia = new ImageIcon(getClass().getResource("/imagenes/Exclamacion3.png"));
+    lblErrorUsuario.setIcon(iconoAdvertencia);
+    lblErrorUsuario.setText("Por favor introduzca un usuario.");
+    camposValidos = false;
+}
+if (pass.isEmpty() || pass.equals("Ingrese su contraseña")) {
+    ImageIcon iconoAdvertencia = new ImageIcon(getClass().getResource("/imagenes/Exclamacion3.png"));
+    lblErrorContrasena.setIcon(iconoAdvertencia);
+    lblErrorContrasena.setText("Por favor introduzca una contraseña.");
+    camposValidos = false;
+}
 
+if (!camposValidos) {
+    return;
+}
         try {
             Connection con = Conexion.obtenerConexion();
             String query = "SELECT * FROM usuarios WHERE username = ?";
@@ -229,9 +255,70 @@ public class RoundedPanel extends JPanel {
         }
     }//GEN-LAST:event_IniciaSesionActionPerformed
 
-    private void sesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sesionActionPerformed
+    private void usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuarioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_sesionActionPerformed
+    }//GEN-LAST:event_usuarioActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+    btnMostrarContraseña.setVisible(false);
+    lblTitulo.requestFocusInWindow();
+    usuario.setText("Ingrese su usuario");
+    usuario.setForeground(Color.GRAY);
+    usuario.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            if (usuario.getText().equals("Ingrese su usuario")) {
+                usuario.setText("");
+                usuario.setForeground(Color.BLACK);
+            }
+        }
+        public void focusLost(java.awt.event.FocusEvent evt) {
+            if (usuario.getText().isEmpty()) {
+                usuario.setText("Ingrese su usuario");
+                usuario.setForeground(Color.GRAY);
+            }
+        }
+    });
+
+    contrasena.setText("Ingrese su contraseña");
+    contrasena.setForeground(Color.GRAY);
+    contrasena.setEchoChar((char) 0);
+    contrasena.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            String pwd = new String(contrasena.getPassword());
+            if (pwd.equals("Ingrese su contraseña")) {
+                contrasena.setText("");
+                contrasena.setForeground(Color.BLACK);
+                contrasena.setEchoChar('•');
+            }
+        }
+        public void focusLost(java.awt.event.FocusEvent evt) {
+            String pwd = new String(contrasena.getPassword());
+            if (pwd.isEmpty()) {
+                contrasena.setText("Ingrese su contraseña");
+                contrasena.setForeground(Color.GRAY);
+                contrasena.setEchoChar((char) 0);
+            }
+        }
+    });
+    }//GEN-LAST:event_formWindowOpened
+
+    private void contrasenaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_contrasenaFocusGained
+    if (String.valueOf(contrasena.getPassword()).equals("Ingrese su contraseña")) {
+        contrasena.setText("");
+        contrasena.setForeground(Color.BLACK);
+        contrasena.setEchoChar('•');
+    }
+    btnMostrarContraseña.setVisible(true);
+    }//GEN-LAST:event_contrasenaFocusGained
+
+    private void contrasenaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_contrasenaFocusLost
+    if (contrasena.getPassword().length == 0) {
+        contrasena.setText("Ingrese su contraseña");
+        contrasena.setForeground(Color.LIGHT_GRAY);
+        contrasena.setEchoChar((char) 0);
+        btnMostrarContraseña.setVisible(false);
+    }
+    }//GEN-LAST:event_contrasenaFocusLost
 
     /**
      * @param args the command line arguments
@@ -259,15 +346,15 @@ public class RoundedPanel extends JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Contraseña;
     private javax.swing.JButton IniciaSesion;
-    private javax.swing.JLabel Linea2;
-    private javax.swing.JLabel Linea3;
     private javax.swing.JLabel Usuario;
     private javax.swing.JButton btnMostrarContraseña;
     private javax.swing.JPasswordField contrasena;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblErrorContrasena;
     private javax.swing.JLabel lblErrorUsuario;
-    private javax.swing.JTextField sesion;
+    private javax.swing.JLabel lblTitulo;
+    private javax.swing.JTextField usuario;
     // End of variables declaration//GEN-END:variables
 }
