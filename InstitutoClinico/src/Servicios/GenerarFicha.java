@@ -4,17 +4,32 @@
  */
 package Servicios;
 
+import ConexionLogin.Conexion;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.sql.Connection;
+import javax.swing.JOptionPane;
+import java.sql.ResultSet;
+import java.sql.PreparedStatement;
+import java.sql.*;
+import java.util.Date;
+import java.util.List;
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JSpinner;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
+import javax.swing.SpinnerDateModel;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import java.text.Normalizer ;
 
 /**
  *
@@ -24,10 +39,24 @@ public class GenerarFicha extends javax.swing.JFrame {
 
     /**
      * Creates new form GenerarFicha
+     *
+     * @param idusuario
      */
-    public GenerarFicha() {
+    private int idusuario;
+    
+    private DefaultListModel<String> modeloLista = new DefaultListModel<>();
+
+    public GenerarFicha(int idusuario) {
+        this.idusuario = idusuario;
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        cargarServicios();
+        ListaItems.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        cargarTablaAfiches();
+    }
+
+    private GenerarFicha() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     /**
@@ -43,7 +72,7 @@ public class GenerarFicha extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         ListaPersonal = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        TablaMedicos = new javax.swing.JTable();
+        TablaAfiches = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
@@ -52,11 +81,11 @@ public class GenerarFicha extends javax.swing.JFrame {
         AgregarTecnico1 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        FechaNacimiento = new com.toedter.calendar.JDateChooser();
-        Doctor = new javax.swing.JTextField();
+        FechaAtencion = new com.toedter.calendar.JDateChooser();
+        NombreDoctor = new javax.swing.JTextField();
         SeleccionarDoc = new javax.swing.JButton();
-        jSpinner1 = new javax.swing.JSpinner();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        Hora = new javax.swing.JSpinner();
+        jLabel18 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -69,20 +98,24 @@ public class GenerarFicha extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         AgregarTecnico3 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        Doctor2 = new javax.swing.JTextField();
-        modificar3 = new javax.swing.JButton();
-        modificar2 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        Doctor3 = new javax.swing.JTextField();
+        btnVistaPrevia = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        Doctor4 = new javax.swing.JTextField();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        TotalSumaServicios = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        ListaItems = new javax.swing.JList<>();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        ListaItemsSeleccionados = new javax.swing.JList<>();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        BuscarItemsNombre = new javax.swing.JTextField();
+        ComboTipoPrecio = new javax.swing.JComboBox<>();
         jPanel5 = new javax.swing.JPanel();
         AgregarTecnico2 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        formadepago = new javax.swing.JLabel();
+        FormaPago = new javax.swing.JComboBox<>();
+        TipoPago = new javax.swing.JComboBox<>();
         FondoGris = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -100,19 +133,19 @@ public class GenerarFicha extends javax.swing.JFrame {
         ListaPersonal.setText("Lista de Fichas ");
         jPanel2.add(ListaPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 160, -1));
 
-        TablaMedicos.setModel(new javax.swing.table.DefaultTableModel(
+        TablaAfiches.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Nombre", "Apellido", "CI", "Teléfono", "Fecha de Nacimiento", "Dirección", "Categoria Profesional", "Especialidad"
+                "ID", "Paciente", "Fecha de Atención", "Hora de Atención", "Forma de Pago", "Medio de Pago", "Total de Precio"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -123,12 +156,12 @@ public class GenerarFicha extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        TablaMedicos.addMouseListener(new java.awt.event.MouseAdapter() {
+        TablaAfiches.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TablaMedicosMouseClicked(evt);
+                TablaAfichesMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(TablaMedicos);
+        jScrollPane1.setViewportView(TablaAfiches);
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 1190, 860));
 
@@ -149,8 +182,8 @@ public class GenerarFicha extends javax.swing.JFrame {
                 jTextField1ActionPerformed(evt);
             }
         });
-        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 15, 90, 20));
-        String placeholder = "Buscar CI";
+        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 15, 130, 20));
+        String placeholder = "Buscar Fichas";
 
         jTextField1.setText(placeholder);
         jTextField1.setForeground(Color.GRAY);
@@ -193,12 +226,12 @@ public class GenerarFicha extends javax.swing.JFrame {
                 String query = jTextField1.getText().toLowerCase();
 
                 if (query.equals(placeholder.toLowerCase())) {
-                    TablaMedicos.setRowSorter(null);
+                    TablaAfiches.setRowSorter(null);
                     return;
                 }
 
-                TableRowSorter<TableModel> sorter = new TableRowSorter<>(TablaMedicos.getModel());
-                TablaMedicos.setRowSorter(sorter);
+                TableRowSorter<TableModel> sorter = new TableRowSorter<>(TablaAfiches.getModel());
+                TablaAfiches.setRowSorter(sorter);
 
                 if (query.trim().isEmpty()) {
                     sorter.setRowFilter(null);
@@ -226,16 +259,16 @@ public class GenerarFicha extends javax.swing.JFrame {
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
 
         jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel17.setText("Fecha y hora de atencion:");
-        jPanel3.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, -1, -1));
-        jPanel3.add(FechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, 270, -1));
+        jLabel17.setText("Hora de Atencion");
+        jPanel3.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
+        jPanel3.add(FechaAtencion, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 70, 270, -1));
 
-        Doctor.addActionListener(new java.awt.event.ActionListener() {
+        NombreDoctor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DoctorActionPerformed(evt);
+                NombreDoctorActionPerformed(evt);
             }
         });
-        jPanel3.add(Doctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 40, 300, -1));
+        jPanel3.add(NombreDoctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 40, 270, -1));
 
         SeleccionarDoc.setBackground(new java.awt.Color(29, 41, 57));
         SeleccionarDoc.setForeground(new java.awt.Color(255, 255, 255));
@@ -245,13 +278,18 @@ public class GenerarFicha extends javax.swing.JFrame {
                 SeleccionarDocActionPerformed(evt);
             }
         });
-        jPanel3.add(SeleccionarDoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 40, 140, -1));
-        jPanel3.add(jSpinner1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 70, 70, -1));
+        jPanel3.add(SeleccionarDoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 40, 140, -1));
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel3.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 70, 90, -1));
+        Hora.setModel(new SpinnerDateModel());
+        JSpinner.DateEditor horaficha = new JSpinner.DateEditor(Hora, "HH:mm");
+        Hora.setEditor(horaficha);
+        jPanel3.add(Hora, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 100, 70, -1));
 
-        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 160, 670, 110));
+        jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel18.setText("Fecha de Atencion");
+        jPanel3.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, -1, -1));
+
+        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 160, 670, 150));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(194, 194, 194)));
@@ -272,14 +310,14 @@ public class GenerarFicha extends javax.swing.JFrame {
                 NombreActionPerformed(evt);
             }
         });
-        jPanel1.add(Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 40, 440, -1));
+        jPanel1.add(Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 40, 440, -1));
 
         Apellido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ApellidoActionPerformed(evt);
             }
         });
-        jPanel1.add(Apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 70, 440, -1));
+        jPanel1.add(Apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 70, 440, -1));
 
         ID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -302,7 +340,7 @@ public class GenerarFicha extends javax.swing.JFrame {
                 guardarActionPerformed(evt);
             }
         });
-        jPanel2.add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 530, 100, -1));
+        jPanel2.add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 880, 100, -1));
 
         limpiar.setBackground(new java.awt.Color(29, 41, 57));
         limpiar.setForeground(new java.awt.Color(255, 255, 255));
@@ -312,7 +350,7 @@ public class GenerarFicha extends javax.swing.JFrame {
                 limpiarActionPerformed(evt);
             }
         });
-        jPanel2.add(limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1330, 530, 100, -1));
+        jPanel2.add(limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1330, 880, 100, -1));
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -323,61 +361,95 @@ public class GenerarFicha extends javax.swing.JFrame {
         jPanel6.add(AgregarTecnico3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 80, -1));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel8.setText("Item:");
-        jPanel6.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, 20));
+        jLabel8.setText("Precio:");
+        jPanel6.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 110, -1, 20));
 
-        Doctor2.addActionListener(new java.awt.event.ActionListener() {
+        btnVistaPrevia.setBackground(new java.awt.Color(29, 41, 57));
+        btnVistaPrevia.setForeground(new java.awt.Color(255, 255, 255));
+        btnVistaPrevia.setText("Vista Previa y Calculo");
+        btnVistaPrevia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Doctor2ActionPerformed(evt);
+                btnVistaPreviaActionPerformed(evt);
             }
         });
-        jPanel6.add(Doctor2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 50, 150, -1));
-
-        modificar3.setBackground(new java.awt.Color(29, 41, 57));
-        modificar3.setForeground(new java.awt.Color(255, 255, 255));
-        modificar3.setText("Seleccionar Item");
-        modificar3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modificar3ActionPerformed(evt);
-            }
-        });
-        jPanel6.add(modificar3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 50, 130, -1));
-
-        modificar2.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
-        modificar2.setForeground(new java.awt.Color(0, 51, 255));
-        modificar2.setText("Agregar otro item...");
-        modificar2.setBorder(null);
-        modificar2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modificar2ActionPerformed(evt);
-            }
-        });
-        jPanel6.add(modificar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, -1, 20));
-
-        jLabel1.setText("Precio:");
-        jPanel6.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 50, -1, 20));
-
-        Doctor3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Doctor3ActionPerformed(evt);
-            }
-        });
-        jPanel6.add(Doctor3, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 50, 100, -1));
+        jPanel6.add(btnVistaPrevia, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 390, 180, -1));
 
         jLabel3.setText("Total:");
-        jPanel6.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, -1, 20));
+        jPanel6.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 360, -1, 20));
 
-        Doctor4.addActionListener(new java.awt.event.ActionListener() {
+        TotalSumaServicios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Doctor4ActionPerformed(evt);
+                TotalSumaServiciosActionPerformed(evt);
             }
         });
-        jPanel6.add(Doctor4, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 110, 300, -1));
+        jPanel6.add(TotalSumaServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 360, 240, -1));
 
-        jCheckBox1.setText("Emergencia");
-        jPanel6.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 70, -1, -1));
+        ListaItems.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = {};
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(ListaItems);
 
-        jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 260, 670, 150));
+        jPanel6.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 220, 270));
+        jPanel6.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
+
+        ListaItemsSeleccionados.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = {};
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane4.setViewportView(ListaItemsSeleccionados);
+
+        jPanel6.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 110, 240, 240));
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel10.setText("Seleccionar Servicios (Items)");
+        jPanel6.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, 20));
+
+        jLabel1.setText("Vista Previa de Items Seleccionados");
+        jPanel6.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 90, -1, -1));
+
+        BuscarItemsNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BuscarItemsNombreActionPerformed(evt);
+            }
+        });
+        jPanel6.add(BuscarItemsNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 220, -1));
+        BuscarItemsNombre.getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) {
+                filtrarLista();
+            }
+            public void removeUpdate(DocumentEvent e) {
+                filtrarLista();
+            }
+            public void changedUpdate(DocumentEvent e) {
+                filtrarLista();
+            }
+
+            private void filtrarLista() {
+                String filtro = quitarTildes(BuscarItemsNombre.getText().toLowerCase().trim());
+
+                if (filtro.isEmpty()) {
+                    ListaItems.setModel(modeloLista);
+                } else {
+                    DefaultListModel<String> modeloFiltrado = new DefaultListModel<>();
+                    for (int i = 0; i < modeloLista.size(); i++) {
+                        String original = modeloLista.getElementAt(i);
+                        String normalizado = quitarTildes(original.toLowerCase());
+                        if (normalizado.contains(filtro)) {
+                            modeloFiltrado.addElement(original);
+                        }
+                    }
+                    ListaItems.setModel(modeloFiltrado);
+                }
+            }
+        });
+
+        ComboTipoPrecio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Normal", "Emergencia"}));
+        jPanel6.add(ComboTipoPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 140, -1, -1));
+
+        jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 300, 670, 430));
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -391,17 +463,17 @@ public class GenerarFicha extends javax.swing.JFrame {
         jLabel7.setText("Medio de pago:");
         jPanel5.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, -1, -1));
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel10.setText("Tipo:");
-        jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, -1));
+        formadepago.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        formadepago.setText("Forma de Pago:");
+        jPanel5.add(formadepago, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel5.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 440, -1));
+        FormaPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Contado", "Cuotas"}));
+        jPanel5.add(FormaPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 440, -1));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel5.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, 440, -1));
+        TipoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Efectivo", "QR", "Tarjeta"}));
+        jPanel5.add(TipoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, 440, -1));
 
-        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 400, 670, 120));
+        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 720, 670, 150));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1880, 980));
 
@@ -410,10 +482,78 @@ public class GenerarFicha extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    private void cargarServicios() {
+        modeloLista.clear();
+        try {
+            Connection con = Conexion.obtenerConexion();
+            String sql = "SELECT nombre_servicio FROM servicios WHERE estado = 1";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
 
-    private void TablaMedicosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaMedicosMouseClicked
+            while (rs.next()) {
+                modeloLista.addElement(rs.getString("nombre_servicio"));
+            }
 
-    }//GEN-LAST:event_TablaMedicosMouseClicked
+            ListaItems.setModel(modeloLista);
+
+            rs.close();
+            stmt.close();
+            con.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error cargando servicios: " + e.getMessage());
+        }
+    }
+    
+    private void cargarTablaAfiches() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.setColumnIdentifiers(new Object[]{
+            "ID", "Paciente", "Fecha Atención", "Hora Atención", "Forma de Pago", "Medio de Pago", "Total de Precio"
+        });
+
+        String sql = """
+        SELECT 
+            a.id_afiche, CONCAT(a.nombre_paciente, ' ', a.apellido_paciente) AS paciente,
+            a.fecha_atencion,
+            a.hora_atencion,
+            a.forma_pago,
+            a.medio_pago,
+            a.precio_total
+        FROM afiches a
+    """;
+
+        try (Connection con = Conexion.obtenerConexion(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                modelo.addRow(new Object[]{
+                    rs.getInt("id_afiche"),
+                    rs.getString("paciente"),
+                    rs.getTimestamp("fecha_atencion").toLocalDateTime().toLocalDate(),
+                    rs.getString("hora_atencion"),
+                    rs.getString("forma_pago"),
+                    rs.getString("medio_pago"),
+                    rs.getDouble("precio_total")
+                });
+            }
+
+            TablaAfiches.setModel(modelo);
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al cargar afiches: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    public String quitarTildes(String texto) {
+        if (texto == null) {
+            return "";
+        }
+        texto = Normalizer.normalize(texto, Normalizer.Form.NFD);
+        return texto.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+    }
+
+    private void TablaAfichesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaAfichesMouseClicked
+
+    }//GEN-LAST:event_TablaAfichesMouseClicked
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
@@ -432,42 +572,192 @@ public class GenerarFicha extends javax.swing.JFrame {
     }//GEN-LAST:event_IDActionPerformed
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
+        String nombrePaciente = Nombre.getText().trim();
+        String apellidoPaciente = Apellido.getText().trim();
+        String nombreDoctor = NombreDoctor.getText().trim();
+        Date fechaAtencionDate = FechaAtencion.getDate();
+        Date horaAtencionDate = (Date) Hora.getValue();
+        String formaPago = FormaPago.getSelectedItem().toString();
+        String medioPago = TipoPago.getSelectedItem().toString();
+        String TotalServicioTexto = TotalSumaServicios.getText().trim().replace(",", ".");
+        double TotalServicio = Double.parseDouble(TotalServicioTexto);
 
+        if (nombrePaciente.isEmpty() || apellidoPaciente.isEmpty() || nombreDoctor.isEmpty() || fechaAtencionDate == null) {
+            JOptionPane.showMessageDialog(this, "Complete todos los campos obligatorios.");
+            return;
+        }
+
+        try {
+            Connection con = Conexion.obtenerConexion();
+
+            String sqlMedico = "SELECT id_medico FROM medicos WHERE CONCAT(nombre, ' ', apellido) = ?";
+            PreparedStatement psMedico = con.prepareStatement(sqlMedico);
+            psMedico.setString(1, nombreDoctor);
+            ResultSet rsMedico = psMedico.executeQuery();
+
+            int idMedico = -1;
+            if (rsMedico.next()) {
+                idMedico = rsMedico.getInt("id_medico");
+            } else {
+                JOptionPane.showMessageDialog(this, "Médico no encontrado.");
+                rsMedico.close();
+                psMedico.close();
+                con.close();
+                return;
+            }
+            rsMedico.close();
+            psMedico.close();
+
+            int idCajero = ObtenerIdCajero();
+            java.sql.Date sqlFecha = new java.sql.Date(fechaAtencionDate.getTime());
+            java.sql.Time sqlHora = new java.sql.Time(horaAtencionDate.getTime());
+
+            String sqlInsert = "INSERT INTO afiches (id_cajero, id_medico, nombre_paciente, apellido_paciente, fecha_atencion, hora_atencion, forma_pago, medio_pago, precio_total) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement psInsert = con.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
+            psInsert.setInt(1, idCajero);
+            psInsert.setInt(2, idMedico);
+            psInsert.setString(3, nombrePaciente);
+            psInsert.setString(4, apellidoPaciente);
+            psInsert.setDate(5, sqlFecha);
+            psInsert.setTime(6, sqlHora);
+            psInsert.setString(7, formaPago);
+            psInsert.setString(8, medioPago);
+            psInsert.setDouble(9, TotalServicio);
+
+            int filas = psInsert.executeUpdate();
+            int idAfiche = -1;
+
+            if (filas > 0) {
+                ResultSet rsKeys = psInsert.getGeneratedKeys();
+                if (rsKeys.next()) {
+                    idAfiche = rsKeys.getInt(1);
+                }
+                rsKeys.close();
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo guardar la ficha.");
+                psInsert.close();
+                con.close();
+                return;
+            }
+            psInsert.close();
+
+            ListModel<String> itemsSeleccionados = ListaItemsSeleccionados.getModel();
+            String tipoPrecio = ComboTipoPrecio.getSelectedItem().toString().toLowerCase(); 
+
+            String sqlServicio = "SELECT id_servicio FROM servicios WHERE nombre_servicio = ?";
+            PreparedStatement psServicio = con.prepareStatement(sqlServicio);
+
+            String sqlDetalle = "INSERT INTO detalle_afiche (id_afiche, id_servicio, tipo_precio) VALUES (?, ?, ?)";
+            PreparedStatement psDetalle = con.prepareStatement(sqlDetalle);
+
+            for (int i = 0; i < itemsSeleccionados.getSize(); i++) {
+                String nombreServicio = itemsSeleccionados.getElementAt(i);
+
+                psServicio.setString(1, nombreServicio);
+                ResultSet rsServ = psServicio.executeQuery();
+
+                if (rsServ.next()) {
+                    int idServicio = rsServ.getInt("id_servicio");
+
+                    psDetalle.setInt(1, idAfiche);
+                    psDetalle.setInt(2, idServicio);
+                    psDetalle.setString(3, tipoPrecio); 
+                    psDetalle.executeUpdate();
+                }
+
+                rsServ.close();
+            }
+
+            psServicio.close();
+            psDetalle.close();
+            con.close();
+
+            JOptionPane.showMessageDialog(this, "Ficha y detalles guardados con éxito.");
+            cargarServicios();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al guardar ficha: " + e.getMessage());
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_guardarActionPerformed
-
+    private int ObtenerIdCajero() {
+        int id = -1;
+        try {
+            Connection con = Conexion.obtenerConexion();
+            PreparedStatement ps = con.prepareStatement("SELECT id_cajero FROM cajeros WHERE id_usuario = ?");
+            ps.setInt(1, idusuario); // Asegúrate de que `idusuario` esté definido en la clase
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt("id_cajero");
+            }
+            rs.close();
+            ps.close();
+            con.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener el ID del Cajero: " + e.getMessage());
+        }
+        return id;
+    }
     private void limpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarActionPerformed
 
     }//GEN-LAST:event_limpiarActionPerformed
 
-    private void DoctorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoctorActionPerformed
+    private void NombreDoctorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreDoctorActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_DoctorActionPerformed
+    }//GEN-LAST:event_NombreDoctorActionPerformed
 
     private void SeleccionarDocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SeleccionarDocActionPerformed
-        SeleccionarDoc SelecDoc = new SeleccionarDoc();
+        SeleccionarDoc SelecDoc = new SeleccionarDoc(NombreDoctor);
         SelecDoc.setLocationRelativeTo(null);
         SelecDoc.setVisible(true);
     }//GEN-LAST:event_SeleccionarDocActionPerformed
 
-    private void Doctor2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Doctor2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Doctor2ActionPerformed
+    private void btnVistaPreviaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVistaPreviaActionPerformed
+        List<String> seleccionados = ListaItems.getSelectedValuesList();
+        DefaultListModel<String> modeloSeleccionados = new DefaultListModel<>();
+        double total = 0.0;
 
-    private void modificar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificar3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_modificar3ActionPerformed
 
-    private void modificar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificar2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_modificar2ActionPerformed
+        String tipoPrecio = ComboTipoPrecio.getSelectedItem().toString().toLowerCase(); 
 
-    private void Doctor3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Doctor3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Doctor3ActionPerformed
+        try {
+            Connection con = Conexion.obtenerConexion();
 
-    private void Doctor4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Doctor4ActionPerformed
+            for (String item : seleccionados) {
+                modeloSeleccionados.addElement(item);
+
+                String sql = "SELECT precio_normal, precio_emergencia FROM servicios WHERE nombre_servicio = ?";
+                PreparedStatement stmt = con.prepareStatement(sql);
+                stmt.setString(1, item);
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next()) {
+                double precio = tipoPrecio.equalsIgnoreCase("Emergencia") ? rs.getDouble("precio_emergencia") : rs.getDouble("precio_normal");
+
+                    total += precio;
+                }
+
+                rs.close();
+                stmt.close();
+            }
+
+            con.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al calcular total: " + e.getMessage());
+        }
+
+        // Mostrar resultados
+        ListaItemsSeleccionados.setModel(modeloSeleccionados);
+        TotalSumaServicios.setText(String.format("%.2f", total));
+    }//GEN-LAST:event_btnVistaPreviaActionPerformed
+
+    private void TotalSumaServiciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TotalSumaServiciosActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_Doctor4ActionPerformed
+    }//GEN-LAST:event_TotalSumaServiciosActionPerformed
+
+    private void BuscarItemsNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarItemsNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BuscarItemsNombreActionPerformed
 
     /**
      * @param args the command line arguments
@@ -499,26 +789,30 @@ public class GenerarFicha extends javax.swing.JFrame {
     private javax.swing.JLabel AgregarTecnico2;
     private javax.swing.JLabel AgregarTecnico3;
     private javax.swing.JTextField Apellido;
-    private javax.swing.JTextField Doctor;
-    private javax.swing.JTextField Doctor2;
-    private javax.swing.JTextField Doctor3;
-    private javax.swing.JTextField Doctor4;
-    private com.toedter.calendar.JDateChooser FechaNacimiento;
+    private javax.swing.JTextField BuscarItemsNombre;
+    private javax.swing.JComboBox<String> ComboTipoPrecio;
+    private com.toedter.calendar.JDateChooser FechaAtencion;
     private javax.swing.JLabel FondoGris;
+    private javax.swing.JComboBox<String> FormaPago;
+    private javax.swing.JSpinner Hora;
     private javax.swing.JTextField ID;
+    private javax.swing.JList<String> ListaItems;
+    private javax.swing.JList<String> ListaItemsSeleccionados;
     private javax.swing.JLabel ListaPersonal;
     private javax.swing.JTextField Nombre;
+    private javax.swing.JTextField NombreDoctor;
     private javax.swing.JButton SeleccionarDoc;
     private javax.swing.JPanel Superior;
-    private javax.swing.JTable TablaMedicos;
+    private javax.swing.JTable TablaAfiches;
+    private javax.swing.JComboBox<String> TipoPago;
+    private javax.swing.JTextField TotalSumaServicios;
+    private javax.swing.JButton btnVistaPrevia;
+    private javax.swing.JLabel formadepago;
     private javax.swing.JButton guardar;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -534,10 +828,10 @@ public class GenerarFicha extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton limpiar;
-    private javax.swing.JButton modificar2;
-    private javax.swing.JButton modificar3;
     // End of variables declaration//GEN-END:variables
 }

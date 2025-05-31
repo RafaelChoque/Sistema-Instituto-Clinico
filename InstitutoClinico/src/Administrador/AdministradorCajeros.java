@@ -5,15 +5,19 @@
 package Administrador;
 
 import ConexionLogin.Conexion;
+import ConexionLogin.Login;
+import ReportesPagos.ReportespagarMedico;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.sql.*;
 import java.util.Date;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -77,16 +81,15 @@ public class AdministradorCajeros extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         AgregarTecnico1 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        AgregarTecnico = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        NombreCajero = new javax.swing.JTextField();
-        UsuarioCajero = new javax.swing.JTextField();
-        ContraseñaCajero = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
         FondoGris = new javax.swing.JLabel();
+        panelSidebar = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        btnCerrarSesion = new javax.swing.JButton();
+        btnAdminCajeros = new javax.swing.JButton();
+        btnListaLaboratorios = new javax.swing.JButton();
+        btnReportesPagos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -156,8 +159,8 @@ public class AdministradorCajeros extends javax.swing.JFrame {
                 jTextField1ActionPerformed(evt);
             }
         });
-        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 15, 90, 20));
-        String placeholder = "Buscar CI";
+        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 15, 120, 20));
+        String placeholder = "Buscar Cajero";
 
         jTextField1.setText(placeholder);
         jTextField1.setForeground(Color.GRAY);
@@ -343,45 +346,106 @@ public class AdministradorCajeros extends javax.swing.JFrame {
 
         jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 50, 660, 270));
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        AgregarTecnico.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
-        AgregarTecnico.setText("Modificación de Usuario y Contraseña (Cajeros)");
-        jPanel3.add(AgregarTecnico, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
-
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel8.setText("Nombre:");
-        jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, -1));
-
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel10.setText("Usuario:");
-        jPanel3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel4.setText("Contraseña");
-        jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
-        jPanel3.add(NombreCajero, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 440, -1));
-        jPanel3.add(UsuarioCajero, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 440, -1));
-        jPanel3.add(ContraseñaCajero, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 110, 440, -1));
-
-        jButton1.setBackground(new java.awt.Color(80, 35, 100));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Restablecer Contraseña");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 160, -1));
-
-        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 320, 660, 190));
-
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1880, 980));
 
         FondoGris.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Background.jpg"))); // NOI18N
         getContentPane().add(FondoGris, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1920, 1080));
+
+        panelSidebar.setBackground(new java.awt.Color(33, 14, 68));
+        panelSidebar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel15.setText("Panel de Control");
+        panelSidebar.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, -1));
+
+        jPanel7.setBackground(new java.awt.Color(0, 0, 0));
+        panelSidebar.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 230, 30));
+
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cerrarsesion.png"))); // NOI18N
+        panelSidebar.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 1040, 20, 40));
+
+        btnCerrarSesion.setBackground(new java.awt.Color(33, 14, 68));
+        btnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnCerrarSesion.setForeground(new java.awt.Color(241, 241, 241));
+        btnCerrarSesion.setText("Cerrar Sesión");
+        btnCerrarSesion.setBorder(null);
+        btnCerrarSesion.setHorizontalAlignment(SwingConstants.LEFT);
+        btnCerrarSesion.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+        btnCerrarSesion.setIconTextGap(10);
+        btnCerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCerrarSesionMouseExited(evt);
+            }
+        });
+        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarSesionActionPerformed(evt);
+            }
+        });
+        panelSidebar.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 1040, 229, 40));
+
+        btnAdminCajeros.setBackground(new java.awt.Color(33, 14, 68));
+        btnAdminCajeros.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnAdminCajeros.setForeground(new java.awt.Color(241, 241, 241));
+        btnAdminCajeros.setText("Administracion de Cajeros");
+        btnAdminCajeros.setBorder(null);
+        btnAdminCajeros.setHorizontalAlignment(SwingConstants.LEFT);
+        btnAdminCajeros.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+        btnAdminCajeros.setIconTextGap(10);
+        btnAdminCajeros.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnAdminCajerosMouseExited(evt);
+            }
+        });
+        btnAdminCajeros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdminCajerosActionPerformed(evt);
+            }
+        });
+        panelSidebar.add(btnAdminCajeros, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 229, 40));
+
+        btnListaLaboratorios.setBackground(new java.awt.Color(33, 14, 68));
+        btnListaLaboratorios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnListaLaboratorios.setForeground(new java.awt.Color(241, 241, 241));
+        btnListaLaboratorios.setText("Administracion de Doctores");
+        btnListaLaboratorios.setBorder(null);
+        btnListaLaboratorios.setHorizontalAlignment(SwingConstants.LEFT);
+        btnListaLaboratorios.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+        btnListaLaboratorios.setIconTextGap(10);
+        btnListaLaboratorios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnListaLaboratoriosMouseExited(evt);
+            }
+        });
+        btnListaLaboratorios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListaLaboratoriosActionPerformed(evt);
+            }
+        });
+        panelSidebar.add(btnListaLaboratorios, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 229, 40));
+
+        btnReportesPagos.setBackground(new java.awt.Color(33, 14, 68));
+        btnReportesPagos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnReportesPagos.setForeground(new java.awt.Color(241, 241, 241));
+        btnReportesPagos.setText("Reportes de Pagos");
+        btnReportesPagos.setBorder(null);
+        btnReportesPagos.setHorizontalAlignment(SwingConstants.LEFT);
+        btnReportesPagos.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+        btnReportesPagos.setIconTextGap(10);
+        btnReportesPagos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnReportesPagosMouseExited(evt);
+            }
+        });
+        btnReportesPagos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportesPagosActionPerformed(evt);
+            }
+        });
+        panelSidebar.add(btnReportesPagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 229, 40));
+
+        getContentPane().add(panelSidebar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 1080));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -520,13 +584,13 @@ public class AdministradorCajeros extends javax.swing.JFrame {
         try {
             Connection con = Conexion.obtenerConexion();
 
-            String contrasenaEncriptada = BCrypt.hashpw(contrasena, BCrypt.gensalt());
+            String contrasenasinEncriptada = contrasena;
 
             PreparedStatement psUsuario = con.prepareStatement(
                     "INSERT INTO usuarios (username, contrasena, rol, activo) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS
             );
             psUsuario.setString(1, username);
-            psUsuario.setString(2, contrasenaEncriptada); // ← aquí se inserta ya encriptada
+            psUsuario.setString(2, contrasenasinEncriptada); 
             psUsuario.setString(3, "Cajero");
             psUsuario.setInt(4, 1);
             psUsuario.executeUpdate();
@@ -691,9 +755,46 @@ public class AdministradorCajeros extends javax.swing.JFrame {
 
     }//GEN-LAST:event_HabilitarDeshabilitarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnCerrarSesionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarSesionMouseExited
+
+    }//GEN-LAST:event_btnCerrarSesionMouseExited
+
+    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
+        Login cerrar = new Login();
+        cerrar.setLocationRelativeTo(null);
+        cerrar.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCerrarSesionActionPerformed
+
+    private void btnAdminCajerosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdminCajerosMouseExited
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnAdminCajerosMouseExited
+
+    private void btnAdminCajerosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminCajerosActionPerformed
+
+    }//GEN-LAST:event_btnAdminCajerosActionPerformed
+
+    private void btnListaLaboratoriosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnListaLaboratoriosMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnListaLaboratoriosMouseExited
+
+    private void btnListaLaboratoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListaLaboratoriosActionPerformed
+        AdministradorDoctores admindoc = new AdministradorDoctores();
+        admindoc.setLocationRelativeTo(null);
+        admindoc.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnListaLaboratoriosActionPerformed
+
+    private void btnReportesPagosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportesPagosMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnReportesPagosMouseExited
+
+    private void btnReportesPagosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesPagosActionPerformed
+        ReportespagarMedico reportpag = new ReportespagarMedico();
+        reportpag.setLocationRelativeTo(null);
+        reportpag.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnReportesPagosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -720,11 +821,9 @@ public class AdministradorCajeros extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel AgregarTecnico;
     private javax.swing.JLabel AgregarTecnico1;
     private javax.swing.JTextField Apellido;
     private javax.swing.JTextField CI;
-    private javax.swing.JTextField ContraseñaCajero;
     private javax.swing.JTextField Direccion;
     private com.toedter.calendar.JDateChooser FechaNacimiento;
     private javax.swing.JLabel FondoGris;
@@ -732,32 +831,33 @@ public class AdministradorCajeros extends javax.swing.JFrame {
     private javax.swing.JTextField ID;
     private javax.swing.JLabel ListaPersonal;
     private javax.swing.JTextField Nombre;
-    private javax.swing.JTextField NombreCajero;
     private javax.swing.JPanel Superior;
     private javax.swing.JTable TablaCajeros;
     private javax.swing.JTextField Telefono;
-    private javax.swing.JTextField UsuarioCajero;
+    private javax.swing.JButton btnAdminCajeros;
+    private javax.swing.JButton btnCerrarSesion;
+    private javax.swing.JButton btnListaLaboratorios;
+    private javax.swing.JButton btnReportesPagos;
     private javax.swing.JButton eliminar;
     private javax.swing.JButton guardar;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton limpiar;
     private javax.swing.JButton modificar;
+    private javax.swing.JPanel panelSidebar;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,6 +5,7 @@
 package ConexionLogin;
 
 import Administrador.AdministradorDoctores;
+import Servicios.GenerarFicha;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -19,6 +20,7 @@ import javax.swing.JPanel;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
 import javax.swing.UIManager;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -146,7 +148,7 @@ public class Login extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-public class RoundedPanel extends JPanel {
+    public class RoundedPanel extends JPanel {
 
         private int arcWidth = 30;
         private int arcHeight = 30;
@@ -178,53 +180,54 @@ public class RoundedPanel extends JPanel {
     }//GEN-LAST:event_btnMostrarContraseñaActionPerformed
 
     private void contrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contrasenaActionPerformed
-String textoActual = String.valueOf(contrasena.getPassword());
-Color colorTexto = contrasena.getForeground();
-if (textoActual.equals("Ingrese su contraseña") && colorTexto.equals(Color.LIGHT_GRAY)) {
-    return;
-}
+        String textoActual = String.valueOf(contrasena.getPassword());
+        Color colorTexto = contrasena.getForeground();
+        if (textoActual.equals("Ingrese su contraseña") && colorTexto.equals(Color.LIGHT_GRAY)) {
+            return;
+        }
 
-// Mostrar u ocultar
-if (contrasena.getEchoChar() == '•') {
-    contrasena.setEchoChar((char) 0);
-    btnMostrarContraseña.setIcon(ojoMostrar);
-} else {
-    contrasena.setEchoChar('•');
-    btnMostrarContraseña.setIcon(ojoOcultar);
-}
+        if (contrasena.getEchoChar() == '•') {
+            contrasena.setEchoChar((char) 0);
+            btnMostrarContraseña.setIcon(ojoMostrar);
+        } else {
+            contrasena.setEchoChar('•');
+            btnMostrarContraseña.setIcon(ojoOcultar);
+        }
     }//GEN-LAST:event_contrasenaActionPerformed
 
     private void IniciaSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IniciaSesionActionPerformed
-String user = usuario.getText();
-@SuppressWarnings("deprecation")
-String pass = contrasena.getText();
+        String user = usuario.getText();
+        @SuppressWarnings("deprecation")
+        String pass = contrasena.getText();
 
-lblErrorUsuario.setText("");
-lblErrorContrasena.setText("");
-lblErrorUsuario.setIcon(null);
-lblErrorContrasena.setIcon(null);
+        lblErrorUsuario.setText("");
+        lblErrorContrasena.setText("");
+        lblErrorUsuario.setIcon(null);
+        lblErrorContrasena.setIcon(null);
 
-boolean camposValidos = true;
+        boolean camposValidos = true;
 
-if (user.isEmpty() || user.equals("Ingrese su usuario")) {
-    ImageIcon iconoAdvertencia = new ImageIcon(getClass().getResource("/imagenes/Exclamacion3.png"));
-    lblErrorUsuario.setIcon(iconoAdvertencia);
-    lblErrorUsuario.setText("Por favor introduzca un usuario.");
-    camposValidos = false;
-}
-if (pass.isEmpty() || pass.equals("Ingrese su contraseña")) {
-    ImageIcon iconoAdvertencia = new ImageIcon(getClass().getResource("/imagenes/Exclamacion3.png"));
-    lblErrorContrasena.setIcon(iconoAdvertencia);
-    lblErrorContrasena.setText("Por favor introduzca una contraseña.");
-    camposValidos = false;
-}
+        if (user.isEmpty() || user.equals("Ingrese su usuario")) {
+            ImageIcon iconoAdvertencia = new ImageIcon(getClass().getResource("/imagenes/Exclamacion3.png"));
+            lblErrorUsuario.setIcon(iconoAdvertencia);
+            lblErrorUsuario.setText("Por favor introduzca un usuario.");
+            camposValidos = false;
+        }
+        if (pass.isEmpty() || pass.equals("Ingrese su contraseña")) {
+            ImageIcon iconoAdvertencia = new ImageIcon(getClass().getResource("/imagenes/Exclamacion3.png"));
+            lblErrorContrasena.setIcon(iconoAdvertencia);
+            lblErrorContrasena.setText("Por favor introduzca una contraseña.");
+            camposValidos = false;
+        }
 
-if (!camposValidos) {
-    return;
-}
+        if (!camposValidos) {
+            return;
+        }
+
+        String query = "SELECT * FROM usuarios WHERE username = ?";
+
         try {
             Connection con = Conexion.obtenerConexion();
-            String query = "SELECT * FROM usuarios WHERE username = ?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1, user);
             ResultSet rs = ps.executeQuery();
@@ -233,22 +236,31 @@ if (!camposValidos) {
                 String p = rs.getString("contrasena");
                 String priv = rs.getString("rol");
                 boolean activo = rs.getBoolean("activo");
+                int idusuario = rs.getInt("id_usuario");
 
                 if (activo) {
-                    if ("Administrador".equals(priv)) {
+                    if (priv.equals("Administrador") || priv.equals("Cajero")) {
                         if (pass.equals(p)) {
-                            AdministradorDoctores ventanaadmin = new AdministradorDoctores();
-                            ventanaadmin.setVisible(true);
+                            if (priv.equals("Administrador")) {
+                                AdministradorDoctores ventanaadmin = new AdministradorDoctores();
+                                ventanaadmin.setVisible(true);
+                            } else if (priv.equals("Cajero")) {
+                                GenerarFicha ventanaCajero = new GenerarFicha(idusuario);
+                                ventanaCajero.setVisible(true);
+                            }
+
                             this.dispose();
                         } else {
-                            JOptionPane.showMessageDialog(null, "La contraseña no es correcta.");
+                            JOptionPane.showMessageDialog(null, "LA CONTRASEÑA NO ES CORRECTA");
                         }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "ROL NO PERMITIDO.");
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Su usuario está inactivo. Contacte al administrador.");
+                    JOptionPane.showMessageDialog(null, "SU USUARIO ESTÁ INACTIVO. CONTACTE AL ADMINISTRADOR.");
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "El usuario no existe.");
+                JOptionPane.showMessageDialog(null, "EL USUARIO NO EXISTE");
             }
         } catch (SQLException ex) {
             System.out.println(ex.toString());

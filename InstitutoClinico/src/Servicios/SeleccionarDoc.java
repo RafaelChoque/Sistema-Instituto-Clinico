@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
@@ -22,6 +23,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import java.text.Normalizer;
 
 /**
  *
@@ -32,13 +34,19 @@ public class SeleccionarDoc extends javax.swing.JFrame {
     /**
      * Creates new form SeleccionarDoc
      */
-    public SeleccionarDoc() {
+    private JTextField campoDestino;
+    public SeleccionarDoc(JTextField campoDestino) {
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
+        this.campoDestino = campoDestino;
         cargarTabla();
 
         
+    }
+
+    private SeleccionarDoc() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     /**
@@ -56,6 +64,8 @@ public class SeleccionarDoc extends javax.swing.JFrame {
         DatosMedico = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         btnGuardar = new javax.swing.JButton();
+        BuscarDoctores = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
         FondoGris1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -66,14 +76,14 @@ public class SeleccionarDoc extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Nombre", "Apellido", "CI", "Teléfono", "Fecha de Nacimiento", "Dirección", "Categoria Profesional", "Especialidad"
+                "ID", "Nombre", "Apellido", "CI", "Categoria Profesional", "Especialidad"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -95,11 +105,11 @@ public class SeleccionarDoc extends javax.swing.JFrame {
         TablaMedicos.setFocusable(false);
         jScrollPane1.setViewportView(TablaMedicos);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 1090, 430));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 1090, 430));
 
         ListaPersonal.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
         ListaPersonal.setText("Seleccionar Médico");
-        getContentPane().add(ListaPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 340, -1));
+        getContentPane().add(ListaPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 340, -1));
 
         DatosMedico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -120,6 +130,90 @@ public class SeleccionarDoc extends javax.swing.JFrame {
         });
         getContentPane().add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 110, -1, -1));
 
+        BuscarDoctores.setBackground(new java.awt.Color(233, 236, 239));
+        BuscarDoctores.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        BuscarDoctores.setText("Buscar");
+        BuscarDoctores.setToolTipText("");
+        BuscarDoctores.setBorder(null);
+        BuscarDoctores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BuscarDoctoresActionPerformed(evt);
+            }
+        });
+        getContentPane().add(BuscarDoctores, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 70, 140, 20));
+        String placeholder = "Buscar Doctor";
+
+        BuscarDoctores.setText(placeholder);
+        BuscarDoctores.setForeground(Color.GRAY);
+
+        BuscarDoctores.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (BuscarDoctores.getText().equals(placeholder)) {
+                    BuscarDoctores.setText("");
+                    BuscarDoctores.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (BuscarDoctores.getText().isEmpty()) {
+                    BuscarDoctores.setText(placeholder);
+                    BuscarDoctores.setForeground(Color.GRAY);
+                }
+            }
+        });
+
+        BuscarDoctores.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                filterTable();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filterTable();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                filterTable();
+            }
+
+            private void filterTable() {
+                String query = quitarTildes(BuscarDoctores.getText().toLowerCase().trim());
+
+                if (query.equals(quitarTildes(placeholder.toLowerCase()))) {
+                    TablaMedicos.setRowSorter(null);
+                    return;
+                }
+
+                TableRowSorter<TableModel> sorter = (TableRowSorter<TableModel>) TablaMedicos.getRowSorter();
+                if (sorter == null) {
+                    sorter = new TableRowSorter<>(TablaMedicos.getModel());
+                    TablaMedicos.setRowSorter(sorter);
+                }
+
+                if (query.isEmpty()) {
+                    sorter.setRowFilter(null);
+                } else {
+                    sorter.setRowFilter(new RowFilter<TableModel, Integer>() {
+                        @Override
+                        public boolean include(Entry<? extends TableModel, ? extends Integer> entry) {
+                            // Columnas 1 (nombre) y 2 (apellido)
+                            String nombre = quitarTildes(entry.getStringValue(1).toLowerCase());
+                            String apellido = quitarTildes(entry.getStringValue(2).toLowerCase());
+                            return nombre.contains(query) || apellido.contains(query);
+                        }
+                    });
+                }
+            }
+
+        });
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo_1.png"))); // NOI18N
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 190, 40));
+
         FondoGris1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo_3.png"))); // NOI18N
         getContentPane().add(FondoGris1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1150, 620));
 
@@ -127,50 +221,83 @@ public class SeleccionarDoc extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     private void cargarTabla() {
         DefaultTableModel modelo = new DefaultTableModel();
-        modelo.setColumnIdentifiers(new Object[]{
-            "ID", "CI", "Nombre", "Apellido", "Fecha Nacimiento", "Teléfono", "Dirección", "Categoría Profesional", "Especialidad"
-        });
+        modelo.addColumn("ID");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Apellido");
+        modelo.addColumn("CI");
+        modelo.addColumn("Categoría Profesional");
+        modelo.addColumn("Especialidad");
+
+        String docBuscado = DatosMedico.getText().trim();
 
         try {
             Connection con = Conexion.obtenerConexion();
-            PreparedStatement ps = con.prepareStatement(
-                    "SELECT id_medico, CI, nombre, apellido, fecha_nacimiento, telefono, direccion, categoria_profesional, categoria_profesional_otro, especialidad FROM medicos WHERE estado = 1 "
-            );
-            ResultSet rs = ps.executeQuery();
+            String sql;
+
+            if (docBuscado.isEmpty()) {
+                // Mostrar todos los médicos activos
+                sql = "SELECT id_medico, CI, nombre, apellido, categoria_profesional, categoria_profesional_otro, especialidad FROM medicos WHERE estado = 1";
+            } else {
+                // Buscar por CI, Nombre o Apellido que contengan el texto buscado
+                sql = "SELECT id_medico, CI, nombre, apellido, categoria_profesional, categoria_profesional_otro, especialidad FROM medicos WHERE estado = 1 AND (CI LIKE ? OR nombre LIKE ? OR apellido LIKE ?)";
+            }
+
+            PreparedStatement pst = con.prepareStatement(sql);
+
+            if (!docBuscado.isEmpty()) {
+                String filtro = "%" + docBuscado + "%";
+                pst.setString(1, filtro);
+                pst.setString(2, filtro);
+                pst.setString(3, filtro);
+            }
+
+            ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {
                 String categoria = rs.getString("categoria_profesional");
                 String otro = rs.getString("categoria_profesional_otro");
 
                 String categoriaMostrar;
-                if ("Otro".equalsIgnoreCase(categoria)) {
-                    categoriaMostrar = (otro != null && !otro.trim().isEmpty()) ? otro : "Otro";
+                if ("Otro".equalsIgnoreCase(categoria) && otro != null && !otro.trim().isEmpty()) {
+                    categoriaMostrar = otro;
                 } else {
                     categoriaMostrar = categoria;
                 }
 
-                modelo.addRow(new Object[]{
-                    rs.getInt("id_medico"),
-                    rs.getString("CI"),
-                    rs.getString("nombre"),
-                    rs.getString("apellido"),
-                    rs.getDate("fecha_nacimiento"),
-                    rs.getString("telefono"),
-                    rs.getString("direccion"),
-                    categoriaMostrar,
-                    rs.getString("especialidad")
-                });
+                Object[] fila = new Object[6];
+                fila[0] = rs.getInt("id_medico");
+                fila[1] = rs.getString("nombre");
+                fila[2] = rs.getString("apellido");
+                fila[3] = rs.getString("CI");
+                fila[4] = categoriaMostrar;
+                fila[5] = rs.getString("especialidad");
+
+                modelo.addRow(fila);
             }
 
             TablaMedicos.setModel(modelo);
 
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al cargar los médicos: " + ex.getMessage());
-            ex.printStackTrace();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar los médicos: " + e.getMessage());
         }
     }
-    private void TablaMedicosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaMedicosMouseClicked
 
+    private String quitarTildes(String texto) {
+        if (texto == null) {
+            return "";
+        }
+        texto = Normalizer.normalize(texto, Normalizer.Form.NFD);
+        return texto.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+    }
+    
+    private void TablaMedicosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaMedicosMouseClicked
+        int filaSeleccionada = TablaMedicos.getSelectedRow();
+        if (filaSeleccionada != -1) {
+            String nombre = TablaMedicos.getValueAt(filaSeleccionada, 1).toString();
+            String apellido = TablaMedicos.getValueAt(filaSeleccionada, 2).toString();
+            String nombreCompleto = nombre + " " + apellido;
+            DatosMedico.setText(nombreCompleto);
+        }
     }//GEN-LAST:event_TablaMedicosMouseClicked
 
     private void DatosMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DatosMedicoActionPerformed
@@ -178,8 +305,21 @@ public class SeleccionarDoc extends javax.swing.JFrame {
     }//GEN-LAST:event_DatosMedicoActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
+        int filaSeleccionada = TablaMedicos.getSelectedRow();
+        if (filaSeleccionada != -1) {
+            String nombre = TablaMedicos.getValueAt(filaSeleccionada, 1).toString();
+            String apellido = TablaMedicos.getValueAt(filaSeleccionada, 2).toString();
+            String nombreCompleto = nombre + " " + apellido;
+            campoDestino.setText(nombreCompleto);
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione un doctor para guardar.");
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void BuscarDoctoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarDoctoresActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BuscarDoctoresActionPerformed
 
     /**
      * @param args the command line arguments
@@ -206,15 +346,14 @@ public class SeleccionarDoc extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField BuscarDoctores;
     private javax.swing.JTextField DatosMedico;
     private javax.swing.JLabel FondoGris1;
     private javax.swing.JLabel ListaPersonal;
     private javax.swing.JTable TablaMedicos;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }

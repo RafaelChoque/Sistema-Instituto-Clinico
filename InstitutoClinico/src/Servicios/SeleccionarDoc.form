@@ -31,7 +31,7 @@
       </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="40" y="150" width="1090" height="430"/>
+          <AbsoluteConstraints x="30" y="150" width="1090" height="430"/>
         </Constraint>
       </Constraints>
 
@@ -40,35 +40,17 @@
         <Component class="javax.swing.JTable" name="TablaMedicos">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="9" rowCount="0">
+              <Table columnCount="6" rowCount="0">
                 <Column editable="false" title="ID" type="java.lang.Integer"/>
                 <Column editable="false" title="Nombre" type="java.lang.String"/>
                 <Column editable="false" title="Apellido" type="java.lang.String"/>
                 <Column editable="false" title="CI" type="java.lang.Integer"/>
-                <Column editable="false" title="Tel&#xe9;fono" type="java.lang.Integer"/>
-                <Column editable="false" title="Fecha de Nacimiento" type="java.lang.String"/>
-                <Column editable="false" title="Direcci&#xf3;n" type="java.lang.String"/>
                 <Column editable="false" title="Categoria Profesional" type="java.lang.String"/>
                 <Column editable="false" title="Especialidad" type="java.lang.String"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
@@ -123,7 +105,7 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="40" y="20" width="340" height="-1"/>
+          <AbsoluteConstraints x="40" y="30" width="340" height="-1"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -160,6 +142,44 @@
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="450" y="110" width="-1" height="-1"/>
+        </Constraint>
+      </Constraints>
+    </Component>
+    <Component class="javax.swing.JTextField" name="BuscarDoctores">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ef" green="ec" red="e9" type="rgb"/>
+        </Property>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="18" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Buscar"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="null"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BuscarDoctoresActionPerformed"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="String placeholder = &quot;Buscar Doctor&quot;;&#xa;&#xa;BuscarDoctores.setText(placeholder);&#xa;BuscarDoctores.setForeground(Color.GRAY);&#xa;&#xa;BuscarDoctores.addFocusListener(new FocusAdapter() {&#xa;    @Override&#xa;    public void focusGained(FocusEvent e) {&#xa;        if (BuscarDoctores.getText().equals(placeholder)) {&#xa;            BuscarDoctores.setText(&quot;&quot;);&#xa;            BuscarDoctores.setForeground(Color.BLACK);&#xa;        }&#xa;    }&#xa;&#xa;    @Override&#xa;    public void focusLost(FocusEvent e) {&#xa;        if (BuscarDoctores.getText().isEmpty()) {&#xa;            BuscarDoctores.setText(placeholder);&#xa;            BuscarDoctores.setForeground(Color.GRAY);&#xa;        }&#xa;    }&#xa;});&#xa;&#xa;BuscarDoctores.getDocument().addDocumentListener(new DocumentListener() {&#xa;    @Override&#xa;    public void insertUpdate(DocumentEvent e) {&#xa;        filterTable();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void removeUpdate(DocumentEvent e) {&#xa;        filterTable();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void changedUpdate(DocumentEvent e) {&#xa;        filterTable();&#xa;    }&#xa;&#xa;private void filterTable() {&#xa;    String query = quitarTildes(BuscarDoctores.getText().toLowerCase().trim());&#xa;&#xa;    if (query.equals(quitarTildes(placeholder.toLowerCase()))) {&#xa;        TablaMedicos.setRowSorter(null);&#xa;        return;&#xa;    }&#xa;&#xa;    TableRowSorter&lt;TableModel&gt; sorter = (TableRowSorter&lt;TableModel&gt;) TablaMedicos.getRowSorter();&#xa;    if (sorter == null) {&#xa;        sorter = new TableRowSorter&lt;&gt;(TablaMedicos.getModel());&#xa;        TablaMedicos.setRowSorter(sorter);&#xa;    }&#xa;&#xa;    if (query.isEmpty()) {&#xa;        sorter.setRowFilter(null);&#xa;    } else {&#xa;        sorter.setRowFilter(new RowFilter&lt;TableModel, Integer&gt;() {&#xa;            @Override&#xa;            public boolean include(Entry&lt;? extends TableModel, ? extends Integer&gt; entry) {&#xa;                // Columnas 1 (nombre) y 2 (apellido)&#xa;                String nombre = quitarTildes(entry.getStringValue(1).toLowerCase());&#xa;                String apellido = quitarTildes(entry.getStringValue(2).toLowerCase());&#xa;                return nombre.contains(query) || apellido.contains(query);&#xa;            }&#xa;        });&#xa;    }&#xa;}&#xa;&#xa;&#xa;});"/>
+      </AuxValues>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+          <AbsoluteConstraints x="80" y="70" width="140" height="20"/>
+        </Constraint>
+      </Constraints>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel2">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/Imagenes/Fondo_1.png"/>
+        </Property>
+      </Properties>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+          <AbsoluteConstraints x="40" y="60" width="190" height="40"/>
         </Constraint>
       </Constraints>
     </Component>
