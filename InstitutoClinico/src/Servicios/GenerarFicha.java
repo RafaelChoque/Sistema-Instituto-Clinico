@@ -4,8 +4,17 @@
  */
 package Servicios;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
+import javax.swing.*;
+import java.awt.Desktop;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import ConexionLogin.Conexion;
+import ConexionLogin.Session;
 import com.formdev.flatlaf.FlatLightLaf;
+import com.itextpdf.text.pdf.draw.LineSeparator;
 import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -29,7 +38,9 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import java.text.Normalizer ;
+import java.text.Normalizer;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  *
@@ -43,7 +54,7 @@ public class GenerarFicha extends javax.swing.JFrame {
      * @param idusuario
      */
     private int idusuario;
-    
+
     private DefaultListModel<String> modeloLista = new DefaultListModel<>();
 
     public GenerarFicha(int idusuario) {
@@ -57,6 +68,257 @@ public class GenerarFicha extends javax.swing.JFrame {
 
     private GenerarFicha() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public void generarFichaFormatoRecibo(
+            String nombrePaciente, String apellidoPaciente, String nombreDoctor,
+            Date fecha, Date hora, String formaPago, String medioPago,
+            double total, ListModel<Servicio> servicios,
+            int numeroFicha, int anioFicha, Date fechaGuardado, String nombreUsuario) {
+
+        try {
+            String nombreArchivo = String.format("ficha_%s_%d.pdf", nombrePaciente.replaceAll("\\s+", ""), System.currentTimeMillis());
+            File pdfFile = new File(nombreArchivo);
+
+            int alturaMinima = 260; 
+            int altura = alturaMinima + servicios.getSize() * 8;  
+            Rectangle pageSize = new Rectangle(226, altura);
+            Document document = new Document(pageSize, 5f, 4f, 5f, 5f);
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfFile));
+            document.open();
+
+            Font fontNormal = new Font(Font.FontFamily.COURIER, 8, Font.NORMAL);
+            Font fontBold = new Font(Font.FontFamily.COURIER, 8, Font.BOLD);
+            Font fontTitulo = new Font(Font.FontFamily.COURIER, 12, Font.BOLD);
+            Font fontLinea = new Font(Font.FontFamily.COURIER, 5, Font.NORMAL);
+
+            Image logo = Image.getInstance("src/Imagenes/LogoSantaFe.jpg");
+            logo.scaleToFit(70, 70); 
+            logo.setAlignment(Image.ALIGN_LEFT);
+            document.add(logo);
+
+            PdfPTable tablaCabecera = new PdfPTable(1);
+            tablaCabecera.setWidthPercentage(100);
+            tablaCabecera.setSpacingBefore(2f);
+            tablaCabecera.setSpacingAfter(2f);
+            tablaCabecera.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+
+            PdfPCell cellCentro = new PdfPCell(new Phrase(new Chunk("Centro Médico Santa Fe", fontTitulo)));
+            cellCentro.setBorder(Rectangle.NO_BORDER);
+            cellCentro.setPaddingTop(2f);
+            cellCentro.setPaddingBottom(2f);
+            cellCentro.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tablaCabecera.addCell(cellCentro);
+
+            PdfPCell cellDireccion = new PdfPCell(new Phrase(new Chunk("Zona Villa Bolívar Forno\nAv. Tiahuanacu N°17a\nLa Paz - Bolivia", fontNormal)));
+            cellDireccion.setBorder(Rectangle.NO_BORDER);
+            cellDireccion.setPaddingTop(2f);
+            cellDireccion.setPaddingBottom(2f);
+            cellDireccion.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tablaCabecera.addCell(cellDireccion);
+
+            PdfPCell cellSeparador1 = new PdfPCell(new Phrase(new Chunk("--------------------------", fontLinea)));
+            cellSeparador1.setBorder(Rectangle.NO_BORDER);
+            cellSeparador1.setPaddingTop(0f);
+            cellSeparador1.setPaddingBottom(0f);
+            cellSeparador1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tablaCabecera.addCell(cellSeparador1);
+
+            PdfPCell cellRecibo = new PdfPCell(new Phrase(new Chunk(String.format("Recibo Nº %d/%02d", numeroFicha, anioFicha), fontNormal)));
+            cellRecibo.setBorder(Rectangle.NO_BORDER);
+            cellRecibo.setPaddingTop(0f);
+            cellRecibo.setPaddingBottom(0f);
+            cellRecibo.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tablaCabecera.addCell(cellRecibo);
+
+            PdfPCell cellSeparador2 = new PdfPCell(new Phrase(new Chunk("--------------------------", fontLinea)));
+            cellSeparador2.setBorder(Rectangle.NO_BORDER);
+            cellSeparador2.setPaddingTop(0f);
+            cellSeparador2.setPaddingBottom(0f);
+            cellSeparador2.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tablaCabecera.addCell(cellSeparador2);
+
+            document.add(tablaCabecera);
+
+            SimpleDateFormat sdfFecha = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat sdfHora = new SimpleDateFormat("HH:mm");
+            String fechaStr = sdfFecha.format(fecha);
+            String horaStr = sdfHora.format(hora);
+
+            PdfPTable tablaDatos = new PdfPTable(1);
+            tablaDatos.setWidthPercentage(100);
+            tablaDatos.setSpacingBefore(0f);
+            tablaDatos.setSpacingAfter(0f);
+            tablaDatos.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+
+            PdfPCell cellFecha = new PdfPCell(new Phrase(new Chunk("Fecha emisión: " + fechaStr, fontNormal)));
+            cellFecha.setBorder(Rectangle.NO_BORDER);
+            cellFecha.setPaddingTop(2f);
+            cellFecha.setPaddingBottom(2f);
+            tablaDatos.addCell(cellFecha);
+
+            PdfPCell cellPaciente = new PdfPCell(new Phrase(new Chunk("Paciente: " + nombrePaciente + " " + apellidoPaciente, fontNormal)));
+            cellPaciente.setBorder(Rectangle.NO_BORDER);
+            cellPaciente.setPaddingTop(2f);
+            cellPaciente.setPaddingBottom(2f);
+            tablaDatos.addCell(cellPaciente);
+
+            PdfPCell cellDoctor = new PdfPCell(new Phrase(new Chunk("Médico Responsable: " + nombreDoctor, fontNormal)));
+            cellDoctor.setBorder(Rectangle.NO_BORDER);
+            cellDoctor.setPaddingTop(2f);
+            cellDoctor.setPaddingBottom(2f);
+            tablaDatos.addCell(cellDoctor);
+
+            PdfPCell cellFechaHora = new PdfPCell(new Phrase(new Chunk("Fecha atención: " + fechaStr + "    Hora: " + horaStr, fontNormal)));
+            cellFechaHora.setBorder(Rectangle.NO_BORDER);
+            cellFechaHora.setPaddingTop(2f);
+            cellFechaHora.setPaddingBottom(2f);
+            tablaDatos.addCell(cellFechaHora);
+
+            PdfPCell cellSeparadorDatos = new PdfPCell(new Phrase(new Chunk("-----------------------------------------------------------------------", fontLinea)));
+            cellSeparadorDatos.setBorder(Rectangle.NO_BORDER);
+            cellSeparadorDatos.setPaddingTop(0f);
+            cellSeparadorDatos.setPaddingBottom(0f);
+            tablaDatos.addCell(cellSeparadorDatos);
+
+            document.add(tablaDatos);
+
+            PdfPTable tablaServicios = new PdfPTable(2);
+            tablaServicios.setWidthPercentage(100);
+            tablaServicios.setSpacingBefore(0f);
+            tablaServicios.setSpacingAfter(0f);
+            tablaServicios.setWidths(new float[]{2f, 1f});
+            tablaServicios.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+
+            PdfPCell cabeceraDetalle = new PdfPCell(new Phrase(new Chunk("Detalle", fontBold)));
+            cabeceraDetalle.setBorder(Rectangle.NO_BORDER);
+            cabeceraDetalle.setPaddingTop(0f);
+            cabeceraDetalle.setPaddingBottom(0f);
+            cabeceraDetalle.setHorizontalAlignment(Element.ALIGN_LEFT);
+            tablaServicios.addCell(cabeceraDetalle);
+
+            PdfPCell cabeceraPrecio = new PdfPCell(new Phrase(new Chunk("Precio (Bs)", fontBold)));
+            cabeceraPrecio.setBorder(Rectangle.NO_BORDER);
+            cabeceraPrecio.setPaddingTop(0f);
+            cabeceraPrecio.setPaddingBottom(0f);
+            cabeceraPrecio.setHorizontalAlignment(Element.ALIGN_RIGHT); 
+            tablaServicios.addCell(cabeceraPrecio);
+
+            PdfPCell lineaSeparadora = new PdfPCell(new Phrase(new Chunk("-----------------------------------------------------------------------", fontLinea)));
+            lineaSeparadora.setColspan(2);
+            lineaSeparadora.setBorder(Rectangle.NO_BORDER);
+            lineaSeparadora.setPaddingTop(0f);
+            lineaSeparadora.setPaddingBottom(0f);
+            tablaServicios.addCell(lineaSeparadora);
+
+            for (int i = 0; i < servicios.getSize(); i++) {
+                Servicio servicio = servicios.getElementAt(i);
+
+                PdfPCell celdaNombre = new PdfPCell(new Phrase(new Chunk(servicio.getNombre(), fontNormal)));
+                celdaNombre.setBorder(Rectangle.NO_BORDER);
+                celdaNombre.setHorizontalAlignment(Element.ALIGN_LEFT);
+                celdaNombre.setPaddingTop(0f);
+                celdaNombre.setPaddingBottom(0f);
+                celdaNombre.setMinimumHeight(0f);
+
+                PdfPCell celdaPrecio = new PdfPCell(new Phrase(new Chunk(String.format("%.2f", servicio.getPrecio()), fontNormal)));
+                celdaPrecio.setBorder(Rectangle.NO_BORDER);
+                celdaPrecio.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                celdaPrecio.setPaddingTop(0f);
+                celdaPrecio.setPaddingBottom(0f);
+                celdaPrecio.setMinimumHeight(0f);
+
+                tablaServicios.addCell(celdaNombre);
+                tablaServicios.addCell(celdaPrecio);
+            }
+
+            document.add(tablaServicios);
+
+            PdfPTable tablaSeparador1 = new PdfPTable(1);
+            tablaSeparador1.setWidthPercentage(100);
+            tablaSeparador1.setSpacingBefore(0f);
+            tablaSeparador1.setSpacingAfter(0f);
+            tablaSeparador1.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+
+            PdfPCell separador1 = new PdfPCell(new Phrase(new Chunk("-----------------------------------------------------------------------", fontLinea)));
+            separador1.setBorder(Rectangle.NO_BORDER);
+            separador1.setPaddingTop(0f);
+            separador1.setPaddingBottom(0f);
+            tablaSeparador1.addCell(separador1);
+            document.add(tablaSeparador1);
+
+            PdfPTable tablaTotal = new PdfPTable(2);
+            tablaTotal.setWidthPercentage(100);
+            tablaTotal.setSpacingBefore(0f);
+            tablaTotal.setSpacingAfter(0f);
+            tablaTotal.setWidths(new float[]{2f, 1f});
+            tablaTotal.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+
+            PdfPCell celdaTextoTotal = new PdfPCell(new Phrase(new Chunk("Total:", fontBold)));
+            celdaTextoTotal.setBorder(Rectangle.NO_BORDER);
+            celdaTextoTotal.setHorizontalAlignment(Element.ALIGN_LEFT);  
+            celdaTextoTotal.setPaddingTop(0f);
+            celdaTextoTotal.setPaddingBottom(0f);
+            celdaTextoTotal.setMinimumHeight(0f);
+
+            PdfPCell celdaMontoTotal = new PdfPCell(new Phrase(new Chunk("Bs " + String.format("%.2f", total), fontBold)));
+            celdaMontoTotal.setBorder(Rectangle.NO_BORDER);
+            celdaMontoTotal.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            celdaMontoTotal.setPaddingTop(0f);
+            celdaMontoTotal.setPaddingBottom(0f);
+            celdaMontoTotal.setMinimumHeight(0f);
+
+            tablaTotal.addCell(celdaTextoTotal);
+            tablaTotal.addCell(celdaMontoTotal);
+            document.add(tablaTotal);
+
+            PdfPTable tablaSeparador2 = new PdfPTable(1);
+            tablaSeparador2.setWidthPercentage(100);
+            tablaSeparador2.setSpacingBefore(0f);
+            tablaSeparador2.setSpacingAfter(0f);
+            tablaSeparador2.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+
+            PdfPCell separador2 = new PdfPCell(new Phrase(new Chunk("-----------------------------------------------------------------------", fontLinea)));
+            separador2.setBorder(Rectangle.NO_BORDER);
+            separador2.setPaddingTop(0f);
+            separador2.setPaddingBottom(0f);
+            tablaSeparador2.addCell(separador2);
+            document.add(tablaSeparador2);
+
+            PdfPTable tablaInfo = new PdfPTable(1);
+            tablaInfo.setWidthPercentage(100);
+            tablaInfo.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+
+            tablaInfo.addCell(new Phrase("Forma de pago: " + formaPago, fontNormal));
+            tablaInfo.addCell(new Phrase("Medio de pago: " + medioPago, fontNormal));
+            tablaInfo.addCell(new Phrase("Usuario responsable: " + nombreUsuario, fontNormal));
+
+            PdfPCell espacio = new PdfPCell(new Phrase(" "));
+            espacio.setBorder(Rectangle.NO_BORDER);
+            espacio.setFixedHeight(10f); 
+            tablaInfo.addCell(espacio);
+
+            PdfPCell cellGracias = new PdfPCell(new Phrase("¡Gracias por su confianza!", fontNormal));
+            cellGracias.setBorder(Rectangle.NO_BORDER);
+            cellGracias.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tablaInfo.addCell(cellGracias);
+            document.add(tablaInfo);
+
+            document.close();
+            writer.flush();
+            writer.close();
+
+            if (Desktop.isDesktopSupported()) {
+                try {
+                    Desktop.getDesktop().open(pdfFile);
+                } catch (Exception ex) {
+                }
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al generar PDF: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -259,16 +521,16 @@ public class GenerarFicha extends javax.swing.JFrame {
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
 
         jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel17.setText("Hora de Atencion");
+        jLabel17.setText("Hora de Atencion:");
         jPanel3.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
-        jPanel3.add(FechaAtencion, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 70, 270, -1));
+        jPanel3.add(FechaAtencion, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 70, 310, -1));
 
         NombreDoctor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NombreDoctorActionPerformed(evt);
             }
         });
-        jPanel3.add(NombreDoctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 40, 270, -1));
+        jPanel3.add(NombreDoctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 40, 310, -1));
 
         SeleccionarDoc.setBackground(new java.awt.Color(29, 41, 57));
         SeleccionarDoc.setForeground(new java.awt.Color(255, 255, 255));
@@ -283,10 +545,10 @@ public class GenerarFicha extends javax.swing.JFrame {
         Hora.setModel(new SpinnerDateModel());
         JSpinner.DateEditor horaficha = new JSpinner.DateEditor(Hora, "HH:mm");
         Hora.setEditor(horaficha);
-        jPanel3.add(Hora, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 100, 70, -1));
+        jPanel3.add(Hora, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 100, 70, -1));
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel18.setText("Fecha de Atencion");
+        jLabel18.setText("Fecha de Atencion:");
         jPanel3.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, -1, -1));
 
         jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 160, 670, 150));
@@ -298,11 +560,11 @@ public class GenerarFicha extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel4.setText("Nombre del Paciente:");
+        jLabel4.setText("Nombre:");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, 20));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel5.setText("Apellido del Paciente:");
+        jLabel5.setText("Apellidos:");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, 20));
 
         Nombre.addActionListener(new java.awt.event.ActionListener() {
@@ -310,14 +572,14 @@ public class GenerarFicha extends javax.swing.JFrame {
                 NombreActionPerformed(evt);
             }
         });
-        jPanel1.add(Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 40, 440, -1));
+        jPanel1.add(Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 40, 460, -1));
 
         Apellido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ApellidoActionPerformed(evt);
             }
         });
-        jPanel1.add(Apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 70, 440, -1));
+        jPanel1.add(Apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, 460, -1));
 
         ID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -334,13 +596,13 @@ public class GenerarFicha extends javax.swing.JFrame {
 
         guardar.setBackground(new java.awt.Color(29, 41, 57));
         guardar.setForeground(new java.awt.Color(255, 255, 255));
-        guardar.setText("Guardar");
+        guardar.setText("Guardar e Imprimir");
         guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 guardarActionPerformed(evt);
             }
         });
-        jPanel2.add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 880, 100, -1));
+        jPanel2.add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 860, 140, 20));
 
         limpiar.setBackground(new java.awt.Color(29, 41, 57));
         limpiar.setForeground(new java.awt.Color(255, 255, 255));
@@ -350,23 +612,23 @@ public class GenerarFicha extends javax.swing.JFrame {
                 limpiarActionPerformed(evt);
             }
         });
-        jPanel2.add(limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1330, 880, 100, -1));
+        jPanel2.add(limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1370, 860, 100, -1));
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         AgregarTecnico3.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
-        AgregarTecnico3.setText("Detalle");
-        jPanel6.add(AgregarTecnico3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 80, -1));
+        AgregarTecnico3.setText("Servicios:");
+        jPanel6.add(AgregarTecnico3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 110, -1));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel8.setText("Precio:");
-        jPanel6.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 110, -1, 20));
+        jLabel8.setText("Tipo de precio:");
+        jPanel6.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 110, -1, 20));
 
         btnVistaPrevia.setBackground(new java.awt.Color(29, 41, 57));
         btnVistaPrevia.setForeground(new java.awt.Color(255, 255, 255));
-        btnVistaPrevia.setText("Vista Previa y Calculo");
+        btnVistaPrevia.setText("Agregar y calcular");
         btnVistaPrevia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVistaPreviaActionPerformed(evt);
@@ -375,7 +637,7 @@ public class GenerarFicha extends javax.swing.JFrame {
         jPanel6.add(btnVistaPrevia, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 390, 180, -1));
 
         jLabel3.setText("Total:");
-        jPanel6.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 360, -1, 20));
+        jPanel6.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 360, -1, 20));
 
         TotalSumaServicios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -384,7 +646,7 @@ public class GenerarFicha extends javax.swing.JFrame {
         });
         jPanel6.add(TotalSumaServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 360, 240, -1));
 
-        ListaItems.setModel(new javax.swing.AbstractListModel<String>() {
+        ListaItems.setModel(new javax.swing.AbstractListModel<String>(){
             String[] strings = {};
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
@@ -394,20 +656,16 @@ public class GenerarFicha extends javax.swing.JFrame {
         jPanel6.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 220, 270));
         jPanel6.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
 
-        ListaItemsSeleccionados.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = {};
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        ListaItemsSeleccionados.setModel(new DefaultListModel<Servicio>());
         jScrollPane4.setViewportView(ListaItemsSeleccionados);
 
         jPanel6.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 110, 240, 240));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel10.setText("Seleccionar Servicios (Items)");
+        jLabel10.setText("Buscar:");
         jPanel6.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, 20));
 
-        jLabel1.setText("Vista Previa de Items Seleccionados");
+        jLabel1.setText("Servicios seleccionados:");
         jPanel6.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 90, -1, -1));
 
         BuscarItemsNombre.addActionListener(new java.awt.event.ActionListener() {
@@ -447,7 +705,7 @@ public class GenerarFicha extends javax.swing.JFrame {
         });
 
         ComboTipoPrecio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Normal", "Emergencia"}));
-        jPanel6.add(ComboTipoPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 140, -1, -1));
+        jPanel6.add(ComboTipoPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 140, -1, -1));
 
         jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 300, 670, 430));
 
@@ -473,7 +731,7 @@ public class GenerarFicha extends javax.swing.JFrame {
         TipoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Efectivo", "QR", "Tarjeta"}));
         jPanel5.add(TipoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, 440, -1));
 
-        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 720, 670, 150));
+        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 720, 670, 130));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1880, 980));
 
@@ -503,7 +761,7 @@ public class GenerarFicha extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error cargando servicios: " + e.getMessage());
         }
     }
-    
+
     private void cargarTablaAfiches() {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.setColumnIdentifiers(new Object[]{
@@ -581,6 +839,7 @@ public class GenerarFicha extends javax.swing.JFrame {
         String medioPago = TipoPago.getSelectedItem().toString();
         String TotalServicioTexto = TotalSumaServicios.getText().trim().replace(",", ".");
         double TotalServicio = Double.parseDouble(TotalServicioTexto);
+        Date fechaGuardado = new Date();
 
         if (nombrePaciente.isEmpty() || apellidoPaciente.isEmpty() || nombreDoctor.isEmpty() || fechaAtencionDate == null) {
             JOptionPane.showMessageDialog(this, "Complete todos los campos obligatorios.");
@@ -612,7 +871,28 @@ public class GenerarFicha extends javax.swing.JFrame {
             java.sql.Date sqlFecha = new java.sql.Date(fechaAtencionDate.getTime());
             java.sql.Time sqlHora = new java.sql.Time(horaAtencionDate.getTime());
 
-            String sqlInsert = "INSERT INTO afiches (id_cajero, id_medico, nombre_paciente, apellido_paciente, fecha_atencion, hora_atencion, forma_pago, medio_pago, precio_total) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(fechaAtencionDate);
+            int anioCompleto = cal.get(Calendar.YEAR);
+            int anioCorto = anioCompleto % 100;
+
+            String sqlMaxNumero = "SELECT MAX(numero_ficha) AS max_num FROM afiches WHERE anio_ficha = ?";
+            PreparedStatement psMax = con.prepareStatement(sqlMaxNumero);
+            psMax.setInt(1, anioCorto);
+            ResultSet rsMax = psMax.executeQuery();
+
+            int siguienteNumero = 1;
+            if (rsMax.next()) {
+                int maxNum = rsMax.getInt("max_num");
+                if (!rsMax.wasNull()) {
+                    siguienteNumero = maxNum + 1;
+                }
+            }
+            rsMax.close();
+            psMax.close();
+
+            String sqlInsert = "INSERT INTO afiches (id_cajero, id_medico, nombre_paciente, apellido_paciente, fecha_atencion, hora_atencion, forma_pago, medio_pago, precio_total, numero_ficha, anio_ficha) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
             PreparedStatement psInsert = con.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
             psInsert.setInt(1, idCajero);
             psInsert.setInt(2, idMedico);
@@ -623,7 +903,8 @@ public class GenerarFicha extends javax.swing.JFrame {
             psInsert.setString(7, formaPago);
             psInsert.setString(8, medioPago);
             psInsert.setDouble(9, TotalServicio);
-
+            psInsert.setInt(10, siguienteNumero);
+            psInsert.setInt(11, anioCorto);
             int filas = psInsert.executeUpdate();
             int idAfiche = -1;
 
@@ -641,8 +922,8 @@ public class GenerarFicha extends javax.swing.JFrame {
             }
             psInsert.close();
 
-            ListModel<String> itemsSeleccionados = ListaItemsSeleccionados.getModel();
-            String tipoPrecio = ComboTipoPrecio.getSelectedItem().toString().toLowerCase(); 
+            ListModel<Servicio> itemsSeleccionados = ListaItemsSeleccionados.getModel();
+            String tipoPrecio = ComboTipoPrecio.getSelectedItem().toString().toLowerCase();
 
             String sqlServicio = "SELECT id_servicio FROM servicios WHERE nombre_servicio = ?";
             PreparedStatement psServicio = con.prepareStatement(sqlServicio);
@@ -651,7 +932,8 @@ public class GenerarFicha extends javax.swing.JFrame {
             PreparedStatement psDetalle = con.prepareStatement(sqlDetalle);
 
             for (int i = 0; i < itemsSeleccionados.getSize(); i++) {
-                String nombreServicio = itemsSeleccionados.getElementAt(i);
+                Servicio servicio = itemsSeleccionados.getElementAt(i);
+                String nombreServicio = servicio.getNombre();
 
                 psServicio.setString(1, nombreServicio);
                 ResultSet rsServ = psServicio.executeQuery();
@@ -661,7 +943,7 @@ public class GenerarFicha extends javax.swing.JFrame {
 
                     psDetalle.setInt(1, idAfiche);
                     psDetalle.setInt(2, idServicio);
-                    psDetalle.setString(3, tipoPrecio); 
+                    psDetalle.setString(3, tipoPrecio);
                     psDetalle.executeUpdate();
                 }
 
@@ -674,6 +956,21 @@ public class GenerarFicha extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, "Ficha y detalles guardados con éxito.");
             cargarServicios();
+            generarFichaFormatoRecibo(
+                    nombrePaciente,
+                    apellidoPaciente,
+                    nombreDoctor,
+                    fechaAtencionDate,
+                    horaAtencionDate,
+                    formaPago,
+                    medioPago,
+                    TotalServicio,
+                    ListaItemsSeleccionados.getModel(),
+                    siguienteNumero,
+                    anioCorto,
+                    fechaGuardado,
+                    Session.getNombreCompleto()
+            );
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al guardar ficha: " + e.getMessage());
@@ -685,7 +982,7 @@ public class GenerarFicha extends javax.swing.JFrame {
         try {
             Connection con = Conexion.obtenerConexion();
             PreparedStatement ps = con.prepareStatement("SELECT id_cajero FROM cajeros WHERE id_usuario = ?");
-            ps.setInt(1, idusuario); // Asegúrate de que `idusuario` esté definido en la clase
+            ps.setInt(1, idusuario);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 id = rs.getInt("id_cajero");
@@ -713,28 +1010,28 @@ public class GenerarFicha extends javax.swing.JFrame {
     }//GEN-LAST:event_SeleccionarDocActionPerformed
 
     private void btnVistaPreviaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVistaPreviaActionPerformed
+
         List<String> seleccionados = ListaItems.getSelectedValuesList();
-        DefaultListModel<String> modeloSeleccionados = new DefaultListModel<>();
+        DefaultListModel<Servicio> modeloSeleccionados = new DefaultListModel<>();
         double total = 0.0;
 
-
-        String tipoPrecio = ComboTipoPrecio.getSelectedItem().toString().toLowerCase(); 
+        String tipoPrecio = ComboTipoPrecio.getSelectedItem().toString().toLowerCase();
 
         try {
             Connection con = Conexion.obtenerConexion();
 
             for (String item : seleccionados) {
-                modeloSeleccionados.addElement(item);
-
                 String sql = "SELECT precio_normal, precio_emergencia FROM servicios WHERE nombre_servicio = ?";
                 PreparedStatement stmt = con.prepareStatement(sql);
                 stmt.setString(1, item);
                 ResultSet rs = stmt.executeQuery();
 
                 if (rs.next()) {
-                double precio = tipoPrecio.equalsIgnoreCase("Emergencia") ? rs.getDouble("precio_emergencia") : rs.getDouble("precio_normal");
-
+                    double precio = tipoPrecio.equalsIgnoreCase("Emergencia") ? rs.getDouble("precio_emergencia") : rs.getDouble("precio_normal");
                     total += precio;
+
+                    Servicio servicio = new Servicio(item, precio);
+                    modeloSeleccionados.addElement(servicio);
                 }
 
                 rs.close();
@@ -746,7 +1043,6 @@ public class GenerarFicha extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error al calcular total: " + e.getMessage());
         }
 
-        // Mostrar resultados
         ListaItemsSeleccionados.setModel(modeloSeleccionados);
         TotalSumaServicios.setText(String.format("%.2f", total));
     }//GEN-LAST:event_btnVistaPreviaActionPerformed
@@ -797,7 +1093,7 @@ public class GenerarFicha extends javax.swing.JFrame {
     private javax.swing.JSpinner Hora;
     private javax.swing.JTextField ID;
     private javax.swing.JList<String> ListaItems;
-    private javax.swing.JList<String> ListaItemsSeleccionados;
+    private javax.swing.JList<Servicio> ListaItemsSeleccionados;
     private javax.swing.JLabel ListaPersonal;
     private javax.swing.JTextField Nombre;
     private javax.swing.JTextField NombreDoctor;
