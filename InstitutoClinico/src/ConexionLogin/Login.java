@@ -241,6 +241,34 @@ public class Login extends javax.swing.JFrame {
                 if (activo) {
                     if (priv.equals("Administrador") || priv.equals("Cajero")) {
                         if (pass.equals(p)) {
+                            Session.setUsuario(idusuario, user, priv);
+                            String nombre = "";
+                            String apellido = "";
+                            String sqlDatos = "";
+                            if (priv.equals("Cajero")) {
+                                sqlDatos = "SELECT nombre, apellido FROM cajeros WHERE id_usuario = ?";
+                            } else if (priv.equals("Medico General") || priv.equals("Medico Especialista") || priv.equals("Medico")) {
+                                sqlDatos = "SELECT nombre, apellido FROM medicos WHERE id_usuario = ?";
+                            } else if (priv.equals("Administrador")) {
+                                nombre = "Administrador";
+                                apellido = "";
+                            }
+                            if (!sqlDatos.isEmpty()) {
+                                try {
+                                    PreparedStatement ps2 = con.prepareStatement(sqlDatos);
+                                    ps2.setInt(1, idusuario);
+                                    ResultSet rs2 = ps2.executeQuery();
+                                    if (rs2.next()) {
+                                        nombre = rs2.getString("nombre");
+                                        apellido = rs2.getString("apellido");
+                                    }
+                                    rs2.close();
+                                    ps2.close();
+                                } catch (SQLException ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
+                            Session.setNombreCompleto(nombre + " " + apellido);
                             if (priv.equals("Administrador")) {
                                 AdministradorDoctores ventanaadmin = new AdministradorDoctores();
                                 ventanaadmin.setVisible(true);
