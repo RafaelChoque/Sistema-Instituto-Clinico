@@ -8,7 +8,7 @@ package ConexionLogin;
 
 /**
  *
- * @author Erlan
+ * @author Erlann
  */
 public class SesionUsuario {
     public static int idUsuario;
