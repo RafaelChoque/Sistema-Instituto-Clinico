@@ -12,6 +12,7 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import ConexionLogin.Conexion;
+import ConexionLogin.Login;
 import ConexionLogin.Session;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.itextpdf.text.pdf.draw.LineSeparator;
@@ -331,6 +332,7 @@ public class GenerarFicha extends javax.swing.JFrame {
     private void initComponents() {
 
         Superior = new javax.swing.JPanel();
+        btnCerrarSesion = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         ListaPersonal = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -386,6 +388,27 @@ public class GenerarFicha extends javax.swing.JFrame {
 
         Superior.setBackground(new java.awt.Color(80, 35, 100));
         Superior.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnCerrarSesion.setBackground(new java.awt.Color(33, 14, 68));
+        btnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnCerrarSesion.setForeground(new java.awt.Color(241, 241, 241));
+        btnCerrarSesion.setText("Cerrar Sesión");
+        btnCerrarSesion.setBorder(null);
+        btnCerrarSesion.setHorizontalAlignment(SwingConstants.LEFT);
+        btnCerrarSesion.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+        btnCerrarSesion.setIconTextGap(10);
+        btnCerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCerrarSesionMouseExited(evt);
+            }
+        });
+        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarSesionActionPerformed(evt);
+            }
+        });
+        Superior.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1690, 0, 229, 60));
+
         getContentPane().add(Superior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1920, 60));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -634,7 +657,7 @@ public class GenerarFicha extends javax.swing.JFrame {
                 btnVistaPreviaActionPerformed(evt);
             }
         });
-        jPanel6.add(btnVistaPrevia, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 390, 180, -1));
+        jPanel6.add(btnVistaPrevia, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 393, 180, 20));
 
         jLabel3.setText("Total:");
         jPanel6.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 360, -1, 20));
@@ -678,33 +701,22 @@ public class GenerarFicha extends javax.swing.JFrame {
             public void insertUpdate(DocumentEvent e) {
                 filtrarLista();
             }
+
             public void removeUpdate(DocumentEvent e) {
                 filtrarLista();
             }
+
             public void changedUpdate(DocumentEvent e) {
                 filtrarLista();
-            }
-
-            private void filtrarLista() {
-                String filtro = quitarTildes(BuscarItemsNombre.getText().toLowerCase().trim());
-
-                if (filtro.isEmpty()) {
-                    ListaItems.setModel(modeloLista);
-                } else {
-                    DefaultListModel<String> modeloFiltrado = new DefaultListModel<>();
-                    for (int i = 0; i < modeloLista.size(); i++) {
-                        String original = modeloLista.getElementAt(i);
-                        String normalizado = quitarTildes(original.toLowerCase());
-                        if (normalizado.contains(filtro)) {
-                            modeloFiltrado.addElement(original);
-                        }
-                    }
-                    ListaItems.setModel(modeloFiltrado);
-                }
             }
         });
 
         ComboTipoPrecio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Normal", "Emergencia"}));
+        ComboTipoPrecio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComboTipoPrecioActionPerformed(evt);
+            }
+        });
         jPanel6.add(ComboTipoPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 140, -1, -1));
 
         jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 300, 670, 430));
@@ -725,7 +737,7 @@ public class GenerarFicha extends javax.swing.JFrame {
         formadepago.setText("Forma de Pago:");
         jPanel5.add(formadepago, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, -1));
 
-        FormaPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Contado", "Cuotas"}));
+        FormaPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Contado"}));
         jPanel5.add(FormaPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 440, -1));
 
         TipoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Efectivo", "QR", "Tarjeta"}));
@@ -807,6 +819,73 @@ public class GenerarFicha extends javax.swing.JFrame {
         }
         texto = Normalizer.normalize(texto, Normalizer.Form.NFD);
         return texto.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+    }
+
+
+    private void filtrarLista() {
+        String texto = BuscarItemsNombre.getText().toLowerCase().trim();
+
+        if (texto.isEmpty()) {
+            ListaItems.setModel(modeloLista);
+            return;
+        }
+
+        String filtro = quitarTildes(texto);
+        DefaultListModel<String> modeloFiltrado = new DefaultListModel<>();
+
+        for (int i = 0; i < modeloLista.size(); i++) {
+            String original = modeloLista.getElementAt(i);
+            String normalizado = quitarTildes(original.toLowerCase());
+
+            if (normalizado.contains(filtro)) {
+                modeloFiltrado.addElement(original);
+            }
+        }
+
+        ListaItems.setModel(modeloFiltrado);
+    }
+    private void actualizarPreciosYTotal() {
+        DefaultListModel<Servicio> modelo = (DefaultListModel<Servicio>) ListaItemsSeleccionados.getModel();
+        String tipoPrecio = ComboTipoPrecio.getSelectedItem().toString().toLowerCase();
+
+        try {
+            Connection con = Conexion.obtenerConexion();
+
+            for (int i = 0; i < modelo.size(); i++) {
+                Servicio servicio = modelo.getElementAt(i);
+
+                String sql = "SELECT precio_normal, precio_emergencia FROM servicios WHERE nombre_servicio = ?";
+                PreparedStatement stmt = con.prepareStatement(sql);
+                stmt.setString(1, servicio.getNombre());
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next()) {
+                    double nuevoPrecio = tipoPrecio.equals("emergencia") ? rs.getDouble("precio_emergencia") : rs.getDouble("precio_normal");
+                    servicio.setPrecio(nuevoPrecio);
+                }
+
+                rs.close();
+                stmt.close();
+            }
+
+            con.close();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al actualizar precios: " + ex.getMessage());
+        }
+
+        ListaItemsSeleccionados.repaint();
+        actualizarTotal();
+    }
+
+    private void actualizarTotal() {
+        DefaultListModel<Servicio> modelo = (DefaultListModel<Servicio>) ListaItemsSeleccionados.getModel();
+        double total = 0.0;
+
+        for (int i = 0; i < modelo.size(); i++) {
+            total += modelo.getElementAt(i).getPrecio();
+        }
+
+        TotalSumaServicios.setText(String.format("%.2f", total));
     }
 
     private void TablaAfichesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaAfichesMouseClicked
@@ -955,7 +1034,7 @@ public class GenerarFicha extends javax.swing.JFrame {
             con.close();
 
             JOptionPane.showMessageDialog(this, "Ficha y detalles guardados con éxito.");
-            cargarServicios();
+            cargarTablaAfiches();
             generarFichaFormatoRecibo(
                     nombrePaciente,
                     apellidoPaciente,
@@ -971,7 +1050,7 @@ public class GenerarFicha extends javax.swing.JFrame {
                     fechaGuardado,
                     Session.getNombreCompleto()
             );
-
+            limpiarCampos();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al guardar ficha: " + e.getMessage());
             e.printStackTrace();
@@ -995,10 +1074,23 @@ public class GenerarFicha extends javax.swing.JFrame {
         }
         return id;
     }
+
     private void limpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarActionPerformed
-
+        limpiarCampos();
     }//GEN-LAST:event_limpiarActionPerformed
-
+    private void limpiarCampos() {
+        Nombre.setText("");
+        Apellido.setText("");
+        NombreDoctor.setText("");
+        FechaAtencion.setDate(null);
+        Hora.setValue(new Date()); 
+        FormaPago.setSelectedIndex(0); 
+        TipoPago.setSelectedIndex(0);  
+        TotalSumaServicios.setText("");
+        DefaultListModel<Servicio> modeloLista = (DefaultListModel<Servicio>) ListaItemsSeleccionados.getModel();
+        modeloLista.clear();
+        ComboTipoPrecio.setSelectedIndex(0);
+    }
     private void NombreDoctorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreDoctorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_NombreDoctorActionPerformed
@@ -1010,41 +1102,53 @@ public class GenerarFicha extends javax.swing.JFrame {
     }//GEN-LAST:event_SeleccionarDocActionPerformed
 
     private void btnVistaPreviaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVistaPreviaActionPerformed
-
         List<String> seleccionados = ListaItems.getSelectedValuesList();
-        DefaultListModel<Servicio> modeloSeleccionados = new DefaultListModel<>();
-        double total = 0.0;
 
-        String tipoPrecio = ComboTipoPrecio.getSelectedItem().toString().toLowerCase();
+        DefaultListModel<Servicio> modeloSeleccionados;
+        if (ListaItemsSeleccionados.getModel() instanceof DefaultListModel) {
+            modeloSeleccionados = (DefaultListModel<Servicio>) ListaItemsSeleccionados.getModel();
+        } else {
+            modeloSeleccionados = new DefaultListModel<>();
+        }
 
         try {
             Connection con = Conexion.obtenerConexion();
+            String tipoPrecio = ComboTipoPrecio.getSelectedItem().toString().toLowerCase();
 
             for (String item : seleccionados) {
-                String sql = "SELECT precio_normal, precio_emergencia FROM servicios WHERE nombre_servicio = ?";
-                PreparedStatement stmt = con.prepareStatement(sql);
-                stmt.setString(1, item);
-                ResultSet rs = stmt.executeQuery();
+                boolean yaExiste = false;
 
-                if (rs.next()) {
-                    double precio = tipoPrecio.equalsIgnoreCase("Emergencia") ? rs.getDouble("precio_emergencia") : rs.getDouble("precio_normal");
-                    total += precio;
-
-                    Servicio servicio = new Servicio(item, precio);
-                    modeloSeleccionados.addElement(servicio);
+                for (int i = 0; i < modeloSeleccionados.size(); i++) {
+                    if (modeloSeleccionados.getElementAt(i).getNombre().equals(item)) {
+                        yaExiste = true;
+                        break;
+                    }
                 }
 
-                rs.close();
-                stmt.close();
+                if (!yaExiste) {
+                    String sql = "SELECT precio_normal, precio_emergencia FROM servicios WHERE nombre_servicio = ?";
+                    PreparedStatement stmt = con.prepareStatement(sql);
+                    stmt.setString(1, item);
+                    ResultSet rs = stmt.executeQuery();
+
+                    if (rs.next()) {
+                        double precio = tipoPrecio.equals("emergencia") ? rs.getDouble("precio_emergencia") : rs.getDouble("precio_normal");
+                        Servicio servicio = new Servicio(item, precio);
+                        modeloSeleccionados.addElement(servicio);
+                    }
+
+                    rs.close();
+                    stmt.close();
+                }
             }
 
             con.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al calcular total: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al agregar servicio: " + e.getMessage());
         }
 
         ListaItemsSeleccionados.setModel(modeloSeleccionados);
-        TotalSumaServicios.setText(String.format("%.2f", total));
+        actualizarTotal();
     }//GEN-LAST:event_btnVistaPreviaActionPerformed
 
     private void TotalSumaServiciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TotalSumaServiciosActionPerformed
@@ -1054,6 +1158,21 @@ public class GenerarFicha extends javax.swing.JFrame {
     private void BuscarItemsNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarItemsNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BuscarItemsNombreActionPerformed
+
+    private void ComboTipoPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboTipoPrecioActionPerformed
+        actualizarPreciosYTotal();
+    }//GEN-LAST:event_ComboTipoPrecioActionPerformed
+
+    private void btnCerrarSesionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarSesionMouseExited
+
+    }//GEN-LAST:event_btnCerrarSesionMouseExited
+
+    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
+        Login cerrar = new Login();
+        cerrar.setLocationRelativeTo(null);
+        cerrar.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1102,6 +1221,7 @@ public class GenerarFicha extends javax.swing.JFrame {
     private javax.swing.JTable TablaAfiches;
     private javax.swing.JComboBox<String> TipoPago;
     private javax.swing.JTextField TotalSumaServicios;
+    private javax.swing.JButton btnCerrarSesion;
     private javax.swing.JButton btnVistaPrevia;
     private javax.swing.JLabel formadepago;
     private javax.swing.JButton guardar;

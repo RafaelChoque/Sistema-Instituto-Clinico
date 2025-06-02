@@ -41,6 +41,153 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
         <Property name="useNullLayout" type="boolean" value="false"/>
       </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JButton" name="btnAdminCajeros">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="44" green="e" red="21" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="0"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="f1" green="f1" red="f1" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Administracion de Cajeros"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnAdminCajerosMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAdminCajerosActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="btnAdminCajeros.setHorizontalAlignment(SwingConstants.LEFT);&#xa;btnAdminCajeros.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0)); &#xa;btnAdminCajeros.setIconTextGap(10);"/>
+          </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="440" y="0" width="229" height="60"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnListaLaboratorios">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="44" green="e" red="21" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="0"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="f1" green="f1" red="f1" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Administracion de Doctores"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnListaLaboratoriosMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnListaLaboratoriosActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="btnListaLaboratorios.setHorizontalAlignment(SwingConstants.LEFT); &#xa;btnListaLaboratorios.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));&#xa;btnListaLaboratorios.setIconTextGap(10);"/>
+          </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="740" y="0" width="229" height="60"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnReportePagos">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="44" green="e" red="21" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="0"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="f1" green="f1" red="f1" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Reportes de Pagos"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnReportePagosMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReportePagosActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="btnServicios.setHorizontalAlignment(SwingConstants.LEFT); &#xa;btnServicios.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));&#xa;btnServicios.setIconTextGap(10);"/>
+          </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="1030" y="0" width="229" height="60"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnServicios">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="44" green="e" red="21" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="0"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="f1" green="f1" red="f1" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Servicios"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnServiciosMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnServiciosActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="btnServicios.setHorizontalAlignment(SwingConstants.LEFT); &#xa;btnServicios.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));&#xa;btnServicios.setIconTextGap(10);"/>
+          </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="1310" y="0" width="229" height="60"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnCerrarSesion">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="44" green="e" red="21" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="0"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="f1" green="f1" red="f1" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Cerrar Sesi&#xf3;n"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnCerrarSesionMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCerrarSesionActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="btnCerrarSesion.setHorizontalAlignment(SwingConstants.LEFT);&#xa;btnCerrarSesion.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0)); &#xa;btnCerrarSesion.setIconTextGap(10);"/>
+          </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="1690" y="0" width="229" height="60"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+      </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="jPanel2">
       <Properties>
@@ -77,7 +224,7 @@
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="130" y="90" width="260" height="-1"/>
+              <AbsoluteConstraints x="90" y="90" width="160" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -168,6 +315,9 @@
                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="ReportePagosMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -219,20 +369,10 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField1">
+            <Component class="javax.swing.JTextField" name="TotalPago">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="110" y="70" width="410" height="-1"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton2">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Calculo Total"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="20" y="100" width="-1" height="-1"/>
+                  <AbsoluteConstraints x="110" y="90" width="410" height="-1"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -242,11 +382,11 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="20" y="70" width="-1" height="20"/>
+                  <AbsoluteConstraints x="20" y="90" width="-1" height="20"/>
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField2">
+            <Component class="javax.swing.JTextField" name="DoctorSeleccionado">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                   <AbsoluteConstraints x="110" y="40" width="410" height="-1"/>
@@ -304,7 +444,7 @@
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="1110" y="80" width="80" height="-1"/>
+              <AbsoluteConstraints x="1110" y="80" width="110" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -326,29 +466,41 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JTextField" name="BuscarDoctores">
+        <Component class="javax.swing.JButton" name="btnCalcularPagoTotal">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ef" green="ec" red="e9" type="rgb"/>
-            </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Buscar"/>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="null"/>
-            </Property>
+            <Property name="text" type="java.lang.String" value="Calcular Pago"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BuscarDoctoresActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCalcularPagoTotalActionPerformed"/>
+          </Events>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="1110" y="120" width="110" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JTextField" name="BuscadorDoctores">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BuscadorDoctoresActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="String placeholder = &quot;Buscar Doctor&quot;;&#xa;&#xa;BuscarDoctores.setText(placeholder);&#xa;BuscarDoctores.setForeground(Color.GRAY);&#xa;&#xa;BuscarDoctores.addFocusListener(new FocusAdapter() {&#xa;    @Override&#xa;    public void focusGained(FocusEvent e) {&#xa;        if (BuscarDoctores.getText().equals(placeholder)) {&#xa;            BuscarDoctores.setText(&quot;&quot;);&#xa;            BuscarDoctores.setForeground(Color.BLACK);&#xa;        }&#xa;    }&#xa;&#xa;    @Override&#xa;    public void focusLost(FocusEvent e) {&#xa;        if (BuscarDoctores.getText().isEmpty()) {&#xa;            BuscarDoctores.setText(placeholder);&#xa;            BuscarDoctores.setForeground(Color.GRAY);&#xa;        }&#xa;    }&#xa;});&#xa;&#xa;BuscarDoctores.getDocument().addDocumentListener(new DocumentListener() {&#xa;    @Override&#xa;    public void insertUpdate(DocumentEvent e) {&#xa;        filterTable();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void removeUpdate(DocumentEvent e) {&#xa;        filterTable();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void changedUpdate(DocumentEvent e) {&#xa;        filterTable();&#xa;    }&#xa;&#xa;    private void filterTable() {&#xa;        String texto = BuscarDoctores.getText().toLowerCase().trim();&#xa;&#xa;        if (texto.equals(placeholder.toLowerCase())) {&#xa;            if (TablaReportes.getRowSorter() != null) {&#xa;                ((TableRowSorter&lt;?&gt;) TablaReportes.getRowSorter()).setRowFilter(null);&#xa;            }&#xa;            return;&#xa;        }&#xa;&#xa;        TableRowSorter&lt;TableModel&gt; sorter;&#xa;        if (TablaReportes.getRowSorter() instanceof TableRowSorter) {&#xa;            sorter = (TableRowSorter&lt;TableModel&gt;) TablaReportes.getRowSorter();&#xa;        } else {&#xa;            sorter = new TableRowSorter&lt;&gt;(TablaReportes.getModel());&#xa;            TablaReportes.setRowSorter(sorter);&#xa;        }&#xa;&#xa;        sorter.setRowFilter(new RowFilter&lt;TableModel, Integer&gt;() {&#xa;            @Override&#xa;            public boolean include(Entry&lt;? extends TableModel, ? extends Integer&gt; entry) {&#xa;                String nombre = quitarTildes(entry.getStringValue(1).toLowerCase());&#xa;                return nombre.contains(quitarTildes(texto));&#xa;            }&#xa;        });&#xa;    }&#xa;});"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="BuscadorDoctores.getDocument().addDocumentListener(new DocumentListener() {&#xa;    public void insertUpdate(DocumentEvent e) {&#xa;        filtrarLista();&#xa;    }&#xa;&#xa;    public void removeUpdate(DocumentEvent e) {&#xa;        filtrarLista();&#xa;    }&#xa;&#xa;    public void changedUpdate(DocumentEvent e) {&#xa;        filtrarLista();&#xa;    }&#xa;});"/>
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="30" y="50" width="140" height="20"/>
+              <AbsoluteConstraints x="80" y="50" width="200" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel6">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Imagenes/Buscar.png"/>
+            </Property>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="40" y="50" width="-1" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -360,17 +512,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="20" y="40" width="190" height="40"/>
-            </Constraint>
-          </Constraints>
-        </Component>
-        <Component class="javax.swing.JButton" name="btnGuardarDatos">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Guardar"/>
-          </Properties>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="1110" y="120" width="80" height="-1"/>
+              <AbsoluteConstraints x="30" y="40" width="260" height="40"/>
             </Constraint>
           </Constraints>
         </Component>

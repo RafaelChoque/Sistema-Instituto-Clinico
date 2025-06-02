@@ -41,6 +41,37 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
         <Property name="useNullLayout" type="boolean" value="false"/>
       </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JButton" name="btnCerrarSesion">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="44" green="e" red="21" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="0"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="f1" green="f1" red="f1" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Cerrar Sesi&#xf3;n"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnCerrarSesionMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCerrarSesionActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="btnCerrarSesion.setHorizontalAlignment(SwingConstants.LEFT);&#xa;btnCerrarSesion.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0)); &#xa;btnCerrarSesion.setIconTextGap(10);"/>
+          </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="1690" y="0" width="229" height="60"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+      </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="jPanel2">
       <Properties>
@@ -535,7 +566,7 @@
               </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="40" y="390" width="180" height="-1"/>
+                  <AbsoluteConstraints x="40" y="393" width="180" height="20"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -644,7 +675,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BuscarItemsNombreActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="BuscarItemsNombre.getDocument().addDocumentListener(new DocumentListener() {&#xa;    public void insertUpdate(DocumentEvent e) {&#xa;        filtrarLista();&#xa;    }&#xa;    public void removeUpdate(DocumentEvent e) {&#xa;        filtrarLista();&#xa;    }&#xa;    public void changedUpdate(DocumentEvent e) {&#xa;        filtrarLista();&#xa;    }&#xa;&#xa;    private void filtrarLista() {&#xa;        String filtro = quitarTildes(BuscarItemsNombre.getText().toLowerCase().trim());&#xa;&#xa;        if (filtro.isEmpty()) {&#xa;            ListaItems.setModel(modeloLista);&#xa;        } else {&#xa;            DefaultListModel&lt;String&gt; modeloFiltrado = new DefaultListModel&lt;&gt;();&#xa;            for (int i = 0; i &lt; modeloLista.size(); i++) {&#xa;                String original = modeloLista.getElementAt(i);&#xa;                String normalizado = quitarTildes(original.toLowerCase());&#xa;                if (normalizado.contains(filtro)) {&#xa;                    modeloFiltrado.addElement(original);&#xa;                }&#xa;            }&#xa;            ListaItems.setModel(modeloFiltrado);&#xa;        }&#xa;    }&#xa;});"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="BuscarItemsNombre.getDocument().addDocumentListener(new DocumentListener() {&#xa;    public void insertUpdate(DocumentEvent e) {&#xa;        filtrarLista();&#xa;    }&#xa;&#xa;    public void removeUpdate(DocumentEvent e) {&#xa;        filtrarLista();&#xa;    }&#xa;&#xa;    public void changedUpdate(DocumentEvent e) {&#xa;        filtrarLista();&#xa;    }&#xa;});"/>
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -658,6 +689,9 @@
                   <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Normal&quot;, &quot;Emergencia&quot;})" type="code"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ComboTipoPrecioActionPerformed"/>
+              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
@@ -732,7 +766,7 @@
             <Component class="javax.swing.JComboBox" name="FormaPago">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Contado&quot;, &quot;Cuotas&quot;})" type="code"/>
+                  <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Contado&quot;})" type="code"/>
                 </Property>
               </Properties>
               <AuxValues>

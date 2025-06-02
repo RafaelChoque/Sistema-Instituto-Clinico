@@ -8,6 +8,7 @@ import java.util.Date;
 import ConexionLogin.Conexion;
 import ConexionLogin.Login;
 import ReportesPagos.ReportespagarMedico;
+import Servicios.ServiciosPrecios;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
 import java.awt.event.FocusAdapter;
@@ -44,6 +45,9 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         cargarTabla();
         ID.setVisible(false);
+        ID.setEnabled(false);
+        ID.setFocusable(false);
+        ID.setRequestFocusEnabled(false);
         this.setLocationRelativeTo(null);
     }
 
@@ -57,6 +61,11 @@ public class AdministradorDoctores extends javax.swing.JFrame {
     private void initComponents() {
 
         Superior = new javax.swing.JPanel();
+        btnAdminCajeros = new javax.swing.JButton();
+        btnListaLaboratorios = new javax.swing.JButton();
+        btnCerrarSesion = new javax.swing.JButton();
+        btnReportePagos = new javax.swing.JButton();
+        btnServicios = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         ListaPersonal = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -92,14 +101,6 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         NombreCategoria = new javax.swing.JTextField();
         FondoGris = new javax.swing.JLabel();
         FondoBlanco = new javax.swing.JLabel();
-        panelSidebar = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
-        jPanel7 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
-        btnCerrarSesion = new javax.swing.JButton();
-        btnAdminCajeros = new javax.swing.JButton();
-        btnListaLaboratorios = new javax.swing.JButton();
-        btnReportePagos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -107,6 +108,107 @@ public class AdministradorDoctores extends javax.swing.JFrame {
 
         Superior.setBackground(new java.awt.Color(80, 35, 100));
         Superior.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnAdminCajeros.setBackground(new java.awt.Color(33, 14, 68));
+        btnAdminCajeros.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnAdminCajeros.setForeground(new java.awt.Color(241, 241, 241));
+        btnAdminCajeros.setText("Administracion de Cajeros");
+        btnAdminCajeros.setBorder(null);
+        btnAdminCajeros.setHorizontalAlignment(SwingConstants.LEFT);
+        btnAdminCajeros.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+        btnAdminCajeros.setIconTextGap(10);
+        btnAdminCajeros.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnAdminCajerosMouseExited(evt);
+            }
+        });
+        btnAdminCajeros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdminCajerosActionPerformed(evt);
+            }
+        });
+        Superior.add(btnAdminCajeros, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 0, 229, 60));
+
+        btnListaLaboratorios.setBackground(new java.awt.Color(33, 14, 68));
+        btnListaLaboratorios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnListaLaboratorios.setForeground(new java.awt.Color(241, 241, 241));
+        btnListaLaboratorios.setText("Administracion de Doctores");
+        btnListaLaboratorios.setBorder(null);
+        btnListaLaboratorios.setHorizontalAlignment(SwingConstants.LEFT);
+        btnListaLaboratorios.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+        btnListaLaboratorios.setIconTextGap(10);
+        btnListaLaboratorios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnListaLaboratoriosMouseExited(evt);
+            }
+        });
+        btnListaLaboratorios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListaLaboratoriosActionPerformed(evt);
+            }
+        });
+        Superior.add(btnListaLaboratorios, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 0, 229, 60));
+
+        btnCerrarSesion.setBackground(new java.awt.Color(33, 14, 68));
+        btnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnCerrarSesion.setForeground(new java.awt.Color(241, 241, 241));
+        btnCerrarSesion.setText("Cerrar Sesión");
+        btnCerrarSesion.setBorder(null);
+        btnCerrarSesion.setHorizontalAlignment(SwingConstants.LEFT);
+        btnCerrarSesion.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+        btnCerrarSesion.setIconTextGap(10);
+        btnCerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCerrarSesionMouseExited(evt);
+            }
+        });
+        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarSesionActionPerformed(evt);
+            }
+        });
+        Superior.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1690, 0, 229, 60));
+
+        btnReportePagos.setBackground(new java.awt.Color(33, 14, 68));
+        btnReportePagos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnReportePagos.setForeground(new java.awt.Color(241, 241, 241));
+        btnReportePagos.setText("Reportes de Pagos");
+        btnReportePagos.setBorder(null);
+        btnServicios.setHorizontalAlignment(SwingConstants.LEFT);
+        btnServicios.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+        btnServicios.setIconTextGap(10);
+        btnReportePagos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnReportePagosMouseExited(evt);
+            }
+        });
+        btnReportePagos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportePagosActionPerformed(evt);
+            }
+        });
+        Superior.add(btnReportePagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 0, 229, 60));
+
+        btnServicios.setBackground(new java.awt.Color(33, 14, 68));
+        btnServicios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnServicios.setForeground(new java.awt.Color(241, 241, 241));
+        btnServicios.setText("Servicios");
+        btnServicios.setBorder(null);
+        btnServicios.setHorizontalAlignment(SwingConstants.LEFT);
+        btnServicios.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+        btnServicios.setIconTextGap(10);
+        btnServicios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnServiciosMouseExited(evt);
+            }
+        });
+        btnServicios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnServiciosActionPerformed(evt);
+            }
+        });
+        Superior.add(btnServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(1310, 0, 229, 60));
+
         getContentPane().add(Superior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1920, 60));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -422,106 +524,15 @@ getContentPane().add(FondoGris, new org.netbeans.lib.awtextra.AbsoluteConstraint
 FondoBlanco.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo_2.png"))); // NOI18N
 getContentPane().add(FondoBlanco, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 120, 680, 410));
 
-panelSidebar.setBackground(new java.awt.Color(33, 14, 68));
-panelSidebar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-jLabel15.setForeground(new java.awt.Color(102, 102, 102));
-jLabel15.setText("Panel de Control");
-panelSidebar.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, -1));
-
-jPanel7.setBackground(new java.awt.Color(0, 0, 0));
-panelSidebar.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 230, 30));
-
-jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cerrarsesion.png"))); // NOI18N
-panelSidebar.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 1040, 20, 40));
-
-btnCerrarSesion.setBackground(new java.awt.Color(33, 14, 68));
-btnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-btnCerrarSesion.setForeground(new java.awt.Color(241, 241, 241));
-btnCerrarSesion.setText("Cerrar Sesión");
-btnCerrarSesion.setBorder(null);
-btnCerrarSesion.setHorizontalAlignment(SwingConstants.LEFT);
-btnCerrarSesion.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
-btnCerrarSesion.setIconTextGap(10);
-btnCerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
-    public void mouseExited(java.awt.event.MouseEvent evt) {
-        btnCerrarSesionMouseExited(evt);
-    }
-    });
-    btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            btnCerrarSesionActionPerformed(evt);
-        }
-    });
-    panelSidebar.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 1040, 229, 40));
-
-    btnAdminCajeros.setBackground(new java.awt.Color(33, 14, 68));
-    btnAdminCajeros.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-    btnAdminCajeros.setForeground(new java.awt.Color(241, 241, 241));
-    btnAdminCajeros.setText("Administracion de Cajeros");
-    btnAdminCajeros.setBorder(null);
-    btnAdminCajeros.setHorizontalAlignment(SwingConstants.LEFT);
-    btnAdminCajeros.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
-    btnAdminCajeros.setIconTextGap(10);
-    btnAdminCajeros.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mouseExited(java.awt.event.MouseEvent evt) {
-            btnAdminCajerosMouseExited(evt);
-        }
-    });
-    btnAdminCajeros.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            btnAdminCajerosActionPerformed(evt);
-        }
-    });
-    panelSidebar.add(btnAdminCajeros, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 229, 40));
-
-    btnListaLaboratorios.setBackground(new java.awt.Color(33, 14, 68));
-    btnListaLaboratorios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-    btnListaLaboratorios.setForeground(new java.awt.Color(241, 241, 241));
-    btnListaLaboratorios.setText("Administracion de Doctores");
-    btnListaLaboratorios.setBorder(null);
-    btnListaLaboratorios.setHorizontalAlignment(SwingConstants.LEFT);
-    btnListaLaboratorios.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
-    btnListaLaboratorios.setIconTextGap(10);
-    btnListaLaboratorios.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mouseExited(java.awt.event.MouseEvent evt) {
-            btnListaLaboratoriosMouseExited(evt);
-        }
-    });
-    btnListaLaboratorios.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            btnListaLaboratoriosActionPerformed(evt);
-        }
-    });
-    panelSidebar.add(btnListaLaboratorios, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 229, 40));
-
-    btnReportePagos.setBackground(new java.awt.Color(33, 14, 68));
-    btnReportePagos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-    btnReportePagos.setForeground(new java.awt.Color(241, 241, 241));
-    btnReportePagos.setText("Reportes de Pagos");
-    btnReportePagos.setBorder(null);
-    btnReportePagos.setHorizontalAlignment(SwingConstants.LEFT);
-    btnReportePagos.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
-    btnReportePagos.setIconTextGap(10);
-    btnReportePagos.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mouseExited(java.awt.event.MouseEvent evt) {
-            btnReportePagosMouseExited(evt);
-        }
-    });
-    btnReportePagos.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            btnReportePagosActionPerformed(evt);
-        }
-    });
-    panelSidebar.add(btnReportePagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 229, 40));
-
-    getContentPane().add(panelSidebar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 1080));
-
-    pack();
-    }// </editor-fold>//GEN-END:initComponents
+pack();
+}// </editor-fold>//GEN-END:initComponents
     private void cargarTabla() {
-        DefaultTableModel modelo = new DefaultTableModel();
+        DefaultTableModel modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; 
+            }
+        };
         modelo.setColumnIdentifiers(new Object[]{
             "ID", "CI", "Nombre", "Apellido", "Fecha Nacimiento", "Teléfono", "Dirección", "Categoría Profesional", "Especialidad"
         });
@@ -587,6 +598,9 @@ btnCerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
 
     private void IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDActionPerformed
         ID.setVisible(false);
+        ID.setEnabled(false);
+        ID.setFocusable(false);
+        ID.setRequestFocusEnabled(false);
     }//GEN-LAST:event_IDActionPerformed
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
@@ -969,6 +983,17 @@ btnCerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
         this.dispose();
     }//GEN-LAST:event_btnReportePagosActionPerformed
 
+    private void btnServiciosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnServiciosMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnServiciosMouseExited
+
+    private void btnServiciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnServiciosActionPerformed
+        ServiciosPrecios serv = new ServiciosPrecios();
+        serv.setLocationRelativeTo(null);
+        serv.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnServiciosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1016,11 +1041,10 @@ btnCerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
     private javax.swing.JButton btnCerrarSesion;
     private javax.swing.JButton btnListaLaboratorios;
     private javax.swing.JButton btnReportePagos;
+    private javax.swing.JButton btnServicios;
     private javax.swing.JButton eliminar;
     private javax.swing.JButton guardar;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
@@ -1032,11 +1056,9 @@ btnCerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton limpiar;
     private javax.swing.JButton modificar;
-    private javax.swing.JPanel panelSidebar;
     // End of variables declaration//GEN-END:variables
 }

@@ -35,6 +35,7 @@ public class SeleccionarDoc extends javax.swing.JFrame {
      * Creates new form SeleccionarDoc
      */
     private JTextField campoDestino;
+    private int filaSeleccionada = -1;
     public SeleccionarDoc(JTextField campoDestino) {
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -104,6 +105,14 @@ public class SeleccionarDoc extends javax.swing.JFrame {
         TablaMedicos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         TablaMedicos.setFocusable(false);
         jScrollPane1.setViewportView(TablaMedicos);
+        if (TablaMedicos.getColumnModel().getColumnCount() > 0) {
+            TablaMedicos.getColumnModel().getColumn(0).setHeaderValue("ID");
+            TablaMedicos.getColumnModel().getColumn(1).setHeaderValue("Nombre");
+            TablaMedicos.getColumnModel().getColumn(2).setHeaderValue("Apellido");
+            TablaMedicos.getColumnModel().getColumn(3).setHeaderValue("CI");
+            TablaMedicos.getColumnModel().getColumn(4).setHeaderValue("Categoria Profesional");
+            TablaMedicos.getColumnModel().getColumn(5).setHeaderValue("Especialidad");
+        }
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 1090, 430));
 
@@ -220,7 +229,25 @@ public class SeleccionarDoc extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private void cargarTabla() {
-        DefaultTableModel modelo = new DefaultTableModel();
+        DefaultTableModel modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // bloquea edición en todas las celdas
+            }
+
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                // Opcional: devolver tipo adecuado para cada columna
+                switch (columnIndex) {
+                    case 0:
+                        return Integer.class; // ID
+                    case 3:
+                        return Integer.class; // CI
+                    default:
+                        return String.class;
+                }
+            }
+        };
         modelo.addColumn("ID");
         modelo.addColumn("Nombre");
         modelo.addColumn("Apellido");
@@ -291,10 +318,14 @@ public class SeleccionarDoc extends javax.swing.JFrame {
     }
     
     private void TablaMedicosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaMedicosMouseClicked
-        int filaSeleccionada = TablaMedicos.getSelectedRow();
-        if (filaSeleccionada != -1) {
-            String nombre = TablaMedicos.getValueAt(filaSeleccionada, 1).toString();
-            String apellido = TablaMedicos.getValueAt(filaSeleccionada, 2).toString();
+        int fila = TablaMedicos.rowAtPoint(evt.getPoint());
+        if (fila != -1) {
+            TablaMedicos.setRowSelectionInterval(fila, fila);  
+            filaSeleccionada = fila;                            
+
+            // Actualizar campo de texto con el nombre completo
+            String nombre = TablaMedicos.getValueAt(fila, 1).toString();
+            String apellido = TablaMedicos.getValueAt(fila, 2).toString();
             String nombreCompleto = nombre + " " + apellido;
             DatosMedico.setText(nombreCompleto);
         }
@@ -305,7 +336,6 @@ public class SeleccionarDoc extends javax.swing.JFrame {
     }//GEN-LAST:event_DatosMedicoActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        int filaSeleccionada = TablaMedicos.getSelectedRow();
         if (filaSeleccionada != -1) {
             String nombre = TablaMedicos.getValueAt(filaSeleccionada, 1).toString();
             String apellido = TablaMedicos.getValueAt(filaSeleccionada, 2).toString();
@@ -313,7 +343,7 @@ public class SeleccionarDoc extends javax.swing.JFrame {
             campoDestino.setText(nombreCompleto);
             dispose();
         } else {
-            JOptionPane.showMessageDialog(this, "Seleccione un doctor para guardar.");
+            JOptionPane.showMessageDialog(this, "Seleccione un usuario para guardar.");
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
