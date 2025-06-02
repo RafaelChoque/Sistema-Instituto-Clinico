@@ -81,229 +81,20 @@ public class GenerarFicha extends javax.swing.JFrame {
             String nombreArchivo = String.format("ficha_%s_%d.pdf", nombrePaciente.replaceAll("\\s+", ""), System.currentTimeMillis());
             File pdfFile = new File(nombreArchivo);
 
-            int alturaMinima = 260; 
-            int altura = alturaMinima + servicios.getSize() * 8;  
+            int alturaMinima = 260;
+            int altura = alturaMinima + servicios.getSize() * 8;
             Rectangle pageSize = new Rectangle(226, altura);
-            Document document = new Document(pageSize, 5f, 4f, 5f, 5f);
+            Document document = new Document(pageSize, 10f, 10f, 5f, 5f);
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfFile));
             document.open();
 
-            Font fontNormal = new Font(Font.FontFamily.COURIER, 8, Font.NORMAL);
-            Font fontBold = new Font(Font.FontFamily.COURIER, 8, Font.BOLD);
-            Font fontTitulo = new Font(Font.FontFamily.COURIER, 12, Font.BOLD);
-            Font fontLinea = new Font(Font.FontFamily.COURIER, 5, Font.NORMAL);
+            generarPaginaRecibo(document, nombrePaciente, apellidoPaciente, nombreDoctor, fecha, hora,
+                    formaPago, medioPago, total, servicios, numeroFicha, anioFicha, fechaGuardado, nombreUsuario);
 
-            Image logo = Image.getInstance("src/Imagenes/LogoSantaFe.jpg");
-            logo.scaleToFit(70, 70); 
-            logo.setAlignment(Image.ALIGN_LEFT);
-            document.add(logo);
+            document.newPage();
 
-            PdfPTable tablaCabecera = new PdfPTable(1);
-            tablaCabecera.setWidthPercentage(100);
-            tablaCabecera.setSpacingBefore(2f);
-            tablaCabecera.setSpacingAfter(2f);
-            tablaCabecera.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-
-            PdfPCell cellCentro = new PdfPCell(new Phrase(new Chunk("Centro Médico Santa Fe", fontTitulo)));
-            cellCentro.setBorder(Rectangle.NO_BORDER);
-            cellCentro.setPaddingTop(2f);
-            cellCentro.setPaddingBottom(2f);
-            cellCentro.setHorizontalAlignment(Element.ALIGN_CENTER);
-            tablaCabecera.addCell(cellCentro);
-
-            PdfPCell cellDireccion = new PdfPCell(new Phrase(new Chunk("Zona Villa Bolívar Forno\nAv. Tiahuanacu N°17a\nLa Paz - Bolivia", fontNormal)));
-            cellDireccion.setBorder(Rectangle.NO_BORDER);
-            cellDireccion.setPaddingTop(2f);
-            cellDireccion.setPaddingBottom(2f);
-            cellDireccion.setHorizontalAlignment(Element.ALIGN_CENTER);
-            tablaCabecera.addCell(cellDireccion);
-
-            PdfPCell cellSeparador1 = new PdfPCell(new Phrase(new Chunk("--------------------------", fontLinea)));
-            cellSeparador1.setBorder(Rectangle.NO_BORDER);
-            cellSeparador1.setPaddingTop(0f);
-            cellSeparador1.setPaddingBottom(0f);
-            cellSeparador1.setHorizontalAlignment(Element.ALIGN_CENTER);
-            tablaCabecera.addCell(cellSeparador1);
-
-            PdfPCell cellRecibo = new PdfPCell(new Phrase(new Chunk(String.format("Recibo Nº %d/%02d", numeroFicha, anioFicha), fontNormal)));
-            cellRecibo.setBorder(Rectangle.NO_BORDER);
-            cellRecibo.setPaddingTop(0f);
-            cellRecibo.setPaddingBottom(0f);
-            cellRecibo.setHorizontalAlignment(Element.ALIGN_CENTER);
-            tablaCabecera.addCell(cellRecibo);
-
-            PdfPCell cellSeparador2 = new PdfPCell(new Phrase(new Chunk("--------------------------", fontLinea)));
-            cellSeparador2.setBorder(Rectangle.NO_BORDER);
-            cellSeparador2.setPaddingTop(0f);
-            cellSeparador2.setPaddingBottom(0f);
-            cellSeparador2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            tablaCabecera.addCell(cellSeparador2);
-
-            document.add(tablaCabecera);
-
-            SimpleDateFormat sdfFecha = new SimpleDateFormat("dd/MM/yyyy");
-            SimpleDateFormat sdfHora = new SimpleDateFormat("HH:mm");
-            String fechaStr = sdfFecha.format(fecha);
-            String horaStr = sdfHora.format(hora);
-
-            PdfPTable tablaDatos = new PdfPTable(1);
-            tablaDatos.setWidthPercentage(100);
-            tablaDatos.setSpacingBefore(0f);
-            tablaDatos.setSpacingAfter(0f);
-            tablaDatos.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-
-            PdfPCell cellFecha = new PdfPCell(new Phrase(new Chunk("Fecha emisión: " + fechaStr, fontNormal)));
-            cellFecha.setBorder(Rectangle.NO_BORDER);
-            cellFecha.setPaddingTop(2f);
-            cellFecha.setPaddingBottom(2f);
-            tablaDatos.addCell(cellFecha);
-
-            PdfPCell cellPaciente = new PdfPCell(new Phrase(new Chunk("Paciente: " + nombrePaciente + " " + apellidoPaciente, fontNormal)));
-            cellPaciente.setBorder(Rectangle.NO_BORDER);
-            cellPaciente.setPaddingTop(2f);
-            cellPaciente.setPaddingBottom(2f);
-            tablaDatos.addCell(cellPaciente);
-
-            PdfPCell cellDoctor = new PdfPCell(new Phrase(new Chunk("Médico Responsable: " + nombreDoctor, fontNormal)));
-            cellDoctor.setBorder(Rectangle.NO_BORDER);
-            cellDoctor.setPaddingTop(2f);
-            cellDoctor.setPaddingBottom(2f);
-            tablaDatos.addCell(cellDoctor);
-
-            PdfPCell cellFechaHora = new PdfPCell(new Phrase(new Chunk("Fecha atención: " + fechaStr + "    Hora: " + horaStr, fontNormal)));
-            cellFechaHora.setBorder(Rectangle.NO_BORDER);
-            cellFechaHora.setPaddingTop(2f);
-            cellFechaHora.setPaddingBottom(2f);
-            tablaDatos.addCell(cellFechaHora);
-
-            PdfPCell cellSeparadorDatos = new PdfPCell(new Phrase(new Chunk("-----------------------------------------------------------------------", fontLinea)));
-            cellSeparadorDatos.setBorder(Rectangle.NO_BORDER);
-            cellSeparadorDatos.setPaddingTop(0f);
-            cellSeparadorDatos.setPaddingBottom(0f);
-            tablaDatos.addCell(cellSeparadorDatos);
-
-            document.add(tablaDatos);
-
-            PdfPTable tablaServicios = new PdfPTable(2);
-            tablaServicios.setWidthPercentage(100);
-            tablaServicios.setSpacingBefore(0f);
-            tablaServicios.setSpacingAfter(0f);
-            tablaServicios.setWidths(new float[]{2f, 1f});
-            tablaServicios.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-
-            PdfPCell cabeceraDetalle = new PdfPCell(new Phrase(new Chunk("Detalle", fontBold)));
-            cabeceraDetalle.setBorder(Rectangle.NO_BORDER);
-            cabeceraDetalle.setPaddingTop(0f);
-            cabeceraDetalle.setPaddingBottom(0f);
-            cabeceraDetalle.setHorizontalAlignment(Element.ALIGN_LEFT);
-            tablaServicios.addCell(cabeceraDetalle);
-
-            PdfPCell cabeceraPrecio = new PdfPCell(new Phrase(new Chunk("Precio (Bs)", fontBold)));
-            cabeceraPrecio.setBorder(Rectangle.NO_BORDER);
-            cabeceraPrecio.setPaddingTop(0f);
-            cabeceraPrecio.setPaddingBottom(0f);
-            cabeceraPrecio.setHorizontalAlignment(Element.ALIGN_RIGHT); 
-            tablaServicios.addCell(cabeceraPrecio);
-
-            PdfPCell lineaSeparadora = new PdfPCell(new Phrase(new Chunk("-----------------------------------------------------------------------", fontLinea)));
-            lineaSeparadora.setColspan(2);
-            lineaSeparadora.setBorder(Rectangle.NO_BORDER);
-            lineaSeparadora.setPaddingTop(0f);
-            lineaSeparadora.setPaddingBottom(0f);
-            tablaServicios.addCell(lineaSeparadora);
-
-            for (int i = 0; i < servicios.getSize(); i++) {
-                Servicio servicio = servicios.getElementAt(i);
-
-                PdfPCell celdaNombre = new PdfPCell(new Phrase(new Chunk(servicio.getNombre(), fontNormal)));
-                celdaNombre.setBorder(Rectangle.NO_BORDER);
-                celdaNombre.setHorizontalAlignment(Element.ALIGN_LEFT);
-                celdaNombre.setPaddingTop(0f);
-                celdaNombre.setPaddingBottom(0f);
-                celdaNombre.setMinimumHeight(0f);
-
-                PdfPCell celdaPrecio = new PdfPCell(new Phrase(new Chunk(String.format("%.2f", servicio.getPrecio()), fontNormal)));
-                celdaPrecio.setBorder(Rectangle.NO_BORDER);
-                celdaPrecio.setHorizontalAlignment(Element.ALIGN_RIGHT);
-                celdaPrecio.setPaddingTop(0f);
-                celdaPrecio.setPaddingBottom(0f);
-                celdaPrecio.setMinimumHeight(0f);
-
-                tablaServicios.addCell(celdaNombre);
-                tablaServicios.addCell(celdaPrecio);
-            }
-
-            document.add(tablaServicios);
-
-            PdfPTable tablaSeparador1 = new PdfPTable(1);
-            tablaSeparador1.setWidthPercentage(100);
-            tablaSeparador1.setSpacingBefore(0f);
-            tablaSeparador1.setSpacingAfter(0f);
-            tablaSeparador1.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-
-            PdfPCell separador1 = new PdfPCell(new Phrase(new Chunk("-----------------------------------------------------------------------", fontLinea)));
-            separador1.setBorder(Rectangle.NO_BORDER);
-            separador1.setPaddingTop(0f);
-            separador1.setPaddingBottom(0f);
-            tablaSeparador1.addCell(separador1);
-            document.add(tablaSeparador1);
-
-            PdfPTable tablaTotal = new PdfPTable(2);
-            tablaTotal.setWidthPercentage(100);
-            tablaTotal.setSpacingBefore(0f);
-            tablaTotal.setSpacingAfter(0f);
-            tablaTotal.setWidths(new float[]{2f, 1f});
-            tablaTotal.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-
-            PdfPCell celdaTextoTotal = new PdfPCell(new Phrase(new Chunk("Total:", fontBold)));
-            celdaTextoTotal.setBorder(Rectangle.NO_BORDER);
-            celdaTextoTotal.setHorizontalAlignment(Element.ALIGN_LEFT);  
-            celdaTextoTotal.setPaddingTop(0f);
-            celdaTextoTotal.setPaddingBottom(0f);
-            celdaTextoTotal.setMinimumHeight(0f);
-
-            PdfPCell celdaMontoTotal = new PdfPCell(new Phrase(new Chunk("Bs " + String.format("%.2f", total), fontBold)));
-            celdaMontoTotal.setBorder(Rectangle.NO_BORDER);
-            celdaMontoTotal.setHorizontalAlignment(Element.ALIGN_RIGHT);
-            celdaMontoTotal.setPaddingTop(0f);
-            celdaMontoTotal.setPaddingBottom(0f);
-            celdaMontoTotal.setMinimumHeight(0f);
-
-            tablaTotal.addCell(celdaTextoTotal);
-            tablaTotal.addCell(celdaMontoTotal);
-            document.add(tablaTotal);
-
-            PdfPTable tablaSeparador2 = new PdfPTable(1);
-            tablaSeparador2.setWidthPercentage(100);
-            tablaSeparador2.setSpacingBefore(0f);
-            tablaSeparador2.setSpacingAfter(0f);
-            tablaSeparador2.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-
-            PdfPCell separador2 = new PdfPCell(new Phrase(new Chunk("-----------------------------------------------------------------------", fontLinea)));
-            separador2.setBorder(Rectangle.NO_BORDER);
-            separador2.setPaddingTop(0f);
-            separador2.setPaddingBottom(0f);
-            tablaSeparador2.addCell(separador2);
-            document.add(tablaSeparador2);
-
-            PdfPTable tablaInfo = new PdfPTable(1);
-            tablaInfo.setWidthPercentage(100);
-            tablaInfo.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-
-            tablaInfo.addCell(new Phrase("Forma de pago: " + formaPago, fontNormal));
-            tablaInfo.addCell(new Phrase("Medio de pago: " + medioPago, fontNormal));
-            tablaInfo.addCell(new Phrase("Usuario responsable: " + nombreUsuario, fontNormal));
-
-            PdfPCell espacio = new PdfPCell(new Phrase(" "));
-            espacio.setBorder(Rectangle.NO_BORDER);
-            espacio.setFixedHeight(10f); 
-            tablaInfo.addCell(espacio);
-
-            PdfPCell cellGracias = new PdfPCell(new Phrase("¡Gracias por su confianza!", fontNormal));
-            cellGracias.setBorder(Rectangle.NO_BORDER);
-            cellGracias.setHorizontalAlignment(Element.ALIGN_CENTER);
-            tablaInfo.addCell(cellGracias);
-            document.add(tablaInfo);
+            generarPaginaRecibo(document, nombrePaciente, apellidoPaciente, nombreDoctor, fecha, hora,
+                    formaPago, medioPago, total, servicios, numeroFicha, anioFicha, fechaGuardado, nombreUsuario);
 
             document.close();
             writer.flush();
@@ -320,6 +111,230 @@ public class GenerarFicha extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error al generar PDF: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private void generarPaginaRecibo(Document document,
+            String nombrePaciente, String apellidoPaciente, String nombreDoctor,
+            Date fecha, Date hora, String formaPago, String medioPago,
+            double total, ListModel<Servicio> servicios,
+            int numeroFicha, int anioFicha, Date fechaGuardado, String nombreUsuario) throws Exception {
+
+Font fontNormal = new Font(Font.FontFamily.HELVETICA, 8, Font.NORMAL);
+Font fontBold = new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD);
+Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
+        Font fontLinea = new Font(Font.FontFamily.COURIER, 5, Font.NORMAL);
+
+        Image logo = Image.getInstance("src/Imagenes/LogoSantaFe.jpg");
+        logo.scaleToFit(70, 70);
+        logo.setAlignment(Image.ALIGN_LEFT);
+        document.add(logo);
+
+        PdfPTable tablaCabecera = new PdfPTable(1);
+        tablaCabecera.setWidthPercentage(100);
+        tablaCabecera.setSpacingBefore(2f);
+        tablaCabecera.setSpacingAfter(2f);
+        tablaCabecera.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+
+        PdfPCell cellCentro = new PdfPCell(new Phrase(new Chunk("Centro Médico Santa Fe", fontTitulo)));
+        cellCentro.setBorder(Rectangle.NO_BORDER);
+        cellCentro.setPaddingTop(2f);
+        cellCentro.setPaddingBottom(2f);
+        cellCentro.setHorizontalAlignment(Element.ALIGN_CENTER);
+        tablaCabecera.addCell(cellCentro);
+
+        PdfPCell cellDireccion = new PdfPCell(new Phrase(new Chunk("Zona Villa Bolívar Forno\nAv. Tiahuanacu N°17a\nLa Paz - Bolivia", fontNormal)));
+        cellDireccion.setBorder(Rectangle.NO_BORDER);
+        cellDireccion.setPaddingTop(2f);
+        cellDireccion.setPaddingBottom(2f);
+        cellDireccion.setHorizontalAlignment(Element.ALIGN_CENTER);
+        tablaCabecera.addCell(cellDireccion);
+
+        PdfPCell cellSeparador1 = new PdfPCell(new Phrase(new Chunk("--------------------------", fontLinea)));
+        cellSeparador1.setBorder(Rectangle.NO_BORDER);
+        cellSeparador1.setPaddingTop(0f);
+        cellSeparador1.setPaddingBottom(0f);
+        cellSeparador1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        tablaCabecera.addCell(cellSeparador1);
+
+        PdfPCell cellRecibo = new PdfPCell(new Phrase(new Chunk(String.format("Recibo Nº %d/%02d", numeroFicha, anioFicha), fontNormal)));
+        cellRecibo.setBorder(Rectangle.NO_BORDER);
+        cellRecibo.setPaddingTop(0f);
+        cellRecibo.setPaddingBottom(0f);
+        cellRecibo.setHorizontalAlignment(Element.ALIGN_CENTER);
+        tablaCabecera.addCell(cellRecibo);
+
+        PdfPCell cellSeparador2 = new PdfPCell(new Phrase(new Chunk("--------------------------", fontLinea)));
+        cellSeparador2.setBorder(Rectangle.NO_BORDER);
+        cellSeparador2.setPaddingTop(0f);
+        cellSeparador2.setPaddingBottom(0f);
+        cellSeparador2.setHorizontalAlignment(Element.ALIGN_CENTER);
+        tablaCabecera.addCell(cellSeparador2);
+
+        document.add(tablaCabecera);
+
+        SimpleDateFormat sdfFecha = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdfHora = new SimpleDateFormat("HH:mm");
+        String fechaStr = sdfFecha.format(fecha);
+        String horaStr = sdfHora.format(hora);
+
+        PdfPTable tablaDatos = new PdfPTable(1);
+        tablaDatos.setWidthPercentage(100);
+        tablaDatos.setSpacingBefore(0f);
+        tablaDatos.setSpacingAfter(0f);
+        tablaDatos.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+
+        PdfPCell cellFecha = new PdfPCell(new Phrase(new Chunk("Fecha emisión: " + fechaStr, fontNormal)));
+        cellFecha.setBorder(Rectangle.NO_BORDER);
+        cellFecha.setPaddingTop(2f);
+        cellFecha.setPaddingBottom(2f);
+        tablaDatos.addCell(cellFecha);
+
+        PdfPCell cellPaciente = new PdfPCell(new Phrase(new Chunk("Paciente: " + nombrePaciente + " " + apellidoPaciente, fontNormal)));
+        cellPaciente.setBorder(Rectangle.NO_BORDER);
+        cellPaciente.setPaddingTop(2f);
+        cellPaciente.setPaddingBottom(2f);
+        tablaDatos.addCell(cellPaciente);
+
+        PdfPCell cellDoctor = new PdfPCell(new Phrase(new Chunk("Médico Responsable: " + nombreDoctor, fontNormal)));
+        cellDoctor.setBorder(Rectangle.NO_BORDER);
+        cellDoctor.setPaddingTop(2f);
+        cellDoctor.setPaddingBottom(2f);
+        tablaDatos.addCell(cellDoctor);
+
+        PdfPCell cellFechaHora = new PdfPCell(new Phrase(new Chunk("Fecha atención: " + fechaStr + "    Hora: " + horaStr, fontNormal)));
+        cellFechaHora.setBorder(Rectangle.NO_BORDER);
+        cellFechaHora.setPaddingTop(2f);
+        cellFechaHora.setPaddingBottom(2f);
+        tablaDatos.addCell(cellFechaHora);
+
+        PdfPCell cellSeparadorDatos = new PdfPCell(new Phrase(new Chunk("-------------------------------------------------------------------", fontLinea)));
+        cellSeparadorDatos.setBorder(Rectangle.NO_BORDER);
+        cellSeparadorDatos.setPaddingTop(0f);
+        cellSeparadorDatos.setPaddingBottom(0f);
+        tablaDatos.addCell(cellSeparadorDatos);
+
+        document.add(tablaDatos);
+
+        PdfPTable tablaServicios = new PdfPTable(2);
+        tablaServicios.setWidthPercentage(100);
+        tablaServicios.setSpacingBefore(0f);
+        tablaServicios.setSpacingAfter(0f);
+        tablaServicios.setWidths(new float[]{2f, 1f});
+        tablaServicios.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+
+        PdfPCell cabeceraDetalle = new PdfPCell(new Phrase(new Chunk("Detalle", fontBold)));
+        cabeceraDetalle.setBorder(Rectangle.NO_BORDER);
+        cabeceraDetalle.setPaddingTop(0f);
+        cabeceraDetalle.setPaddingBottom(0f);
+        cabeceraDetalle.setHorizontalAlignment(Element.ALIGN_LEFT);
+        tablaServicios.addCell(cabeceraDetalle);
+
+        PdfPCell cabeceraPrecio = new PdfPCell(new Phrase(new Chunk("Precio (Bs)", fontBold)));
+        cabeceraPrecio.setBorder(Rectangle.NO_BORDER);
+        cabeceraPrecio.setPaddingTop(0f);
+        cabeceraPrecio.setPaddingBottom(0f);
+        cabeceraPrecio.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        tablaServicios.addCell(cabeceraPrecio);
+
+        PdfPCell lineaSeparadora = new PdfPCell(new Phrase(new Chunk("-------------------------------------------------------------------", fontLinea)));
+        lineaSeparadora.setColspan(2);
+        lineaSeparadora.setBorder(Rectangle.NO_BORDER);
+        lineaSeparadora.setPaddingTop(0f);
+        lineaSeparadora.setPaddingBottom(0f);
+        tablaServicios.addCell(lineaSeparadora);
+
+        for (int i = 0; i < servicios.getSize(); i++) {
+            Servicio servicio = servicios.getElementAt(i);
+
+            PdfPCell celdaNombre = new PdfPCell(new Phrase(new Chunk(servicio.getNombre(), fontNormal)));
+            celdaNombre.setBorder(Rectangle.NO_BORDER);
+            celdaNombre.setHorizontalAlignment(Element.ALIGN_LEFT);
+            celdaNombre.setPaddingTop(0f);
+            celdaNombre.setPaddingBottom(0f);
+            celdaNombre.setMinimumHeight(0f);
+
+            PdfPCell celdaPrecio = new PdfPCell(new Phrase(new Chunk(String.format("%.2f", servicio.getPrecio()), fontNormal)));
+            celdaPrecio.setBorder(Rectangle.NO_BORDER);
+            celdaPrecio.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            celdaPrecio.setPaddingTop(0f);
+            celdaPrecio.setPaddingBottom(0f);
+            celdaPrecio.setMinimumHeight(0f);
+
+            tablaServicios.addCell(celdaNombre);
+            tablaServicios.addCell(celdaPrecio);
+        }
+
+        document.add(tablaServicios);
+
+        PdfPTable tablaSeparador1 = new PdfPTable(1);
+        tablaSeparador1.setWidthPercentage(100);
+        tablaSeparador1.setSpacingBefore(0f);
+        tablaSeparador1.setSpacingAfter(0f);
+        tablaSeparador1.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+
+        PdfPCell separador1 = new PdfPCell(new Phrase(new Chunk("-------------------------------------------------------------------", fontLinea)));
+        separador1.setBorder(Rectangle.NO_BORDER);
+        separador1.setPaddingTop(0f);
+        separador1.setPaddingBottom(0f);
+        tablaSeparador1.addCell(separador1);
+        document.add(tablaSeparador1);
+
+        PdfPTable tablaTotal = new PdfPTable(2);
+        tablaTotal.setWidthPercentage(100);
+        tablaTotal.setSpacingBefore(0f);
+        tablaTotal.setSpacingAfter(0f);
+        tablaTotal.setWidths(new float[]{2f, 1f});
+        tablaTotal.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+
+        PdfPCell celdaTextoTotal = new PdfPCell(new Phrase(new Chunk("Total:", fontBold)));
+        celdaTextoTotal.setBorder(Rectangle.NO_BORDER);
+        celdaTextoTotal.setHorizontalAlignment(Element.ALIGN_LEFT);
+        celdaTextoTotal.setPaddingTop(0f);
+        celdaTextoTotal.setPaddingBottom(0f);
+        celdaTextoTotal.setMinimumHeight(0f);
+
+        PdfPCell celdaMontoTotal = new PdfPCell(new Phrase(new Chunk("Bs " + String.format("%.2f", total), fontBold)));
+        celdaMontoTotal.setBorder(Rectangle.NO_BORDER);
+        celdaMontoTotal.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        celdaMontoTotal.setPaddingTop(0f);
+        celdaMontoTotal.setPaddingBottom(0f);
+        celdaMontoTotal.setMinimumHeight(0f);
+
+        tablaTotal.addCell(celdaTextoTotal);
+        tablaTotal.addCell(celdaMontoTotal);
+        document.add(tablaTotal);
+
+        PdfPTable tablaSeparador2 = new PdfPTable(1);
+        tablaSeparador2.setWidthPercentage(100);
+        tablaSeparador2.setSpacingBefore(0f);
+        tablaSeparador2.setSpacingAfter(0f);
+        tablaSeparador2.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+
+        PdfPCell separador2 = new PdfPCell(new Phrase(new Chunk("-------------------------------------------------------------------", fontLinea)));
+        separador2.setBorder(Rectangle.NO_BORDER);
+        separador2.setPaddingTop(0f);
+        separador2.setPaddingBottom(0f);
+        tablaSeparador2.addCell(separador2);
+        document.add(tablaSeparador2);
+
+        PdfPTable tablaInfo = new PdfPTable(1);
+        tablaInfo.setWidthPercentage(100);
+        tablaInfo.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+
+        tablaInfo.addCell(new Phrase("Forma de pago: " + formaPago, fontNormal));
+        tablaInfo.addCell(new Phrase("Medio de pago: " + medioPago, fontNormal));
+        tablaInfo.addCell(new Phrase("Usuario responsable: " + nombreUsuario, fontNormal));
+
+        PdfPCell espacio = new PdfPCell(new Phrase(" "));
+        espacio.setBorder(Rectangle.NO_BORDER);
+        espacio.setFixedHeight(10f);
+        tablaInfo.addCell(espacio);
+
+        PdfPCell cellGracias = new PdfPCell(new Phrase("¡Gracias por su confianza!", fontNormal));
+        cellGracias.setBorder(Rectangle.NO_BORDER);
+        cellGracias.setHorizontalAlignment(Element.ALIGN_CENTER);
+        tablaInfo.addCell(cellGracias);
+        document.add(tablaInfo);
     }
 
     /**
@@ -821,7 +836,6 @@ public class GenerarFicha extends javax.swing.JFrame {
         return texto.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
     }
 
-
     private void filtrarLista() {
         String texto = BuscarItemsNombre.getText().toLowerCase().trim();
 
@@ -844,6 +858,7 @@ public class GenerarFicha extends javax.swing.JFrame {
 
         ListaItems.setModel(modeloFiltrado);
     }
+
     private void actualizarPreciosYTotal() {
         DefaultListModel<Servicio> modelo = (DefaultListModel<Servicio>) ListaItemsSeleccionados.getModel();
         String tipoPrecio = ComboTipoPrecio.getSelectedItem().toString().toLowerCase();
@@ -1083,9 +1098,9 @@ public class GenerarFicha extends javax.swing.JFrame {
         Apellido.setText("");
         NombreDoctor.setText("");
         FechaAtencion.setDate(null);
-        Hora.setValue(new Date()); 
-        FormaPago.setSelectedIndex(0); 
-        TipoPago.setSelectedIndex(0);  
+        Hora.setValue(new Date());
+        FormaPago.setSelectedIndex(0);
+        TipoPago.setSelectedIndex(0);
         TotalSumaServicios.setText("");
         DefaultListModel<Servicio> modeloLista = (DefaultListModel<Servicio>) ListaItemsSeleccionados.getModel();
         modeloLista.clear();
