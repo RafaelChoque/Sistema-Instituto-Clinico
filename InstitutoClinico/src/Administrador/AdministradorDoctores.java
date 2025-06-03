@@ -62,7 +62,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
 
         Superior = new javax.swing.JPanel();
         btnAdminCajeros = new javax.swing.JButton();
-        btnListaLaboratorios = new javax.swing.JButton();
+        btnAdminDoc = new javax.swing.JButton();
         btnCerrarSesion = new javax.swing.JButton();
         btnReportePagos = new javax.swing.JButton();
         btnServicios = new javax.swing.JButton();
@@ -127,27 +127,27 @@ public class AdministradorDoctores extends javax.swing.JFrame {
                 btnAdminCajerosActionPerformed(evt);
             }
         });
-        Superior.add(btnAdminCajeros, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 0, 229, 60));
+        Superior.add(btnAdminCajeros, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 0, 229, 60));
 
-        btnListaLaboratorios.setBackground(new java.awt.Color(33, 14, 68));
-        btnListaLaboratorios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnListaLaboratorios.setForeground(new java.awt.Color(241, 241, 241));
-        btnListaLaboratorios.setText("Administracion de Doctores");
-        btnListaLaboratorios.setBorder(null);
-        btnListaLaboratorios.setHorizontalAlignment(SwingConstants.LEFT);
-        btnListaLaboratorios.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
-        btnListaLaboratorios.setIconTextGap(10);
-        btnListaLaboratorios.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnAdminDoc.setBackground(new java.awt.Color(33, 14, 68));
+        btnAdminDoc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnAdminDoc.setForeground(new java.awt.Color(241, 241, 241));
+        btnAdminDoc.setText("Administracion de Doctores");
+        btnAdminDoc.setBorder(null);
+        btnAdminDoc.setHorizontalAlignment(SwingConstants.LEFT);
+        btnAdminDoc.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+        btnAdminDoc.setIconTextGap(10);
+        btnAdminDoc.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnListaLaboratoriosMouseExited(evt);
+                btnAdminDocMouseExited(evt);
             }
         });
-        btnListaLaboratorios.addActionListener(new java.awt.event.ActionListener() {
+        btnAdminDoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnListaLaboratoriosActionPerformed(evt);
+                btnAdminDocActionPerformed(evt);
             }
         });
-        Superior.add(btnListaLaboratorios, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 0, 229, 60));
+        Superior.add(btnAdminDoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 0, 229, 60));
 
         btnCerrarSesion.setBackground(new java.awt.Color(33, 14, 68));
         btnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -187,7 +187,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
                 btnReportePagosActionPerformed(evt);
             }
         });
-        Superior.add(btnReportePagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 0, 229, 60));
+        Superior.add(btnReportePagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 0, 229, 60));
 
         btnServicios.setBackground(new java.awt.Color(33, 14, 68));
         btnServicios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -207,7 +207,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
                 btnServiciosActionPerformed(evt);
             }
         });
-        Superior.add(btnServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(1310, 0, 229, 60));
+        Superior.add(btnServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 0, 229, 60));
 
         getContentPane().add(Superior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1920, 60));
 
@@ -252,7 +252,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         TablaMedicos.setFocusable(false);
         jScrollPane1.setViewportView(TablaMedicos);
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 1190, 860));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 1210, 860));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -263,7 +263,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
 
         jTextField1.setBackground(new java.awt.Color(233, 236, 239));
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jTextField1.setText("Buscar");
+        jTextField1.setText("Buscar Médico");
         jTextField1.setToolTipText("");
         jTextField1.setBorder(null);
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -312,9 +312,9 @@ public class AdministradorDoctores extends javax.swing.JFrame {
             }
 
             private void filterTable() {
-                String query = jTextField1.getText().toLowerCase();
+                String query = jTextField1.getText().toLowerCase().trim();
 
-                if (query.equals(placeholder.toLowerCase())) {
+                if (query.equals(placeholder.toLowerCase()) || query.isEmpty()) {
                     TablaMedicos.setRowSorter(null);
                     return;
                 }
@@ -322,18 +322,22 @@ public class AdministradorDoctores extends javax.swing.JFrame {
                 TableRowSorter<TableModel> sorter = new TableRowSorter<>(TablaMedicos.getModel());
                 TablaMedicos.setRowSorter(sorter);
 
-                if (query.trim().isEmpty()) {
-                    sorter.setRowFilter(null);
-                } else {
-                    sorter.setRowFilter(RowFilter.regexFilter("(?i)" + query, 1, 3));
-                }
+                sorter.setRowFilter(new RowFilter<TableModel, Integer>() {
+                    @Override
+                    public boolean include(Entry<? extends TableModel, ? extends Integer> entry) {
+                        String nombre = entry.getStringValue(2).toLowerCase();
+                        String apellido = entry.getStringValue(3).toLowerCase();
+                        String combinado = (nombre + " " + apellido).toLowerCase();
+                        return combinado.contains(query);
+                    }
+                });
             }
         });
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo_1.png"))); // NOI18N
         jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 5, 190, 40));
 
-        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 1190, 910));
+        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 1210, 910));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(194, 194, 194)));
@@ -358,28 +362,28 @@ public class AdministradorDoctores extends javax.swing.JFrame {
                 TelefonoActionPerformed(evt);
             }
         });
-        jPanel1.add(Telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 140, 440, -1));
+        jPanel1.add(Telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 140, 440, -1));
 
         Nombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NombreActionPerformed(evt);
             }
         });
-        jPanel1.add(Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 440, -1));
+        jPanel1.add(Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 50, 440, -1));
 
         Apellido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ApellidoActionPerformed(evt);
             }
         });
-        jPanel1.add(Apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 440, -1));
+        jPanel1.add(Apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, 440, -1));
 
         CI.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CIActionPerformed(evt);
             }
         });
-        jPanel1.add(CI, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 110, 440, -1));
+        jPanel1.add(CI, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 110, 440, -1));
 
         ID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -394,7 +398,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
 
         EspecialidadLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         EspecialidadLabel.setText("Especialidad:");
-        jPanel1.add(EspecialidadLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 230, -1, 20));
+        jPanel1.add(EspecialidadLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 230, -1, 20));
 
         guardar.setBackground(new java.awt.Color(80, 35, 100));
         guardar.setForeground(new java.awt.Color(255, 255, 255));
@@ -470,7 +474,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
                 }
             }
         });
-        jPanel1.add(Categoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 230, 170, -1));
+        jPanel1.add(Categoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 230, 170, -1));
 
         OtroLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         OtroLabel.setText("Nombre de Categoria:");
@@ -497,13 +501,13 @@ public class AdministradorDoctores extends javax.swing.JFrame {
             "Oftalmología",
             "Otorrinolaringología",
             "Radiología" }));
-jPanel1.add(Especialidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 230, 170, -1));
+jPanel1.add(Especialidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 230, 170, -1));
 
 jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 jLabel16.setText("Teléfono:");
 jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, 20));
-jPanel1.add(FechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 170, 440, -1));
-jPanel1.add(Direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 200, 440, -1));
+jPanel1.add(FechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 170, 440, -1));
+jPanel1.add(Direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 200, 440, -1));
 
 jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 jLabel17.setText("Fecha de Nacimiento:");
@@ -512,9 +516,9 @@ jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170,
 jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 jLabel18.setText("Categoría Profesional:");
 jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, -1, 20));
-jPanel1.add(NombreCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 260, 440, -1));
+jPanel1.add(NombreCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 260, 440, -1));
 
-jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 50, 660, 330));
+jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 50, 630, 330));
 
 getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1880, 980));
 
@@ -964,13 +968,13 @@ pack();
         this.dispose();
     }//GEN-LAST:event_btnAdminCajerosActionPerformed
 
-    private void btnListaLaboratoriosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnListaLaboratoriosMouseExited
+    private void btnAdminDocMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdminDocMouseExited
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnListaLaboratoriosMouseExited
+    }//GEN-LAST:event_btnAdminDocMouseExited
 
-    private void btnListaLaboratoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListaLaboratoriosActionPerformed
+    private void btnAdminDocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminDocActionPerformed
 
-    }//GEN-LAST:event_btnListaLaboratoriosActionPerformed
+    }//GEN-LAST:event_btnAdminDocActionPerformed
 
     private void btnReportePagosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportePagosMouseExited
         // TODO add your handling code here:
@@ -1038,8 +1042,8 @@ pack();
     private javax.swing.JTable TablaMedicos;
     private javax.swing.JTextField Telefono;
     private javax.swing.JButton btnAdminCajeros;
+    private javax.swing.JButton btnAdminDoc;
     private javax.swing.JButton btnCerrarSesion;
-    private javax.swing.JButton btnListaLaboratorios;
     private javax.swing.JButton btnReportePagos;
     private javax.swing.JButton btnServicios;
     private javax.swing.JButton eliminar;

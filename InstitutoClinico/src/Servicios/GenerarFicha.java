@@ -461,6 +461,10 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
                 TablaAfichesMouseClicked(evt);
             }
         });
+        TablaAfiches.getTableHeader().setReorderingAllowed(false);
+        TablaAfiches.getTableHeader().setResizingAllowed(false);
+        TablaAfiches.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        TablaAfiches.setFocusable(false);
         jScrollPane1.setViewportView(TablaAfiches);
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 1190, 860));
@@ -790,7 +794,12 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
     }
 
     private void cargarTablaAfiches() {
-        DefaultTableModel modelo = new DefaultTableModel();
+        DefaultTableModel modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         modelo.setColumnIdentifiers(new Object[]{
             "ID", "Paciente", "Fecha Atención", "Hora Atención", "Forma de Pago", "Medio de Pago", "Total de Precio"
         });

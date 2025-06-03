@@ -198,7 +198,7 @@ public class AdministradorCajeros extends javax.swing.JFrame {
                 btnServiceActionPerformed(evt);
             }
         });
-        Superior.add(btnService, new org.netbeans.lib.awtextra.AbsoluteConstraints(1310, 0, 229, 60));
+        Superior.add(btnService, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 0, 229, 60));
 
         getContentPane().add(Superior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1920, 60));
 
@@ -254,7 +254,7 @@ public class AdministradorCajeros extends javax.swing.JFrame {
 
         jTextField1.setBackground(new java.awt.Color(233, 236, 239));
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jTextField1.setText("Buscar");
+        jTextField1.setText("Buscar Cajero");
         jTextField1.setToolTipText("");
         jTextField1.setBorder(null);
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -262,7 +262,7 @@ public class AdministradorCajeros extends javax.swing.JFrame {
                 jTextField1ActionPerformed(evt);
             }
         });
-        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 15, 120, 20));
+        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 15, 140, 20));
         String placeholder = "Buscar Cajero";
 
         jTextField1.setText(placeholder);
@@ -303,9 +303,9 @@ public class AdministradorCajeros extends javax.swing.JFrame {
             }
 
             private void filterTable() {
-                String query = jTextField1.getText().toLowerCase();
+                String query = jTextField1.getText().toLowerCase().trim();
 
-                if (query.equals(placeholder.toLowerCase())) {
+                if (query.equals(placeholder.toLowerCase()) || query.isEmpty()) {
                     TablaCajeros.setRowSorter(null);
                     return;
                 }
@@ -313,11 +313,15 @@ public class AdministradorCajeros extends javax.swing.JFrame {
                 TableRowSorter<TableModel> sorter = new TableRowSorter<>(TablaCajeros.getModel());
                 TablaCajeros.setRowSorter(sorter);
 
-                if (query.trim().isEmpty()) {
-                    sorter.setRowFilter(null);
-                } else {
-                    sorter.setRowFilter(RowFilter.regexFilter("(?i)" + query, 1, 3));
-                }
+                sorter.setRowFilter(new RowFilter<TableModel, Integer>() {
+                    @Override
+                    public boolean include(Entry<? extends TableModel, ? extends Integer> entry) {
+                        String nombre = entry.getStringValue(2).toLowerCase();   // columna "Nombre"
+                        String apellido = entry.getStringValue(3).toLowerCase(); // columna "Apellido"
+                        String combinado = (nombre + " " + apellido).toLowerCase();
+                        return combinado.contains(query);
+                    }
+                });
             }
         });
 

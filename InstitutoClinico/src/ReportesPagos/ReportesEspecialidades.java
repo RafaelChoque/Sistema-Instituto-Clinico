@@ -6,59 +6,22 @@ package ReportesPagos;
 
 import Administrador.AdministradorCajeros;
 import Administrador.AdministradorDoctores;
-import ConexionLogin.Conexion;
 import ConexionLogin.Login;
 import Servicios.ServiciosPrecios;
-import com.formdev.flatlaf.FlatLightLaf;
-import java.awt.Color;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.security.Timestamp;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.Normalizer;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 /**
  *
  * @author Rafael
  */
-public class ReportespagarMedico extends javax.swing.JFrame {
+public class ReportesEspecialidades extends javax.swing.JFrame {
 
     /**
-     * Creates new form ReportesMedicos
-     */// Referencias a las columnas (fuera del método si quieres reutilizarlas)
-
-
-    
-    public ReportespagarMedico() {
+     * Creates new form ReportesEspecialidades
+     */
+    public ReportesEspecialidades() {
         initComponents();
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        TotalDetallado.setSelectedItem("Total");
-        cargaTablaReporte();
     }
 
     /**
@@ -95,13 +58,11 @@ public class ReportespagarMedico extends javax.swing.JFrame {
         Buscar = new javax.swing.JButton();
         TotalDetallado = new javax.swing.JComboBox<>();
         btnCalcularPagoTotal = new javax.swing.JButton();
-        BuscadorDoctores = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         FondoGris = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Superior.setBackground(new java.awt.Color(80, 35, 100));
@@ -256,7 +217,7 @@ public class ReportespagarMedico extends javax.swing.JFrame {
         TablaReportes.setFocusable(false);
         TablaReportes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ReportePagosMouseClicked(evt);
+                TablaReportesReportePagosMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(TablaReportes);
@@ -317,28 +278,6 @@ public class ReportespagarMedico extends javax.swing.JFrame {
         });
         jPanel2.add(btnCalcularPagoTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 120, 110, -1));
 
-        BuscadorDoctores.setBackground(new java.awt.Color(233, 236, 239));
-        BuscadorDoctores.setBorder(null);
-        BuscadorDoctores.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BuscadorDoctoresActionPerformed(evt);
-            }
-        });
-        jPanel2.add(BuscadorDoctores, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 50, 200, 20));
-        BuscadorDoctores.getDocument().addDocumentListener(new DocumentListener() {
-            public void insertUpdate(DocumentEvent e) {
-                filtrarLista();
-            }
-
-            public void removeUpdate(DocumentEvent e) {
-                filtrarLista();
-            }
-
-            public void changedUpdate(DocumentEvent e) {
-                filtrarLista();
-            }
-        });
-
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
         jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, -1));
 
@@ -352,154 +291,6 @@ public class ReportespagarMedico extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-private void cargaTablaReporte() {
-    DefaultTableModel modelo = new DefaultTableModel();
-    String seleccion = (String) TotalDetallado.getSelectedItem();
-
-    if (seleccion.equals("Total")) {
-        modelo.setColumnIdentifiers(new Object[]{
-            "ID", "Doctor", "Paciente", "Fecha", "Hora", "Servicio", "Servicio Total"
-        });
-    } else if (seleccion.equals("Detallado")) {
-        modelo.setColumnIdentifiers(new Object[]{
-            "ID", "Doctor", "Paciente", "Fecha", "Hora", "Servicio", "Precio del Servicio"
-        });
-    }
-
-    String sqlTotal = """
-        SELECT 
-            a.id_afiche, 
-            CONCAT(m.nombre, ' ', m.apellido) AS doctor,
-            CONCAT(a.nombre_paciente, ' ', a.apellido_paciente) AS paciente,
-            a.fecha_atencion,
-            a.hora_atencion,
-            a.precio_total AS servicio_total
-        FROM afiches a
-        JOIN medicos m ON m.id_medico = a.id_medico
-        ORDER BY a.id_afiche
-    """;
-
-    String sqlDetallado = """
-        SELECT 
-            a.id_afiche, 
-            CONCAT(m.nombre, ' ', m.apellido) AS doctor,
-            CONCAT(a.nombre_paciente, ' ', a.apellido_paciente) AS paciente,
-            a.fecha_atencion,
-            a.hora_atencion,
-            s.nombre_servicio AS servicio,
-            CASE da.tipo_precio
-                WHEN 'normal' THEN s.precio_normal
-                WHEN 'emergencia' THEN s.precio_emergencia
-            END AS precio_servicio
-        FROM afiches a
-        JOIN medicos m ON m.id_medico = a.id_medico
-        JOIN detalle_afiche da ON da.id_afiche = a.id_afiche
-        JOIN servicios s ON s.id_servicio = da.id_servicio
-        ORDER BY a.id_afiche
-    """;
-
-    String sql = seleccion.equals("Total") ? sqlTotal : sqlDetallado;
-
-    try (Connection con = Conexion.obtenerConexion();
-         PreparedStatement ps = con.prepareStatement(sql);
-         ResultSet rs = ps.executeQuery()) {
-
-        while (rs.next()) {
-            if (seleccion.equals("Total")) {
-                modelo.addRow(new Object[]{
-                    "Ficha: " + rs.getInt("id_afiche"),
-                    rs.getString("doctor"),
-                    rs.getString("paciente"),
-                    rs.getTimestamp("fecha_atencion").toLocalDateTime().toLocalDate(),
-                    rs.getString("hora_atencion"),
-                    rs.getString("servicio"),
-                    rs.getDouble("servicio_total")
-                });
-            } else {
-                modelo.addRow(new Object[]{
-                    "Ficha: " + rs.getInt("id_afiche"),
-                    rs.getString("doctor"),
-                    rs.getString("paciente"),
-                    rs.getTimestamp("fecha_atencion").toLocalDateTime().toLocalDate(),
-                    rs.getString("hora_atencion"),
-                    rs.getString("servicio"),
-                    rs.getDouble("precio_servicio")
-                });
-            }
-        }
-
-        TablaReportes.setModel(modelo);
-
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(null, "Error al cargar afiches: " + ex.getMessage());
-        ex.printStackTrace();
-    }
-}
-
-
-    private String quitarTildes(String texto) {
-        if (texto == null) {
-            return "";
-        }
-        texto = Normalizer.normalize(texto, Normalizer.Form.NFD);
-        return texto.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
-    }
-    private void filtrarLista() {
-        String texto = BuscadorDoctores.getText();
-        TableRowSorter<TableModel> sorter = new TableRowSorter<>(TablaReportes.getModel());
-        TablaReportes.setRowSorter(sorter);
-
-        // Aplica el filtro solo a la columna "Doctor", que está en el índice 1
-        sorter.setRowFilter(RowFilter.regexFilter("(?i)" + texto, 1));
-    }
-
-    private void NombreDoctorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreDoctorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_NombreDoctorActionPerformed
-
-    private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
-        String nombreDoctorFiltro = quitarTildes(NombreDoctor.getText().trim().toLowerCase());
-        Date desde = FechaDesde.getDate();
-        Date hasta = FechaHasta.getDate();
-
-        if (desde == null || hasta == null) {
-            JOptionPane.showMessageDialog(this, "Debe seleccionar ambas fechas (desde y hasta).");
-            return;
-        }
-
-        TableRowSorter<TableModel> sorter = new TableRowSorter<>(TablaReportes.getModel());
-        TablaReportes.setRowSorter(sorter);
-
-        List<RowFilter<Object, Object>> filtros = new ArrayList<>();
-
-        // Filtro por nombre de doctor (columna 1)
-        if (!nombreDoctorFiltro.isEmpty()) {
-            filtros.add(RowFilter.regexFilter("(?i)" + Pattern.quote(nombreDoctorFiltro), 1));
-        }
-
-        // Filtro por fechas (columna 3: Fecha)
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        filtros.add(new RowFilter<>() {
-            @Override
-            public boolean include(Entry<? extends Object, ? extends Object> entry) {
-                try {
-                    String fechaTexto = entry.getStringValue(3); // columna de fecha
-                    Date fecha = df.parse(fechaTexto);
-                    return !fecha.before(desde) && !fecha.after(hasta);
-                } catch (ParseException e) {
-                    return false;
-                }
-            }
-        });
-
-        sorter.setRowFilter(RowFilter.andFilter(filtros));
-    }//GEN-LAST:event_BuscarActionPerformed
-
-    private void TotalDetalladoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TotalDetalladoActionPerformed
-        TablaReportes.setRowSorter(null);
-        cargaTablaReporte();
-        filtrarLista(); 
-    }//GEN-LAST:event_TotalDetalladoActionPerformed
 
     private void btnAdminCajerosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdminCajerosMouseExited
         // TODO add your handling code here:
@@ -553,50 +344,28 @@ private void cargaTablaReporte() {
         this.dispose();
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
-    private void BuscadorDoctoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscadorDoctoresActionPerformed
+    private void NombreDoctorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreDoctorActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_BuscadorDoctoresActionPerformed
+    }//GEN-LAST:event_NombreDoctorActionPerformed
+
+    private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
+
+    }//GEN-LAST:event_BuscarActionPerformed
 
     private void btnCalcularPagoTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularPagoTotalActionPerformed
-        String seleccion = TotalDetallado.getSelectedItem().toString();
 
-        TableModel modelo = TablaReportes.getModel();
-        double sumaTotal = 0;
-
-        // Recorre todas las filas visibles de la tabla
-        for (int i = 0; i < TablaReportes.getRowCount(); i++) {
-            int rowIndex = TablaReportes.convertRowIndexToModel(i); // Convierte índice visual a modelo
-            Object val = modelo.getValueAt(rowIndex, 6); // Columna 6: Precio del servicio / Servicio Total
-
-            if (val != null) {
-                try {
-                    sumaTotal += Double.parseDouble(val.toString());
-                } catch (NumberFormatException e) {
-                    e.printStackTrace(); // Puedes loguear o ignorar según tu criterio
-                }
-            }
-        }
-
-        JOptionPane.showMessageDialog(this, "Pago total: BS " + String.format("%.2f", sumaTotal));
     }//GEN-LAST:event_btnCalcularPagoTotalActionPerformed
 
-    private void ReportePagosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReportePagosMouseClicked
-        int filaVista = TablaReportes.getSelectedRow();
-        if (filaVista == -1) {
-            return; // Nada seleccionado
-        }
-        int filaModelo = TablaReportes.convertRowIndexToModel(filaVista);
+    private void TotalDetalladoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TotalDetalladoActionPerformed
 
-        DefaultTableModel modelo = (DefaultTableModel) TablaReportes.getModel();
-        Object valorDoctor = modelo.getValueAt(filaModelo, 1); // Columna 1: Doctor
+    }//GEN-LAST:event_TotalDetalladoActionPerformed
 
-        if (valorDoctor != null) {
-            NombreDoctor.setText(valorDoctor.toString());
-        }
-    }//GEN-LAST:event_ReportePagosMouseClicked
+    private void TablaReportesReportePagosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaReportesReportePagosMouseClicked
+
+    }//GEN-LAST:event_TablaReportesReportePagosMouseClicked
 
     /**
-     * @param args the command liNombreDoctoruments
+     * @param args the command line arguments
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -605,24 +374,33 @@ private void cargaTablaReporte() {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            UIManager.setLookAndFeel(new FlatLightLaf());
-        } catch (Exception e){
-            e.printStackTrace();
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ReportesEspecialidades.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(ReportesEspecialidades.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(ReportesEspecialidades.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ReportesEspecialidades.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ReportespagarMedico().setVisible(true);
+                new ReportesEspecialidades().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AgregarTecnico1;
-    private javax.swing.JTextField BuscadorDoctores;
     private javax.swing.JButton Buscar;
     private javax.swing.JTextField DoctorSeleccionado;
     private com.toedter.calendar.JDateChooser FechaDesde;

@@ -173,6 +173,9 @@
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="TablaAfichesMouseClicked"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="TablaAfiches.getTableHeader().setReorderingAllowed(false);&#xa;TablaAfiches.getTableHeader().setResizingAllowed(false);&#xa;TablaAfiches.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);&#xa;TablaAfiches.setFocusable(false);"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>

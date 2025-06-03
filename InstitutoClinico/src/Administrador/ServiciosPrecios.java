@@ -54,8 +54,8 @@ public class ServiciosPrecios extends javax.swing.JFrame {
         btnCerrarSesion = new javax.swing.JButton();
         btnAdminCajeros = new javax.swing.JButton();
         btnListaLaboratorios = new javax.swing.JButton();
-        btnReportePagos1 = new javax.swing.JButton();
         btnReportePagos = new javax.swing.JButton();
+        btnServicios = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -129,7 +129,7 @@ public class ServiciosPrecios extends javax.swing.JFrame {
                 btnAdminCajerosActionPerformed(evt);
             }
         });
-        Superior.add(btnAdminCajeros, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 0, 229, 60));
+        Superior.add(btnAdminCajeros, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 0, 229, 60));
 
         btnListaLaboratorios.setBackground(new java.awt.Color(33, 14, 68));
         btnListaLaboratorios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -149,36 +149,16 @@ public class ServiciosPrecios extends javax.swing.JFrame {
                 btnListaLaboratoriosActionPerformed(evt);
             }
         });
-        Superior.add(btnListaLaboratorios, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 0, 229, 60));
-
-        btnReportePagos1.setBackground(new java.awt.Color(33, 14, 68));
-        btnReportePagos1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnReportePagos1.setForeground(new java.awt.Color(241, 241, 241));
-        btnReportePagos1.setText("Reportes de Pagos");
-        btnReportePagos1.setBorder(null);
-        btnReportePagos.setHorizontalAlignment(SwingConstants.LEFT);
-        btnReportePagos.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
-        btnReportePagos.setIconTextGap(10);
-        btnReportePagos1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnReportePagos1MouseExited(evt);
-            }
-        });
-        btnReportePagos1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReportePagos1ActionPerformed(evt);
-            }
-        });
-        Superior.add(btnReportePagos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 0, 229, 60));
+        Superior.add(btnListaLaboratorios, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 0, 229, 60));
 
         btnReportePagos.setBackground(new java.awt.Color(33, 14, 68));
         btnReportePagos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnReportePagos.setForeground(new java.awt.Color(241, 241, 241));
-        btnReportePagos.setText("Servicios");
+        btnReportePagos.setText("Reportes de Pagos");
         btnReportePagos.setBorder(null);
-        btnReportePagos.setHorizontalAlignment(SwingConstants.LEFT);
-        btnReportePagos.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
-        btnReportePagos.setIconTextGap(10);
+        btnServicios.setHorizontalAlignment(SwingConstants.LEFT);
+        btnServicios.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+        btnServicios.setIconTextGap(10);
         btnReportePagos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnReportePagosMouseExited(evt);
@@ -189,7 +169,27 @@ public class ServiciosPrecios extends javax.swing.JFrame {
                 btnReportePagosActionPerformed(evt);
             }
         });
-        Superior.add(btnReportePagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(1310, 0, 229, 60));
+        Superior.add(btnReportePagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 0, 229, 60));
+
+        btnServicios.setBackground(new java.awt.Color(33, 14, 68));
+        btnServicios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnServicios.setForeground(new java.awt.Color(241, 241, 241));
+        btnServicios.setText("Servicios");
+        btnServicios.setBorder(null);
+        btnServicios.setHorizontalAlignment(SwingConstants.LEFT);
+        btnServicios.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+        btnServicios.setIconTextGap(10);
+        btnServicios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnServiciosMouseExited(evt);
+            }
+        });
+        btnServicios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnServiciosActionPerformed(evt);
+            }
+        });
+        Superior.add(btnServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 0, 229, 60));
 
         getContentPane().add(Superior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1920, 60));
 
@@ -243,7 +243,7 @@ public class ServiciosPrecios extends javax.swing.JFrame {
 
         jTextField1.setBackground(new java.awt.Color(233, 236, 239));
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jTextField1.setText("Buscar ID");
+        jTextField1.setText("Buscar Servicio");
         jTextField1.setToolTipText("");
         jTextField1.setBorder(null);
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -251,8 +251,8 @@ public class ServiciosPrecios extends javax.swing.JFrame {
                 jTextField1ActionPerformed(evt);
             }
         });
-        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 15, 90, 20));
-        String placeholder = "Buscar ID";
+        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 15, 140, 20));
+        String placeholder = "Buscar Servicio";
         jTextField1.setText(placeholder);
         jTextField1.setForeground(Color.GRAY);
         jTextField1.addFocusListener(new FocusAdapter() {
@@ -298,7 +298,7 @@ public class ServiciosPrecios extends javax.swing.JFrame {
                 if (query.trim().isEmpty()) {
                     sorter.setRowFilter(null);
                 } else {
-                    sorter.setRowFilter(RowFilter.regexFilter(query, 0));
+                    sorter.setRowFilter(RowFilter.regexFilter(query, 1));
                 }
             }
         });
@@ -423,7 +423,12 @@ public class ServiciosPrecios extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 private void cargarTabla() {
-        DefaultTableModel modelo = new DefaultTableModel();
+        DefaultTableModel modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; 
+            }
+        };
         modelo.setColumnIdentifiers(new Object[]{
             "ID", "Nombre del Servicio", "Descripción", "Precio Normal", "Precio Emergencia"
         });
@@ -668,13 +673,13 @@ private void cargarTabla() {
 
     }//GEN-LAST:event_btnListaLaboratoriosActionPerformed
 
-    private void btnReportePagos1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportePagos1MouseExited
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnReportePagos1MouseExited
+    private void IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDActionPerformed
+        ID.setVisible(false);
+        ID.setEnabled(false);
+        ID.setFocusable(false);
+        ID.setRequestFocusEnabled(false);
 
-    private void btnReportePagos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportePagos1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnReportePagos1ActionPerformed
+    }//GEN-LAST:event_IDActionPerformed
 
     private void btnReportePagosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportePagosMouseExited
         // TODO add your handling code here:
@@ -687,13 +692,13 @@ private void cargarTabla() {
         this.dispose();
     }//GEN-LAST:event_btnReportePagosActionPerformed
 
-    private void IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDActionPerformed
-        ID.setVisible(false);
-        ID.setEnabled(false);
-        ID.setFocusable(false);
-        ID.setRequestFocusEnabled(false);
+    private void btnServiciosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnServiciosMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnServiciosMouseExited
 
-    }//GEN-LAST:event_IDActionPerformed
+    private void btnServiciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnServiciosActionPerformed
+
+    }//GEN-LAST:event_btnServiciosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -735,7 +740,7 @@ private void cargarTabla() {
     private javax.swing.JButton btnListaLaboratorios;
     private javax.swing.JButton btnModificar1;
     private javax.swing.JButton btnReportePagos;
-    private javax.swing.JButton btnReportePagos1;
+    private javax.swing.JButton btnServicios;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
