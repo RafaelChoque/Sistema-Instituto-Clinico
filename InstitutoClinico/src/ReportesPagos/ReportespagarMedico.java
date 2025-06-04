@@ -10,6 +10,8 @@ import ConexionLogin.Conexion;
 import ConexionLogin.Login;
 import Servicios.ServiciosPrecios;
 import com.formdev.flatlaf.FlatLightLaf;
+import java.awt.Color;
+import java.awt.Component;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,12 +27,15 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -52,6 +57,37 @@ public class ReportespagarMedico extends javax.swing.JFrame {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         TotalDetallado.setSelectedItem("Total");
         cargaTablaReporte();
+        aplicarColorFilasAlternadas(TablaReportes);
+    }
+
+        private void aplicarColorFilasAlternadas(JTable tabla) {
+        TableCellRenderer renderer = new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                if (isSelected) {
+                    setBackground(table.getSelectionBackground());
+                    setForeground(table.getSelectionForeground());
+                } else {
+                    if (row % 2 == 0) {
+                        setBackground(Color.WHITE);
+                        setForeground(Color.BLACK);
+                    } else {
+                        setBackground(new Color(240, 240, 240));
+                        setForeground(Color.BLACK);
+                    }
+                }
+
+                return this;
+            }
+        };
+
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setCellRenderer(renderer);
+        }
     }
 
     /**
