@@ -68,34 +68,34 @@ public class ReportespagarMedico extends javax.swing.JFrame {
         btnListaLaboratorios = new javax.swing.JButton();
         btnReportePagos = new javax.swing.JButton();
         btnServicios = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
         btnCerrarSesion = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaReportes = new javax.swing.JTable();
+        ListaPersonal1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        AgregarTecnico1 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         TotalPago = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         DoctorSeleccionado = new javax.swing.JTextField();
-        BuscadorDoctores = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        NombreDoctor = new javax.swing.JTextField();
-        Buscar = new javax.swing.JButton();
-        btnCalcularPagoTotal = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
-        btnLimpiar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        ListaPersonal = new javax.swing.JLabel();
-        TotalDetallado = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+        BuscadorDoctores = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        NombreDoctor = new javax.swing.JTextField();
+        TotalDetallado = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        Buscar = new javax.swing.JButton();
         FechaDesde = new com.toedter.calendar.JDateChooser();
-        jLabel3 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         FechaHasta = new com.toedter.calendar.JDateChooser();
-        ListaPersonal1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        btnLimpiar = new javax.swing.JButton();
+        btnCalcularPagoTotal = new javax.swing.JButton();
         FondoGris = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -123,7 +123,7 @@ public class ReportespagarMedico extends javax.swing.JFrame {
                 btnAdminCajerosActionPerformed(evt);
             }
         });
-        Superior.add(btnAdminCajeros, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 0, 229, 60));
+        Superior.add(btnAdminCajeros, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 229, 60));
 
         btnListaLaboratorios.setBackground(new java.awt.Color(33, 14, 68));
         btnListaLaboratorios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -143,7 +143,7 @@ public class ReportespagarMedico extends javax.swing.JFrame {
                 btnListaLaboratoriosActionPerformed(evt);
             }
         });
-        Superior.add(btnListaLaboratorios, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 0, 229, 60));
+        Superior.add(btnListaLaboratorios, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, 229, 60));
 
         btnReportePagos.setBackground(new java.awt.Color(33, 14, 68));
         btnReportePagos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -163,7 +163,7 @@ public class ReportespagarMedico extends javax.swing.JFrame {
                 btnReportePagosActionPerformed(evt);
             }
         });
-        Superior.add(btnReportePagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 0, 229, 60));
+        Superior.add(btnReportePagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 0, 229, 60));
 
         btnServicios.setBackground(new java.awt.Color(33, 14, 68));
         btnServicios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -183,7 +183,10 @@ public class ReportespagarMedico extends javax.swing.JFrame {
                 btnServiciosActionPerformed(evt);
             }
         });
-        Superior.add(btnServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 0, 229, 60));
+        Superior.add(btnServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 0, 229, 60));
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cerrarsesion.png"))); // NOI18N
+        Superior.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(1890, 0, 20, 60));
 
         btnCerrarSesion.setBackground(new java.awt.Color(33, 14, 68));
         btnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -203,7 +206,7 @@ public class ReportespagarMedico extends javax.swing.JFrame {
                 btnCerrarSesionActionPerformed(evt);
             }
         });
-        Superior.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1690, 0, 229, 60));
+        Superior.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1740, 0, 180, 60));
 
         getContentPane().add(Superior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1920, 60));
 
@@ -245,27 +248,43 @@ public class ReportespagarMedico extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(TablaReportes);
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 1810, 720));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 1840, 730));
+
+        ListaPersonal1.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        ListaPersonal1.setText("Reportes de Pagos");
+        jPanel2.add(ListaPersonal1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 260, -1));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(194, 194, 194)));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Reporte de Pago", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
         jPanel1.setToolTipText("");
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        AgregarTecnico1.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
-        AgregarTecnico1.setText("Total a Pagar");
-        jPanel1.add(AgregarTecnico1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+        jLabel1.setText("Doctor:");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, 30));
 
-        jLabel1.setText("Doctor");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, 20));
-        jPanel1.add(TotalPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 410, -1));
+        TotalPago.setEditable(false);
+        TotalPago.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TotalPagoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(TotalPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 400, 30));
 
-        jLabel4.setText("Total de Pago:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, 20));
-        jPanel1.add(DoctorSeleccionado, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, 410, -1));
+        jLabel4.setText("Total:");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, 30));
 
-        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1300, 90, 540, 120));
+        DoctorSeleccionado.setEditable(false);
+        jPanel1.add(DoctorSeleccionado, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, 400, 30));
+
+        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1340, 50, 520, 130));
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Filtros", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
+        jPanel4.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
 
         BuscadorDoctores.setBackground(new java.awt.Color(233, 236, 239));
         BuscadorDoctores.setBorder(null);
@@ -274,7 +293,7 @@ public class ReportespagarMedico extends javax.swing.JFrame {
                 BuscadorDoctoresActionPerformed(evt);
             }
         });
-        jPanel2.add(BuscadorDoctores, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 50, 200, 20));
+        jPanel4.add(BuscadorDoctores, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, 150, 40));
         BuscadorDoctores.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) {
                 filtrarLista();
@@ -289,60 +308,25 @@ public class ReportespagarMedico extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, -1));
-
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo_1.png"))); // NOI18N
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 260, 40));
+        jPanel4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 190, 40));
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel8.setText("Tipo de ficha:");
+        jPanel5.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 90, 40));
+
+        NombreDoctor.setEditable(false);
+        NombreDoctor.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         NombreDoctor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NombreDoctorActionPerformed(evt);
             }
         });
-        jPanel3.add(NombreDoctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 80, 250, -1));
-
-        Buscar.setBackground(new java.awt.Color(29, 41, 57));
-        Buscar.setForeground(new java.awt.Color(255, 255, 255));
-        Buscar.setText("Buscar");
-        Buscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BuscarActionPerformed(evt);
-            }
-        });
-        jPanel3.add(Buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 80, 110, -1));
-
-        btnCalcularPagoTotal.setText("Calcular Pago");
-        btnCalcularPagoTotal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCalcularPagoTotalActionPerformed(evt);
-            }
-        });
-        jPanel3.add(btnCalcularPagoTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 80, 110, -1));
-
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel8.setText("Doctor:");
-        jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 80, -1, -1));
-
-        btnLimpiar.setText("Limpiar");
-        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLimpiarActionPerformed(evt);
-            }
-        });
-        jPanel3.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 80, -1, -1));
-
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        ListaPersonal.setFont(new java.awt.Font("Candara", 1, 18)); // NOI18N
-        ListaPersonal.setText("Filtradores");
-        jPanel4.add(ListaPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 90, -1));
+        jPanel5.add(NombreDoctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 15, 250, 30));
 
         TotalDetallado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Total", "Detallado"}));
         TotalDetallado.addActionListener(new java.awt.event.ActionListener() {
@@ -350,31 +334,59 @@ public class ReportespagarMedico extends javax.swing.JFrame {
                 TotalDetalladoActionPerformed(evt);
             }
         });
-        jPanel4.add(TotalDetallado, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 260, 40));
+        jPanel5.add(TotalDetallado, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 15, 260, 30));
 
-        jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 120));
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel9.setText("Doctor seleccionado:");
+        jPanel5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, -1, 40));
 
-        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel4.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, 1100, 61));
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Buscar.setBackground(new java.awt.Color(33, 14, 68));
+        Buscar.setForeground(new java.awt.Color(255, 255, 255));
+        Buscar.setText("Aplicar");
+        Buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BuscarActionPerformed(evt);
+            }
+        });
+        jPanel3.add(Buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 15, 110, 30));
+        jPanel3.add(FechaDesde, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 15, 260, 30));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Desde:");
-        jPanel5.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
-        jPanel5.add(FechaDesde, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, 250, -1));
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 40));
+        jPanel3.add(FechaHasta, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 15, 250, 30));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Hasta:");
-        jPanel5.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 20, -1, -1));
-        jPanel5.add(FechaHasta, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 20, 250, -1));
+        jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 10, -1, 40));
 
-        jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 0, 1000, 60));
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 15, 110, 30));
 
-        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 1270, 120));
+        jPanel4.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 70, 1308, 60));
 
-        ListaPersonal1.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
-        ListaPersonal1.setText("Reporte de Pagos Doctor");
-        jPanel2.add(ListaPersonal1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 260, -1));
+        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 1310, 130));
+
+        btnCalcularPagoTotal.setBackground(new java.awt.Color(0, 204, 204));
+        btnCalcularPagoTotal.setForeground(new java.awt.Color(255, 255, 255));
+        btnCalcularPagoTotal.setText("Calcular Pago");
+        btnCalcularPagoTotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCalcularPagoTotalActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnCalcularPagoTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(1750, 190, 110, 30));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1880, 980));
 
@@ -518,10 +530,6 @@ private void cargaTablaReporte() {
     }
 
 
-
-    private void NombreDoctorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreDoctorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_NombreDoctorActionPerformed
 
     private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
         String nombreDoctorFiltro = quitarTildes(NombreDoctor.getText().trim().toLowerCase());
@@ -728,6 +736,14 @@ private void cargaTablaReporte() {
         }
     }//GEN-LAST:event_ReporteVistaPreviaMouseClicked
 
+    private void NombreDoctorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreDoctorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NombreDoctorActionPerformed
+
+    private void TotalPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TotalPagoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TotalPagoActionPerformed
+
     /**
      * @param args the command liNombreDoctoruments
      */
@@ -754,14 +770,12 @@ private void cargaTablaReporte() {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel AgregarTecnico1;
     private javax.swing.JTextField BuscadorDoctores;
     private javax.swing.JButton Buscar;
     private javax.swing.JTextField DoctorSeleccionado;
     private com.toedter.calendar.JDateChooser FechaDesde;
     private com.toedter.calendar.JDateChooser FechaHasta;
     private javax.swing.JLabel FondoGris;
-    private javax.swing.JLabel ListaPersonal;
     private javax.swing.JLabel ListaPersonal1;
     private javax.swing.JTextField NombreDoctor;
     private javax.swing.JPanel Superior;
@@ -781,7 +795,9 @@ private void cargaTablaReporte() {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
