@@ -493,7 +493,6 @@ public class GenerarFicha extends javax.swing.JFrame {
         ListaItemsSeleccionados = new javax.swing.JList<>();
         TotalSumaServicios = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        AgregarTecnico2 = new javax.swing.JLabel();
         formadepago = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         TipoPago = new javax.swing.JComboBox<>();
@@ -503,6 +502,11 @@ public class GenerarFicha extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
+        AgregarTecnico4 = new javax.swing.JLabel();
+        AgregarTecnico2 = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        NotasTextArea = new javax.swing.JTextArea();
         FondoGris = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -874,10 +878,6 @@ public class GenerarFicha extends javax.swing.JFrame {
     jLabel3.setText("Total:");
     jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 590, -1, 20));
 
-    AgregarTecnico2.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
-    AgregarTecnico2.setText("Pago");
-    jPanel1.add(AgregarTecnico2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 640, 160, -1));
-
     formadepago.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
     formadepago.setText("Forma de Pago:");
     jPanel1.add(formadepago, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 670, -1, -1));
@@ -900,7 +900,7 @@ public class GenerarFicha extends javax.swing.JFrame {
             guardarActionPerformed(evt);
         }
     });
-    jPanel1.add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 740, 140, 30));
+    jPanel1.add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 870, 140, 30));
 
     limpiar.setText("Limpiar");
     limpiar.addActionListener(new java.awt.event.ActionListener() {
@@ -908,7 +908,7 @@ public class GenerarFicha extends javax.swing.JFrame {
             limpiarActionPerformed(evt);
         }
     });
-    jPanel1.add(limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 740, 100, 30));
+    jPanel1.add(limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 870, 100, 30));
 
     jPanel3.setBackground(new java.awt.Color(204, 204, 204));
     jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 100, 630, 1));
@@ -919,7 +919,26 @@ public class GenerarFicha extends javax.swing.JFrame {
     jPanel6.setBackground(new java.awt.Color(204, 204, 204));
     jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 230, 630, 1));
 
-    jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 50, 660, 780));
+    AgregarTecnico4.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+    AgregarTecnico4.setText("Pago");
+    jPanel1.add(AgregarTecnico4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 640, 160, -1));
+
+    AgregarTecnico2.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+    AgregarTecnico2.setText("Nota");
+    jPanel1.add(AgregarTecnico2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 750, 160, -1));
+
+    jPanel8.setBackground(new java.awt.Color(204, 204, 204));
+    jPanel1.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 735, 630, 1));
+
+    NotasTextArea.setColumns(20);
+    NotasTextArea.setRows(5);
+    jScrollPane3.setViewportView(NotasTextArea);
+    NotasTextArea.setLineWrap(true);
+    NotasTextArea.setWrapStyleWord(true);
+
+    jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 780, 610, 80));
+
+    jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 50, 660, 910));
 
     getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1880, 980));
 
@@ -1133,11 +1152,24 @@ public class GenerarFicha extends javax.swing.JFrame {
         String formaPago = FormaPago.getSelectedItem().toString();
         String medioPago = TipoPago.getSelectedItem().toString();
         String TotalServicioTexto = TotalSumaServicios.getText().trim().replace(",", ".");
-        double TotalServicio = Double.parseDouble(TotalServicioTexto);
+        String notas = NotasTextArea.getText().trim();
         Date fechaGuardado = new Date();
 
         if (nombrePaciente.isEmpty() || apellidoPaciente.isEmpty() || nombreDoctor.isEmpty() || fechaAtencionDate == null) {
-            JOptionPane.showMessageDialog(this, "Complete todos los campos obligatorios.");
+            JOptionPane.showMessageDialog(this, "Complete todos los campos obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (TotalServicioTexto.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El total del servicio está vacío.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        double TotalServicio;
+        try {
+            TotalServicio = Double.parseDouble(TotalServicioTexto);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "El total del servicio no es un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -1186,8 +1218,7 @@ public class GenerarFicha extends javax.swing.JFrame {
             rsMax.close();
             psMax.close();
 
-            String sqlInsert = "INSERT INTO afiches (id_cajero, id_medico, nombre_paciente, apellido_paciente, fecha_atencion, hora_atencion, forma_pago, medio_pago, precio_total, numero_ficha, anio_ficha) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
+            String sqlInsert = "INSERT INTO afiches (id_cajero, id_medico, nombre_paciente, apellido_paciente, fecha_atencion, hora_atencion, forma_pago, medio_pago, precio_total, numero_ficha, anio_ficha, notas) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement psInsert = con.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
             psInsert.setInt(1, idCajero);
             psInsert.setInt(2, idMedico);
@@ -1200,6 +1231,8 @@ public class GenerarFicha extends javax.swing.JFrame {
             psInsert.setDouble(9, TotalServicio);
             psInsert.setInt(10, siguienteNumero);
             psInsert.setInt(11, anioCorto);
+            psInsert.setString(12, notas.isEmpty() ? null : notas);
+
             int filas = psInsert.executeUpdate();
             int idAfiche = -1;
 
@@ -1309,6 +1342,7 @@ public class GenerarFicha extends javax.swing.JFrame {
         DefaultListModel<Servicio> modeloLista = (DefaultListModel<Servicio>) ListaItemsSeleccionados.getModel();
         modeloLista.clear();
         ComboTipoPrecio.setSelectedIndex(0);
+        NotasTextArea.setText("");
     }
     private void NombreDoctorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreDoctorActionPerformed
         // TODO add your handling code here:
@@ -1423,6 +1457,7 @@ public class GenerarFicha extends javax.swing.JFrame {
     private javax.swing.JLabel AgregarTecnico1;
     private javax.swing.JLabel AgregarTecnico2;
     private javax.swing.JLabel AgregarTecnico3;
+    private javax.swing.JLabel AgregarTecnico4;
     private javax.swing.JTextField Apellido;
     private javax.swing.JTextField BuscarItemsNombre;
     private javax.swing.JComboBox<TipoPrecioItem> ComboTipoPrecio;
@@ -1436,6 +1471,7 @@ public class GenerarFicha extends javax.swing.JFrame {
     private javax.swing.JLabel ListaPersonal;
     private javax.swing.JTextField Nombre;
     private javax.swing.JTextField NombreDoctor;
+    private javax.swing.JTextArea NotasTextArea;
     private javax.swing.JButton SeleccionarDoc;
     private javax.swing.JPanel Superior;
     private javax.swing.JTable TablaAfiches;
@@ -1464,8 +1500,10 @@ public class GenerarFicha extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblBuscarItems;
