@@ -24,6 +24,7 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.text.Normalizer;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
@@ -50,6 +51,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         cargarTabla();
+        cargarDatosCategoriaOtros();
         aplicarColorFilasAlternadas(TablaMedicos);
         ID.setVisible(false);
         ID.setEnabled(false);
@@ -136,7 +138,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         NombreCategoria = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        ComboCategoriaOtros = new javax.swing.JComboBox<>();
         FondoGris = new javax.swing.JLabel();
         FondoBlanco = new javax.swing.JLabel();
 
@@ -514,6 +516,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         EspecialidadLabel.setVisible(false);
         OtroLabel.setVisible(false);
         NombreCategoria.setVisible(false);
+        ComboCategoriaOtros.setVisible(false);
 
         Categoria.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -525,16 +528,19 @@ public class AdministradorDoctores extends javax.swing.JFrame {
                         EspecialidadLabel.setVisible(false);
                         OtroLabel.setVisible(false);
                         NombreCategoria.setVisible(false);
+                        ComboCategoriaOtros.setVisible(false);
                     } else if ("Especialista".equals(seleccionado)) {
                         Especialidad.setVisible(true);
                         EspecialidadLabel.setVisible(true);
                         OtroLabel.setVisible(false);
                         NombreCategoria.setVisible(false);
+                        ComboCategoriaOtros.setVisible(false);
                     } else if ("Otro".equals(seleccionado)) {
                         Especialidad.setVisible(false);
                         EspecialidadLabel.setVisible(false);
                         OtroLabel.setVisible(true);
                         NombreCategoria.setVisible(true);
+                        ComboCategoriaOtros.setVisible(true);
                     }
                 }
             }
@@ -583,8 +589,9 @@ jLabel18.setText("Categoría Profesional:");
 jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, -1, 20));
 jPanel1.add(NombreCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 260, 170, -1));
 
-jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
-jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 260, 260, -1));
+ComboCategoriaOtros.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
+jPanel1.add(ComboCategoriaOtros, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 260, 260, -1));
+cargarDatosCategoriaOtros();
 
 jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 50, 630, 330));
 
@@ -647,6 +654,30 @@ pack();
             ex.printStackTrace();
         }
     }
+private void cargarDatosCategoriaOtros() {
+    DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+
+    String query = "SELECT DISTINCT categoria_profesional_otro FROM medicos "
+                 + "WHERE categoria_profesional_otro IS NOT NULL AND categoria_profesional_otro <> ''";
+
+    try (
+         Connection con = Conexion.obtenerConexion();
+         PreparedStatement ps = con.prepareStatement(query);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            String categoriaOtro = rs.getString("categoria_profesional_otro");
+            model.addElement(categoriaOtro);
+        }
+
+        ComboCategoriaOtros.setModel(model);
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "Error al cargar categorías: " + ex.getMessage());
+        ex.printStackTrace();
+    }
+}
+
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
@@ -705,9 +736,15 @@ pack();
                 return;
             }
         } else if (categoriatxt.equals("Otro")) {
-            categoriaProfesionalOtro = NombreCategoria.getText().trim();
-            if (categoriaProfesionalOtro.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Por favor, ingrese la categoría profesional.");
+            String nombreCat = NombreCategoria.getText().trim();
+            Object seleccionadoCombo = ComboCategoriaOtros.getSelectedItem();
+
+            if (!nombreCat.isEmpty()) {
+                categoriaProfesionalOtro = nombreCat;
+            } else if (seleccionadoCombo != null && !seleccionadoCombo.toString().trim().isEmpty()) {
+                categoriaProfesionalOtro = seleccionadoCombo.toString().trim();
+            } else {
+                JOptionPane.showMessageDialog(null, "Por favor, ingrese o seleccione una categoría profesional válida.");
                 return;
             }
         }
@@ -727,6 +764,7 @@ pack();
 
             PreparedStatement psMedico = con.prepareStatement(
                     "INSERT INTO medicos(CI, nombre, apellido, fecha_nacimiento, telefono, direccion, categoria_profesional, categoria_profesional_otro, especialidad, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1)");
+
             psMedico.setString(1, citxt);
             psMedico.setString(2, nombretxt);
             psMedico.setString(3, apellidotxt);
@@ -798,12 +836,16 @@ pack();
                 JOptionPane.showMessageDialog(null, "Por favor, seleccione una especialidad.");
                 return;
             }
-        }
+        } else if (categoriatxt.equals("Otro")) {
+            String nombreCat = NombreCategoria.getText().trim();
+            Object seleccionadoCombo = ComboCategoriaOtros.getSelectedItem();
 
-        if (categoriatxt.equals("Otro")) {
-            categoriaProfesionalOtro = NombreCategoria.getText().trim();
-            if (categoriaProfesionalOtro.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Por favor, ingrese la categoría profesional.");
+            if (!nombreCat.isEmpty()) {
+                categoriaProfesionalOtro = nombreCat;
+            } else if (seleccionadoCombo != null && !seleccionadoCombo.toString().trim().isEmpty()) {
+                categoriaProfesionalOtro = seleccionadoCombo.toString().trim();
+            } else {
+                JOptionPane.showMessageDialog(null, "Por favor, ingrese o seleccione una categoría profesional válida.");
                 return;
             }
         }
@@ -828,14 +870,12 @@ pack();
             psMedico.setString(2, apellidotxt);
             psMedico.setDate(3, new java.sql.Date(fechanacimientotxt.getTime()));
 
-            
             if (!telefonotxt.isEmpty()) {
                 psMedico.setString(4, telefonotxt);
             } else {
                 psMedico.setNull(4, java.sql.Types.VARCHAR);
             }
 
-            
             if (!direcciontxt.isEmpty()) {
                 psMedico.setString(5, direcciontxt);
             } else {
@@ -856,7 +896,7 @@ pack();
                 psMedico.setNull(8, java.sql.Types.VARCHAR);
             }
 
-            psMedico.setString(9, citxt); 
+            psMedico.setString(9, citxt);
 
             int filasAfectadas = psMedico.executeUpdate();
 
@@ -1104,6 +1144,7 @@ pack();
     private javax.swing.JTextField Apellido;
     private javax.swing.JTextField CI;
     private javax.swing.JComboBox<String> Categoria;
+    private javax.swing.JComboBox<String> ComboCategoriaOtros;
     private javax.swing.JTextField Direccion;
     private javax.swing.JComboBox<String> Especialidad;
     private javax.swing.JLabel EspecialidadLabel;
@@ -1126,7 +1167,6 @@ pack();
     private javax.swing.JButton btnServicios;
     private javax.swing.JButton eliminar;
     private javax.swing.JButton guardar;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;

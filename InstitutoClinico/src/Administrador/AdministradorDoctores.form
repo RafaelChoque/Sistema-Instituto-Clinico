@@ -648,7 +648,7 @@
                 </Property>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="Especialidad.setVisible(false);&#xa;EspecialidadLabel.setVisible(false);&#xa;OtroLabel.setVisible(false);&#xa;NombreCategoria.setVisible(false);&#xa;&#xa;Categoria.addItemListener(new java.awt.event.ItemListener() {&#xa;    public void itemStateChanged(java.awt.event.ItemEvent evt) {&#xa;        if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {&#xa;            String seleccionado = (String) Categoria.getSelectedItem();&#xa;&#xa;            if (&quot;General&quot;.equals(seleccionado)) {&#xa;                Especialidad.setVisible(false);&#xa;                EspecialidadLabel.setVisible(false);&#xa;                OtroLabel.setVisible(false);&#xa;                NombreCategoria.setVisible(false);&#xa;            } else if (&quot;Especialista&quot;.equals(seleccionado)) {&#xa;                Especialidad.setVisible(true);&#xa;                EspecialidadLabel.setVisible(true);&#xa;                OtroLabel.setVisible(false);&#xa;                NombreCategoria.setVisible(false);&#xa;            } else if (&quot;Otro&quot;.equals(seleccionado)) {&#xa;                Especialidad.setVisible(false);&#xa;                EspecialidadLabel.setVisible(false);&#xa;                OtroLabel.setVisible(true);&#xa;                NombreCategoria.setVisible(true);&#xa;            }&#xa;        }&#xa;    }&#xa;});"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="Especialidad.setVisible(false);&#xa;EspecialidadLabel.setVisible(false);&#xa;OtroLabel.setVisible(false);&#xa;NombreCategoria.setVisible(false);&#xa;ComboCategoriaOtros.setVisible(false);&#xa;&#xa;Categoria.addItemListener(new java.awt.event.ItemListener() {&#xa;    public void itemStateChanged(java.awt.event.ItemEvent evt) {&#xa;        if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {&#xa;            String seleccionado = (String) Categoria.getSelectedItem();&#xa;&#xa;            if (&quot;General&quot;.equals(seleccionado)) {&#xa;                Especialidad.setVisible(false);&#xa;                EspecialidadLabel.setVisible(false);&#xa;                OtroLabel.setVisible(false);&#xa;                NombreCategoria.setVisible(false);&#xa;                ComboCategoriaOtros.setVisible(false);&#xa;            } else if (&quot;Especialista&quot;.equals(seleccionado)) {&#xa;                Especialidad.setVisible(true);&#xa;                EspecialidadLabel.setVisible(true);&#xa;                OtroLabel.setVisible(false);&#xa;                NombreCategoria.setVisible(false);&#xa;                ComboCategoriaOtros.setVisible(false);&#xa;            } else if (&quot;Otro&quot;.equals(seleccionado)) {&#xa;                Especialidad.setVisible(false);&#xa;                EspecialidadLabel.setVisible(false);&#xa;                OtroLabel.setVisible(true);&#xa;                NombreCategoria.setVisible(true);&#xa;                ComboCategoriaOtros.setVisible(true);&#xa;            }&#xa;        }&#xa;    }&#xa;});"/>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
               <Constraints>
@@ -745,13 +745,14 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBox1">
+            <Component class="javax.swing.JComboBox" name="ComboCategoriaOtros">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                   <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] {})" type="code"/>
                 </Property>
               </Properties>
               <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="cargarDatosCategoriaOtros();"/>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
               <Constraints>
