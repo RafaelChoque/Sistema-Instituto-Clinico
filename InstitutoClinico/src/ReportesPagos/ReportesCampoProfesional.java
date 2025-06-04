@@ -6,21 +6,43 @@ package ReportesPagos;
 
 import Administrador.AdministradorCajeros;
 import Administrador.AdministradorDoctores;
+import ConexionLogin.Conexion;
 import ConexionLogin.Login;
 import Servicios.ServiciosPrecios;
+import com.formdev.flatlaf.FlatLightLaf;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.Normalizer;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
  * @author Rafael
  */
-public class ReportesEspecialidades extends javax.swing.JFrame {
+public class ReportesCampoProfesional extends javax.swing.JFrame {
 
     /**
-     * Creates new form ReportesEspecialidades
+     * Creates new form ReportesCampoProfesional
      */
-    public ReportesEspecialidades() {
+    public ReportesCampoProfesional() {
         initComponents();
     }
 
@@ -40,26 +62,29 @@ public class ReportesEspecialidades extends javax.swing.JFrame {
         btnServicios = new javax.swing.JButton();
         btnCerrarSesion = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        ListaPersonal = new javax.swing.JLabel();
-        NombreDoctor = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        TablaReportes = new javax.swing.JTable();
+        TablaReportesCampoProf = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         AgregarTecnico1 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         TotalPago = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         DoctorSeleccionado = new javax.swing.JTextField();
+        BuscadorCampo = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
         FechaDesde = new com.toedter.calendar.JDateChooser();
         FechaHasta = new com.toedter.calendar.JDateChooser();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        Buscar = new javax.swing.JButton();
+        ListaPersonal = new javax.swing.JLabel();
         TotalDetallado = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        Buscar = new javax.swing.JButton();
         btnCalcularPagoTotal = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        CategoriaBox = new javax.swing.JComboBox<>();
+        ListaPersonal1 = new javax.swing.JLabel();
         FondoGris = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -173,34 +198,19 @@ public class ReportesEspecialidades extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        ListaPersonal.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
-        ListaPersonal.setText("Reporte de Pagos Doctor");
-        jPanel2.add(ListaPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 260, -1));
-
-        NombreDoctor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NombreDoctorActionPerformed(evt);
-            }
-        });
-        jPanel2.add(NombreDoctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, 160, -1));
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel7.setText("Doctor:");
-        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, 20));
-
-        TablaReportes.setModel(new javax.swing.table.DefaultTableModel(
+        TablaReportesCampoProf.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Doctor", "Paciente", "Fecha", "Hora", "Servicio", "Precio del Servicio", "Servicio Total"
+                "ID", "Doctor", "Campo Profesional", "Paciente", "Fecha", "Hora", "Servicio", "Precio del Servicio", "Servicio Total"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -211,18 +221,19 @@ public class ReportesEspecialidades extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        TablaReportes.getTableHeader().setReorderingAllowed(false);
-        TablaReportes.getTableHeader().setResizingAllowed(false);
-        TablaReportes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        TablaReportes.setFocusable(false);
-        TablaReportes.addMouseListener(new java.awt.event.MouseAdapter() {
+        TablaReportesCampoProf.getTableHeader().setReorderingAllowed(false);
+        TablaReportesCampoProf.getTableHeader().setResizingAllowed(false);
+        TablaReportesCampoProf.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        TablaReportesCampoProf.setFocusable(false);
+        TablaReportesCampoProf.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TablaReportesReportePagosMouseClicked(evt);
+                TablaReportesCampoProfReportePagosMouseClicked(evt);
+                TablaReportesCampoProfParaVistaPrevia(evt);
             }
         });
-        jScrollPane1.setViewportView(TablaReportes);
+        jScrollPane1.setViewportView(TablaReportesCampoProf);
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 1810, 790));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 1810, 710));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(194, 194, 194)));
@@ -231,26 +242,76 @@ public class ReportesEspecialidades extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         AgregarTecnico1.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
-        AgregarTecnico1.setText("Total a Pagar");
+        AgregarTecnico1.setText("Total de Dinero por Campo Profesional");
         jPanel1.add(AgregarTecnico1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        jLabel1.setText("Doctor");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, -1, 20));
-        jPanel1.add(TotalPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, 410, -1));
+        jLabel1.setText("Campo Profesional:");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, 20));
+        jPanel1.add(TotalPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, 380, -1));
 
-        jLabel4.setText("Total Pago");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, 20));
-        jPanel1.add(DoctorSeleccionado, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 410, -1));
+        jLabel4.setText("Total:");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, 20));
+        jPanel1.add(DoctorSeleccionado, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 50, 380, -1));
 
-        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1300, 10, 540, 140));
-        jPanel2.add(FechaDesde, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 90, 250, -1));
-        jPanel2.add(FechaHasta, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 90, 250, -1));
+        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1300, 90, 540, 120));
 
+        BuscadorCampo.setBackground(new java.awt.Color(233, 236, 239));
+        BuscadorCampo.setBorder(null);
+        BuscadorCampo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BuscadorCampoActionPerformed(evt);
+            }
+        });
+        jPanel2.add(BuscadorCampo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 50, 200, 20));
+        BuscadorCampo.getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) {
+                filtrarLista();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                filtrarLista();
+            }
+
+            public void changedUpdate(DocumentEvent e) {
+                filtrarLista();
+            }
+        });
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, -1));
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo_1.png"))); // NOI18N
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 260, 40));
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel3.add(FechaDesde, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 20, 250, -1));
+        jPanel3.add(FechaHasta, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 50, 250, -1));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Desde:");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 90, -1, 20));
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 20, -1, -1));
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Hasta:");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 90, -1, 20));
+        jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 50, -1, -1));
+
+        ListaPersonal.setFont(new java.awt.Font("Candara", 1, 18)); // NOI18N
+        ListaPersonal.setText("Filtradores");
+        jPanel3.add(ListaPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 90, -1));
+
+        TotalDetallado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Total", "Detallado"}));
+        TotalDetallado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TotalDetalladoActionPerformed(evt);
+            }
+        });
+        jPanel3.add(TotalDetallado, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 220, 20));
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel7.setText("Campo Profesional: ");
+        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 30, -1, -1));
 
         Buscar.setBackground(new java.awt.Color(29, 41, 57));
         Buscar.setForeground(new java.awt.Color(255, 255, 255));
@@ -260,29 +321,25 @@ public class ReportesEspecialidades extends javax.swing.JFrame {
                 BuscarActionPerformed(evt);
             }
         });
-        jPanel2.add(Buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 80, 110, -1));
+        jPanel3.add(Buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 90, 110, -1));
 
-        TotalDetallado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Total", "Detallado"}));
-        TotalDetallado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TotalDetalladoActionPerformed(evt);
-            }
-        });
-        jPanel2.add(TotalDetallado, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 220, 40));
-
-        btnCalcularPagoTotal.setText("Calcular Pago");
+        btnCalcularPagoTotal.setText("Calcular Monto");
         btnCalcularPagoTotal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCalcularPagoTotalActionPerformed(evt);
             }
         });
-        jPanel2.add(btnCalcularPagoTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 120, 110, -1));
+        jPanel3.add(btnCalcularPagoTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 90, 130, -1));
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, -1));
+        CategoriaBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {""}));
+        jPanel3.add(CategoriaBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 30, 190, -1));
+        cargarCategoriaBox();
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo_1.png"))); // NOI18N
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 260, 40));
+        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 1270, 120));
+
+        ListaPersonal1.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        ListaPersonal1.setText("Reporte de Pagos Doctor");
+        jPanel2.add(ListaPersonal1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 260, -1));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1880, 980));
 
@@ -291,7 +348,157 @@ public class ReportesEspecialidades extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    private void cargarCategoriaBox() {
+    CategoriaBox.removeAllItems(); // Limpia el combo
+    CategoriaBox.addItem(""); // Agrega opción vacía al inicio (no seleccionado)
 
+    String sql = """
+        SELECT DISTINCT
+            CASE 
+                WHEN categoria_profesional = 'Otro' THEN categoria_profesional_otro
+                ELSE especialidad
+            END AS campo_profesional
+        FROM medicos
+        WHERE 
+            (categoria_profesional = 'Otro' AND categoria_profesional_otro IS NOT NULL AND categoria_profesional_otro <> '')
+            OR
+            (categoria_profesional != 'Otro' AND especialidad IS NOT NULL AND especialidad <> '')
+    """;
+
+    try (Connection con = Conexion.obtenerConexion();
+         PreparedStatement ps = con.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            String campo = rs.getString("campo_profesional");
+            CategoriaBox.addItem(campo);
+        }
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Error al cargar campo profesional: " + e.getMessage());
+        e.printStackTrace();
+    }
+}
+    
+        private void cargaTablaReporte() {
+    DefaultTableModel modelo = new DefaultTableModel();
+    String seleccion = (String) TotalDetallado.getSelectedItem();
+
+    if (seleccion.equals("Total")) {
+        modelo.setColumnIdentifiers(new Object[]{
+            "ID", "Doctor", "Campo Profesional", "Paciente", "Fecha", "Hora", "Servicio", "Servicio Total"
+        });
+    } else if (seleccion.equals("Detallado")) {
+        modelo.setColumnIdentifiers(new Object[]{
+            "ID", "Doctor", "Campo Profesional", "Paciente", "Fecha", "Hora", "Servicio", "Precio del Servicio"
+        });
+    }
+
+    String sqlTotal = """
+        SELECT 
+            a.id_afiche, 
+            CONCAT(m.nombre, ' ', m.apellido) AS doctor,
+            CASE
+                WHEN m.especialidad IS NOT NULL AND m.especialidad <> '' THEN m.especialidad
+                WHEN m.categoria_profesional_otro IS NOT NULL AND m.categoria_profesional_otro <> '' THEN m.categoria_profesional_otro
+                ELSE m.categoria_profesional
+            END AS campo_profesional,
+            CONCAT(a.nombre_paciente, ' ', a.apellido_paciente) AS paciente,
+            a.fecha_atencion,
+            a.hora_atencion,
+            a.precio_total AS servicio_total,
+            COUNT(da.id_servicio) AS cantidad_servicios
+        FROM afiches a
+        JOIN medicos m ON m.id_medico = a.id_medico
+        LEFT JOIN detalle_afiche da ON da.id_afiche = a.id_afiche
+        GROUP BY a.id_afiche, m.nombre, m.apellido, m.especialidad, m.categoria_profesional, m.categoria_profesional_otro,
+                 a.nombre_paciente, a.apellido_paciente, a.fecha_atencion, a.hora_atencion, a.precio_total
+        ORDER BY a.id_afiche
+    """;
+
+    String sqlDetallado = """
+        SELECT 
+            a.id_afiche, 
+            CONCAT(m.nombre, ' ', m.apellido) AS doctor,
+            CASE
+                WHEN m.especialidad IS NOT NULL AND m.especialidad <> '' THEN m.especialidad
+                WHEN m.categoria_profesional_otro IS NOT NULL AND m.categoria_profesional_otro <> '' THEN m.categoria_profesional_otro
+                ELSE m.categoria_profesional
+            END AS campo_profesional,
+            CONCAT(a.nombre_paciente, ' ', a.apellido_paciente) AS paciente,
+            a.fecha_atencion,
+            a.hora_atencion,
+            s.nombre_servicio AS servicio,
+            CASE da.tipo_precio
+                WHEN 'normal' THEN s.precio_normal
+                WHEN 'emergencia' THEN s.precio_emergencia
+            END AS precio_servicio
+        FROM afiches a
+        JOIN medicos m ON m.id_medico = a.id_medico
+        JOIN detalle_afiche da ON da.id_afiche = a.id_afiche
+        JOIN servicios s ON s.id_servicio = da.id_servicio
+        ORDER BY a.id_afiche
+    """;
+
+    String sql = seleccion.equals("Total") ? sqlTotal : sqlDetallado;
+
+    try (Connection con = Conexion.obtenerConexion();
+         PreparedStatement ps = con.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            if (seleccion.equals("Total")) {
+                int cantidadServicios = rs.getInt("cantidad_servicios");
+                String descripcion = (cantidadServicios == 1) ? "Único servicio" : "Varios servicios";
+
+                modelo.addRow(new Object[]{
+                    rs.getInt("id_afiche"),
+                    rs.getString("doctor"),
+                    rs.getString("campo_profesional"),
+                    rs.getString("paciente"),
+                    rs.getTimestamp("fecha_atencion").toLocalDateTime().toLocalDate(),
+                    rs.getString("hora_atencion"),
+                    descripcion,
+                    rs.getDouble("servicio_total")
+                });
+            } else {
+                modelo.addRow(new Object[]{
+                    rs.getInt("id_afiche"),
+                    rs.getString("doctor"),
+                    rs.getString("campo_profesional"),
+                    rs.getString("paciente"),
+                    rs.getTimestamp("fecha_atencion").toLocalDateTime().toLocalDate(),
+                    rs.getString("hora_atencion"),
+                    rs.getString("servicio"),
+                    rs.getDouble("precio_servicio")
+                });
+            }
+        }
+
+        TablaReportesCampoProf.setModel(modelo);
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "Error al cargar afiches: " + ex.getMessage());
+        ex.printStackTrace();
+    }
+}
+
+    private String quitarTildes(String texto) {
+        if (texto == null) {
+            return "";
+        }
+        texto = Normalizer.normalize(texto, Normalizer.Form.NFD);
+        return texto.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+    }
+
+    private void filtrarLista() {
+        String texto = BuscadorCampo.getText();
+        TableRowSorter<TableModel> sorter = new TableRowSorter<>(TablaReportesCampoProf.getModel());
+        TablaReportesCampoProf.setRowSorter(sorter);
+
+        // Aplica el filtro solo a la columna "Doctor", que está en el índice 1
+        sorter.setRowFilter(RowFilter.regexFilter("(?i)" + texto, 1));
+    }
     private void btnAdminCajerosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdminCajerosMouseExited
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAdminCajerosMouseExited
@@ -344,9 +551,17 @@ public class ReportesEspecialidades extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
-    private void NombreDoctorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreDoctorActionPerformed
+    private void TablaReportesCampoProfReportePagosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaReportesCampoProfReportePagosMouseClicked
+
+    }//GEN-LAST:event_TablaReportesCampoProfReportePagosMouseClicked
+
+    private void BuscadorCampoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscadorCampoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_NombreDoctorActionPerformed
+    }//GEN-LAST:event_BuscadorCampoActionPerformed
+
+    private void TotalDetalladoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TotalDetalladoActionPerformed
+
+    }//GEN-LAST:event_TotalDetalladoActionPerformed
 
     private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
 
@@ -356,13 +571,9 @@ public class ReportesEspecialidades extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnCalcularPagoTotalActionPerformed
 
-    private void TotalDetalladoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TotalDetalladoActionPerformed
+    private void TablaReportesCampoProfParaVistaPrevia(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaReportesCampoProfParaVistaPrevia
 
-    }//GEN-LAST:event_TotalDetalladoActionPerformed
-
-    private void TablaReportesReportePagosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaReportesReportePagosMouseClicked
-
-    }//GEN-LAST:event_TablaReportesReportePagosMouseClicked
+    }//GEN-LAST:event_TablaReportesCampoProfParaVistaPrevia
 
     /**
      * @param args the command line arguments
@@ -381,35 +592,37 @@ public class ReportesEspecialidades extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ReportesEspecialidades.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ReportesCampoProfesional.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ReportesEspecialidades.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ReportesCampoProfesional.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ReportesEspecialidades.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ReportesCampoProfesional.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ReportesEspecialidades.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ReportesCampoProfesional.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ReportesEspecialidades().setVisible(true);
+                new ReportesCampoProfesional().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AgregarTecnico1;
+    private javax.swing.JTextField BuscadorCampo;
     private javax.swing.JButton Buscar;
+    private javax.swing.JComboBox<String> CategoriaBox;
     private javax.swing.JTextField DoctorSeleccionado;
     private com.toedter.calendar.JDateChooser FechaDesde;
     private com.toedter.calendar.JDateChooser FechaHasta;
     private javax.swing.JLabel FondoGris;
     private javax.swing.JLabel ListaPersonal;
-    private javax.swing.JTextField NombreDoctor;
+    private javax.swing.JLabel ListaPersonal1;
     private javax.swing.JPanel Superior;
-    private javax.swing.JTable TablaReportes;
+    private javax.swing.JTable TablaReportesCampoProf;
     private javax.swing.JComboBox<String> TotalDetallado;
     private javax.swing.JTextField TotalPago;
     private javax.swing.JButton btnAdminCajeros;
@@ -427,6 +640,7 @@ public class ReportesEspecialidades extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

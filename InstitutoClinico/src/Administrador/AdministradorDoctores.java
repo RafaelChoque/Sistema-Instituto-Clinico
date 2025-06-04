@@ -99,6 +99,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         NombreCategoria = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
         FondoGris = new javax.swing.JLabel();
         FondoBlanco = new javax.swing.JLabel();
 
@@ -516,7 +517,10 @@ jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170,
 jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 jLabel18.setText("Categoría Profesional:");
 jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, -1, 20));
-jPanel1.add(NombreCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 260, 440, -1));
+jPanel1.add(NombreCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 260, 170, -1));
+
+jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
+jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 260, 260, -1));
 
 jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 50, 630, 330));
 
@@ -614,7 +618,7 @@ pack();
         String telefonotxt = Telefono.getText().trim();
         Date fechanacimientotxt = FechaNacimiento.getDate();
         String direcciontxt = Direccion.getText().trim();
-        String categoriatxt = Categoria.getSelectedItem().toString(); 
+        String categoriatxt = Categoria.getSelectedItem().toString();
         String especialidadtxt = null;
         String categoriaProfesionalOtro = null;
 
@@ -624,7 +628,9 @@ pack();
             return;
         }
 
-        if (categoriatxt.equals("Especialista")) {
+        if (categoriatxt.equals("General")) {
+            especialidadtxt = "Medicina General";
+        } else if (categoriatxt.equals("Especialista")) {
             if (Especialidad.getSelectedItem() == null) {
                 JOptionPane.showMessageDialog(null, "Por favor, seleccione una especialidad.");
                 return;
@@ -634,9 +640,7 @@ pack();
                 JOptionPane.showMessageDialog(null, "Por favor, seleccione una especialidad.");
                 return;
             }
-        }
-
-        if (categoriatxt.equals("Otro")) {
+        } else if (categoriatxt.equals("Otro")) {
             categoriaProfesionalOtro = NombreCategoria.getText().trim();
             if (categoriaProfesionalOtro.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Por favor, ingrese la categoría profesional.");
@@ -664,14 +668,12 @@ pack();
             psMedico.setString(3, apellidotxt);
             psMedico.setDate(4, new java.sql.Date(fechanacimientotxt.getTime()));
 
-            
             if (!telefonotxt.isEmpty()) {
                 psMedico.setString(5, telefonotxt);
             } else {
                 psMedico.setNull(5, java.sql.Types.VARCHAR);
             }
 
-            
             if (!direcciontxt.isEmpty()) {
                 psMedico.setString(6, direcciontxt);
             } else {
@@ -686,7 +688,7 @@ pack();
                 psMedico.setNull(8, java.sql.Types.VARCHAR);
             }
 
-            if (categoriatxt.equals("Especialista")) {
+            if (especialidadtxt != null) {
                 psMedico.setString(9, especialidadtxt);
             } else {
                 psMedico.setNull(9, java.sql.Types.VARCHAR);
@@ -827,20 +829,21 @@ pack();
             return;
         }
 
+        // Asumiendo que ID es un JTextField donde tienes el id_medico seleccionado
         int medicoId = Integer.parseInt(ID.getText());
 
         try {
             Connection con = Conexion.obtenerConexion();
 
+            // Solo seleccionamos 'estado' porque no hay id_usuario
             PreparedStatement psVerificar = con.prepareStatement(
-                    "SELECT estado, id_usuario FROM medicos WHERE id_medico = ?"
+                    "SELECT estado FROM medicos WHERE id_medico = ?"
             );
             psVerificar.setInt(1, medicoId);
             ResultSet rs = psVerificar.executeQuery();
 
             if (rs.next()) {
                 int estado = rs.getInt("estado");
-                int idUsuario = rs.getInt("id_usuario");
 
                 if (estado == 0) {
                     JOptionPane.showMessageDialog(null, "El médico ya fue eliminado anteriormente");
@@ -852,7 +855,6 @@ pack();
                 );
                 psActualizarEstado.setInt(1, medicoId);
                 psActualizarEstado.executeUpdate();
-
 
                 JOptionPane.showMessageDialog(null, "Registro marcado como eliminado");
                 limpiar();
@@ -1048,6 +1050,7 @@ pack();
     private javax.swing.JButton btnServicios;
     private javax.swing.JButton eliminar;
     private javax.swing.JButton guardar;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
