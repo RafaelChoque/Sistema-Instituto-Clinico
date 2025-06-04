@@ -34,15 +34,17 @@ import javax.swing.SpinnerDateModel;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import java.text.Normalizer;
+import javax.swing.table.TableModel;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
+import java.text.Normalizer;
+
 
 /**
  *
@@ -73,6 +75,10 @@ public class GenerarFicha extends javax.swing.JFrame {
 
         ListaItems.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         cargarTablaAfiches();
+        ID.setVisible(false);
+        ID.setEnabled(false);
+        ID.setFocusable(false);
+        ID.setRequestFocusEnabled(false);
         aplicarColorFilasAlternadas(TablaAfiches);
 
     }
@@ -586,8 +592,7 @@ public class GenerarFicha extends javax.swing.JFrame {
         jPanel4.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 15, -1, -1));
 
         jTextField1.setBackground(new java.awt.Color(233, 236, 239));
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jTextField1.setText("Buscar");
+        jTextField1.setText("Buscar Fichas");
         jTextField1.setToolTipText("");
         jTextField1.setBorder(null);
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -595,9 +600,8 @@ public class GenerarFicha extends javax.swing.JFrame {
                 jTextField1ActionPerformed(evt);
             }
         });
-        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 5, 150, 40));
+        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 15, 130, 20));
         String placeholder = "Buscar Fichas";
-
         jTextField1.setText(placeholder);
         jTextField1.setForeground(Color.GRAY);
 
@@ -612,7 +616,7 @@ public class GenerarFicha extends javax.swing.JFrame {
 
             @Override
             public void focusLost(FocusEvent e) {
-                if (jTextField1.getText().isEmpty()) {
+                if (jTextField1.getText().trim().isEmpty()) {
                     jTextField1.setText(placeholder);
                     jTextField1.setForeground(Color.GRAY);
                 }
@@ -636,13 +640,26 @@ public class GenerarFicha extends javax.swing.JFrame {
             }
 
             private void filterTable() {
-                String query = jTextField1.getText();
+                String query = normalize(jTextField1.getText().trim());
 
-                if (query.equalsIgnoreCase(placeholder) || query.trim().isEmpty()) {
+                if (query.equals(normalize(placeholder)) || query.isEmpty()) {
                     sorter.setRowFilter(null);
                 } else {
-                    sorter.setRowFilter(RowFilter.regexFilter("(?i)" + query, 1, 3));
+                    sorter.setRowFilter(new RowFilter<TableModel, Integer>() {
+                        @Override
+                        public boolean include(Entry<? extends TableModel, ? extends Integer> entry) {
+                            String texto = normalize(entry.getStringValue(1).trim());
+                            return texto.contains(query);
+                        }
+                    });
                 }
+            }
+
+            private String normalize(String text) {
+                if (text == null) return "";
+                String normalized = Normalizer.normalize(text, Normalizer.Form.NFD);
+                normalized = normalized.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+                return normalized.toLowerCase();
             }
         });
 
@@ -690,7 +707,7 @@ public class GenerarFicha extends javax.swing.JFrame {
         AgregarTecnico.setText("Datos del Paciente");
         jPanel1.add(AgregarTecnico, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 210, -1));
 
-        SeleccionarDoc.setBackground(new java.awt.Color(33, 14, 68));
+        SeleccionarDoc.setBackground(new java.awt.Color(80, 35, 100));
         SeleccionarDoc.setForeground(new java.awt.Color(255, 255, 255));
         SeleccionarDoc.setText("Seleccionar Doctor");
         SeleccionarDoc.addActionListener(new java.awt.event.ActionListener() {
@@ -729,11 +746,10 @@ public class GenerarFicha extends javax.swing.JFrame {
         AgregarTecnico1.setText("Detalles");
         jPanel1.add(AgregarTecnico1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 100, -1));
 
-        lblBuscarItems.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblBuscarItems.setForeground(new java.awt.Color(136, 134, 133));
         lblBuscarItems.setText("Buscar Servicios");
         lblBuscarItems.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jPanel1.add(lblBuscarItems, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, 100, 30));
+        jPanel1.add(lblBuscarItems, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, 150, 30));
 
         BuscarItemsNombre.setBackground(new java.awt.Color(233, 236, 239));
         BuscarItemsNombre.setBorder(null);
@@ -831,7 +847,7 @@ public class GenerarFicha extends javax.swing.JFrame {
     });
     jPanel1.add(ComboTipoPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 360, 140, -1));
 
-    btnVistaPrevia.setBackground(new java.awt.Color(33, 14, 68));
+    btnVistaPrevia.setBackground(new java.awt.Color(80, 35, 100));
     btnVistaPrevia.setForeground(new java.awt.Color(255, 255, 255));
     btnVistaPrevia.setText("Agregar y calcular");
     btnVistaPrevia.addActionListener(new java.awt.event.ActionListener() {
@@ -839,7 +855,7 @@ public class GenerarFicha extends javax.swing.JFrame {
             btnVistaPreviaActionPerformed(evt);
         }
     });
-    jPanel1.add(btnVistaPrevia, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 400, 140, 20));
+    jPanel1.add(btnVistaPrevia, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 400, 140, 30));
 
     jScrollPane4.setBorder(javax.swing.BorderFactory.createTitledBorder("Servicios Agregados:"));
 
@@ -876,7 +892,7 @@ public class GenerarFicha extends javax.swing.JFrame {
     FormaPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Contado"}));
     jPanel1.add(FormaPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 670, 460, -1));
 
-    guardar.setBackground(new java.awt.Color(33, 14, 68));
+    guardar.setBackground(new java.awt.Color(80, 35, 100));
     guardar.setForeground(new java.awt.Color(255, 255, 255));
     guardar.setText("Guardar e Imprimir");
     guardar.addActionListener(new java.awt.event.ActionListener() {
@@ -884,17 +900,15 @@ public class GenerarFicha extends javax.swing.JFrame {
             guardarActionPerformed(evt);
         }
     });
-    jPanel1.add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 750, 140, 20));
+    jPanel1.add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 740, 140, 30));
 
-    limpiar.setBackground(new java.awt.Color(33, 14, 68));
-    limpiar.setForeground(new java.awt.Color(255, 255, 255));
     limpiar.setText("Limpiar");
     limpiar.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             limpiarActionPerformed(evt);
         }
     });
-    jPanel1.add(limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 750, 100, -1));
+    jPanel1.add(limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 740, 100, 30));
 
     jPanel3.setBackground(new java.awt.Color(204, 204, 204));
     jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 100, 630, 1));
@@ -1105,6 +1119,9 @@ public class GenerarFicha extends javax.swing.JFrame {
 
     private void IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDActionPerformed
         ID.setVisible(false);
+        ID.setEnabled(false);
+        ID.setFocusable(false);
+        ID.setRequestFocusEnabled(false);
     }//GEN-LAST:event_IDActionPerformed
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed

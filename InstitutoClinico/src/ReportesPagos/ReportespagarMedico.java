@@ -38,6 +38,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+
 
 /**
  *
@@ -106,6 +109,7 @@ public class ReportespagarMedico extends javax.swing.JFrame {
         btnServicios = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         btnCerrarSesion = new javax.swing.JButton();
+        btnReporteEspeci = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaReportes = new javax.swing.JTable();
@@ -199,7 +203,7 @@ public class ReportespagarMedico extends javax.swing.JFrame {
                 btnReportePagosActionPerformed(evt);
             }
         });
-        Superior.add(btnReportePagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 0, 229, 60));
+        Superior.add(btnReportePagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 0, 229, 60));
 
         btnServicios.setBackground(new java.awt.Color(33, 14, 68));
         btnServicios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -219,7 +223,7 @@ public class ReportespagarMedico extends javax.swing.JFrame {
                 btnServiciosActionPerformed(evt);
             }
         });
-        Superior.add(btnServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 0, 229, 60));
+        Superior.add(btnServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 0, 229, 60));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cerrarsesion.png"))); // NOI18N
         Superior.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(1890, 0, 20, 60));
@@ -243,6 +247,26 @@ public class ReportespagarMedico extends javax.swing.JFrame {
             }
         });
         Superior.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1740, 0, 180, 60));
+
+        btnReporteEspeci.setBackground(new java.awt.Color(33, 14, 68));
+        btnReporteEspeci.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnReporteEspeci.setForeground(new java.awt.Color(241, 241, 241));
+        btnReporteEspeci.setText("Reportes de Especialidades");
+        btnReporteEspeci.setBorder(null);
+        btnServicios.setHorizontalAlignment(SwingConstants.LEFT);
+        btnServicios.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+        btnServicios.setIconTextGap(10);
+        btnReporteEspeci.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnReporteEspeciMouseExited(evt);
+            }
+        });
+        btnReporteEspeci.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReporteEspeciActionPerformed(evt);
+            }
+        });
+        Superior.add(btnReporteEspeci, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 0, 229, 60));
 
         getContentPane().add(Superior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1920, 60));
 
@@ -323,13 +347,36 @@ public class ReportespagarMedico extends javax.swing.JFrame {
         jPanel4.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
 
         BuscadorDoctores.setBackground(new java.awt.Color(233, 236, 239));
+        BuscadorDoctores.setText("Buscar Doctor");
         BuscadorDoctores.setBorder(null);
         BuscadorDoctores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BuscadorDoctoresActionPerformed(evt);
             }
         });
-        jPanel4.add(BuscadorDoctores, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, 150, 40));
+        jPanel4.add(BuscadorDoctores, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 140, 20));
+        String placeholder = "Buscar Doctor";
+        BuscadorDoctores.setText(placeholder);
+        BuscadorDoctores.setForeground(Color.GRAY);
+
+        BuscadorDoctores.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (BuscadorDoctores.getText().equals(placeholder)) {
+                    BuscadorDoctores.setText("");
+                    BuscadorDoctores.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (BuscadorDoctores.getText().trim().isEmpty()) {
+                    BuscadorDoctores.setText(placeholder);
+                    BuscadorDoctores.setForeground(Color.GRAY);
+                }
+            }
+        });
+
         BuscadorDoctores.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) {
                 filtrarLista();
@@ -557,13 +604,29 @@ private void cargaTablaReporte() {
     }
 
     private void filtrarLista() {
-        String texto = BuscadorDoctores.getText();
+        String texto = quitarTildes(BuscadorDoctores.getText().toLowerCase().trim());
+
         TableRowSorter<TableModel> sorter = new TableRowSorter<>(TablaReportes.getModel());
         TablaReportes.setRowSorter(sorter);
 
-        // Aplica el filtro solo a la columna "Doctor", que está en el índice 1
-        sorter.setRowFilter(RowFilter.regexFilter("(?i)" + texto, 1));
+        if (texto.length() == 0 || texto.equals(quitarTildes("Buscar Doctor").toLowerCase())) {
+            sorter.setRowFilter(null);  // Sin filtro si está vacío o con placeholder
+            return;
+        }
+
+        sorter.setRowFilter(new RowFilter<TableModel, Integer>() {
+            @Override
+            public boolean include(Entry<? extends TableModel, ? extends Integer> entry) {
+                String doctor = entry.getStringValue(1); // columna "Doctor"
+                if (doctor == null) {
+                    return false;
+                }
+                doctor = quitarTildes(doctor.toLowerCase());
+                return doctor.contains(texto);
+            }
+        });
     }
+
 
 
 
@@ -755,6 +818,8 @@ private void cargaTablaReporte() {
         FechaDesde.setDate(null);
         FechaHasta.setDate(null);
         TablaReportes.setRowSorter(null);
+        DoctorSeleccionado.setText("");
+        TotalPago.setText("");
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void ReporteVistaPreviaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReporteVistaPreviaMouseClicked
@@ -779,6 +844,17 @@ private void cargaTablaReporte() {
     private void TotalPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TotalPagoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TotalPagoActionPerformed
+
+    private void btnReporteEspeciMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReporteEspeciMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnReporteEspeciMouseExited
+
+    private void btnReporteEspeciActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteEspeciActionPerformed
+        ReportesCampoProfesional reportprof = new ReportesCampoProfesional();
+        reportprof.setLocationRelativeTo(null);
+        reportprof.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnReporteEspeciActionPerformed
 
     /**
      * @param args the command liNombreDoctoruments
@@ -823,6 +899,7 @@ private void cargaTablaReporte() {
     private javax.swing.JButton btnCerrarSesion;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnListaLaboratorios;
+    private javax.swing.JButton btnReporteEspeci;
     private javax.swing.JButton btnReportePagos;
     private javax.swing.JButton btnServicios;
     private javax.swing.JLabel jLabel1;

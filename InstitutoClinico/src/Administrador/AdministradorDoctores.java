@@ -7,10 +7,12 @@ import com.formdev.flatlaf.FlatLightLaf;
 import java.util.Date;
 import ConexionLogin.Conexion;
 import ConexionLogin.Login;
+import ReportesPagos.ReportesCampoProfesional;
 import ReportesPagos.ReportespagarMedico;
 import Servicios.ServiciosPrecios;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.sql.Connection;
@@ -20,13 +22,17 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
+import java.text.Normalizer;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import org.mindrot.jbcrypt.BCrypt;
@@ -44,13 +50,42 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         cargarTabla();
+        aplicarColorFilasAlternadas(TablaMedicos);
         ID.setVisible(false);
         ID.setEnabled(false);
         ID.setFocusable(false);
         ID.setRequestFocusEnabled(false);
         this.setLocationRelativeTo(null);
     }
+    private void aplicarColorFilasAlternadas(JTable tabla) {
+        TableCellRenderer renderer = new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
 
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                if (isSelected) {
+                    setBackground(table.getSelectionBackground());
+                    setForeground(table.getSelectionForeground());
+                } else {
+                    if (row % 2 == 0) {
+                        setBackground(Color.WHITE);
+                        setForeground(Color.BLACK);
+                    } else {
+                        setBackground(new Color(240, 240, 240));
+                        setForeground(Color.BLACK);
+                    }
+                }
+
+                return this;
+            }
+        };
+
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setCellRenderer(renderer);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -63,9 +98,11 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         Superior = new javax.swing.JPanel();
         btnAdminCajeros = new javax.swing.JButton();
         btnAdminDoc = new javax.swing.JButton();
-        btnCerrarSesion = new javax.swing.JButton();
         btnReportePagos = new javax.swing.JButton();
         btnServicios = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        btnCerrarSesion = new javax.swing.JButton();
+        btnReporteEspeci = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         ListaPersonal = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -128,7 +165,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
                 btnAdminCajerosActionPerformed(evt);
             }
         });
-        Superior.add(btnAdminCajeros, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 0, 229, 60));
+        Superior.add(btnAdminCajeros, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 229, 60));
 
         btnAdminDoc.setBackground(new java.awt.Color(33, 14, 68));
         btnAdminDoc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -148,27 +185,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
                 btnAdminDocActionPerformed(evt);
             }
         });
-        Superior.add(btnAdminDoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 0, 229, 60));
-
-        btnCerrarSesion.setBackground(new java.awt.Color(33, 14, 68));
-        btnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnCerrarSesion.setForeground(new java.awt.Color(241, 241, 241));
-        btnCerrarSesion.setText("Cerrar Sesión");
-        btnCerrarSesion.setBorder(null);
-        btnCerrarSesion.setHorizontalAlignment(SwingConstants.LEFT);
-        btnCerrarSesion.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
-        btnCerrarSesion.setIconTextGap(10);
-        btnCerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnCerrarSesionMouseExited(evt);
-            }
-        });
-        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCerrarSesionActionPerformed(evt);
-            }
-        });
-        Superior.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1690, 0, 229, 60));
+        Superior.add(btnAdminDoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, 229, 60));
 
         btnReportePagos.setBackground(new java.awt.Color(33, 14, 68));
         btnReportePagos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -188,7 +205,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
                 btnReportePagosActionPerformed(evt);
             }
         });
-        Superior.add(btnReportePagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 0, 229, 60));
+        Superior.add(btnReportePagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 0, 229, 60));
 
         btnServicios.setBackground(new java.awt.Color(33, 14, 68));
         btnServicios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -208,7 +225,50 @@ public class AdministradorDoctores extends javax.swing.JFrame {
                 btnServiciosActionPerformed(evt);
             }
         });
-        Superior.add(btnServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 0, 229, 60));
+        Superior.add(btnServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 0, 229, 60));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cerrarsesion.png"))); // NOI18N
+        Superior.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1890, 0, 20, 60));
+
+        btnCerrarSesion.setBackground(new java.awt.Color(33, 14, 68));
+        btnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnCerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
+        btnCerrarSesion.setText("Cerrar Sesión");
+        btnCerrarSesion.setBorder(null);
+        btnCerrarSesion.setHorizontalAlignment(SwingConstants.LEFT);
+        btnCerrarSesion.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+        btnCerrarSesion.setIconTextGap(10);
+        btnCerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCerrarSesionMouseExited(evt);
+            }
+        });
+        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarSesionActionPerformed(evt);
+            }
+        });
+        Superior.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1740, 0, 180, 60));
+
+        btnReporteEspeci.setBackground(new java.awt.Color(33, 14, 68));
+        btnReporteEspeci.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnReporteEspeci.setForeground(new java.awt.Color(241, 241, 241));
+        btnReporteEspeci.setText("Reportes de Especialidades");
+        btnReporteEspeci.setBorder(null);
+        btnServicios.setHorizontalAlignment(SwingConstants.LEFT);
+        btnServicios.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+        btnServicios.setIconTextGap(10);
+        btnReporteEspeci.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnReporteEspeciMouseExited(evt);
+            }
+        });
+        btnReporteEspeci.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReporteEspeciActionPerformed(evt);
+            }
+        });
+        Superior.add(btnReporteEspeci, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 0, 229, 60));
 
         getContentPane().add(Superior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1920, 60));
 
@@ -263,7 +323,6 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         jPanel4.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 15, -1, -1));
 
         jTextField1.setBackground(new java.awt.Color(233, 236, 239));
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jTextField1.setText("Buscar Médico");
         jTextField1.setToolTipText("");
         jTextField1.setBorder(null);
@@ -313,9 +372,9 @@ public class AdministradorDoctores extends javax.swing.JFrame {
             }
 
             private void filterTable() {
-                String query = jTextField1.getText().toLowerCase().trim();
+                String query = normalize(jTextField1.getText().trim());
 
-                if (query.equals(placeholder.toLowerCase()) || query.isEmpty()) {
+                if (query.equals(normalize(placeholder)) || query.isEmpty()) {
                     TablaMedicos.setRowSorter(null);
                     return;
                 }
@@ -326,12 +385,19 @@ public class AdministradorDoctores extends javax.swing.JFrame {
                 sorter.setRowFilter(new RowFilter<TableModel, Integer>() {
                     @Override
                     public boolean include(Entry<? extends TableModel, ? extends Integer> entry) {
-                        String nombre = entry.getStringValue(2).toLowerCase();
-                        String apellido = entry.getStringValue(3).toLowerCase();
-                        String combinado = (nombre + " " + apellido).toLowerCase();
+                        String nombre = normalize(entry.getStringValue(2));
+                        String apellido = normalize(entry.getStringValue(3));
+                        String combinado = nombre + " " + apellido;
                         return combinado.contains(query);
                     }
                 });
+            }
+
+            private String normalize(String text) {
+                if (text == null) return "";
+                String normalized = Normalizer.normalize(text, Normalizer.Form.NFD);
+                normalized = normalized.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+                return normalized.toLowerCase();
             }
         });
 
@@ -431,8 +497,6 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         });
         jPanel1.add(eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 290, 100, -1));
 
-        limpiar.setBackground(new java.awt.Color(80, 35, 100));
-        limpiar.setForeground(new java.awt.Color(255, 255, 255));
         limpiar.setText("Limpiar");
         limpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -948,17 +1012,6 @@ pack();
         }
     }//GEN-LAST:event_TablaMedicosMouseClicked
 
-    private void btnCerrarSesionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarSesionMouseExited
-
-    }//GEN-LAST:event_btnCerrarSesionMouseExited
-
-    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
-        Login cerrar = new Login();
-        cerrar.setLocationRelativeTo(null);
-        cerrar.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnCerrarSesionActionPerformed
-
     private void btnAdminCajerosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdminCajerosMouseExited
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAdminCajerosMouseExited
@@ -999,6 +1052,28 @@ pack();
         serv.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnServiciosActionPerformed
+
+    private void btnCerrarSesionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarSesionMouseExited
+
+    }//GEN-LAST:event_btnCerrarSesionMouseExited
+
+    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
+        Login cerrar = new Login();
+        cerrar.setLocationRelativeTo(null);
+        cerrar.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCerrarSesionActionPerformed
+
+    private void btnReporteEspeciMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReporteEspeciMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnReporteEspeciMouseExited
+
+    private void btnReporteEspeciActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteEspeciActionPerformed
+        ReportesCampoProfesional reportprof = new ReportesCampoProfesional();
+        reportprof.setLocationRelativeTo(null);
+        reportprof.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnReporteEspeciActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1046,11 +1121,13 @@ pack();
     private javax.swing.JButton btnAdminCajeros;
     private javax.swing.JButton btnAdminDoc;
     private javax.swing.JButton btnCerrarSesion;
+    private javax.swing.JButton btnReporteEspeci;
     private javax.swing.JButton btnReportePagos;
     private javax.swing.JButton btnServicios;
     private javax.swing.JButton eliminar;
     private javax.swing.JButton guardar;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;

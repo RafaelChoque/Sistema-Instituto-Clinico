@@ -67,11 +67,11 @@
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="490" y="0" width="229" height="60"/>
+              <AbsoluteConstraints x="0" y="0" width="229" height="60"/>
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JButton" name="btnListaLaboratorios">
+        <Component class="javax.swing.JButton" name="btnAdmiDoc">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="44" green="e" red="21" type="rgb"/>
@@ -88,15 +88,15 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnListaLaboratoriosMouseExited"/>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnListaLaboratoriosActionPerformed"/>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnAdmiDocMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAdmiDocActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="btnListaLaboratorios.setHorizontalAlignment(SwingConstants.LEFT); &#xa;btnListaLaboratorios.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));&#xa;btnListaLaboratorios.setIconTextGap(10);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="btnAdmiDoc.setHorizontalAlignment(SwingConstants.LEFT); &#xa;btnAdmiDoc.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));&#xa;btnAdmiDoc.setIconTextGap(10);"/>
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="730" y="0" width="229" height="60"/>
+              <AbsoluteConstraints x="230" y="0" width="229" height="60"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -125,40 +125,11 @@
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="970" y="0" width="229" height="60"/>
+              <AbsoluteConstraints x="690" y="0" width="229" height="60"/>
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JButton" name="btnCerrarSesion">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="44" green="e" red="21" type="rgb"/>
-            </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="14" style="0"/>
-            </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f1" green="f1" red="f1" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Cerrar Sesi&#xf3;n"/>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="null"/>
-            </Property>
-          </Properties>
-          <Events>
-            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnCerrarSesionMouseExited"/>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCerrarSesionActionPerformed"/>
-          </Events>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="btnCerrarSesion.setHorizontalAlignment(SwingConstants.LEFT);&#xa;btnCerrarSesion.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0)); &#xa;btnCerrarSesion.setIconTextGap(10);"/>
-          </AuxValues>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="1690" y="0" width="229" height="60"/>
-            </Constraint>
-          </Constraints>
-        </Component>
-        <Component class="javax.swing.JButton" name="btnService">
+        <Component class="javax.swing.JButton" name="btnServicios">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="44" green="e" red="21" type="rgb"/>
@@ -175,15 +146,85 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnServiceMouseExited"/>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnServiceActionPerformed"/>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnServiciosMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnServiciosActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="btnService.setHorizontalAlignment(SwingConstants.LEFT); &#xa;btnService.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));&#xa;btnService.setIconTextGap(10);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="btnServicios.setHorizontalAlignment(SwingConstants.LEFT); &#xa;btnServicios.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));&#xa;btnServicios.setIconTextGap(10);"/>
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="1210" y="0" width="229" height="60"/>
+              <AbsoluteConstraints x="460" y="0" width="229" height="60"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel1">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Imagenes/cerrarsesion.png"/>
+            </Property>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="1890" y="0" width="20" height="60"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnCerrarSesion">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="44" green="e" red="21" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="0"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Cerrar Sesi&#xf3;n"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnCerrarSesionMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCerrarSesionActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="btnCerrarSesion.setHorizontalAlignment(SwingConstants.LEFT);&#xa;btnCerrarSesion.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0)); &#xa;btnCerrarSesion.setIconTextGap(10);"/>
+          </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="1740" y="0" width="180" height="60"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnReporteEspeci">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="44" green="e" red="21" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="0"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="f1" green="f1" red="f1" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Reportes de Especialidades"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnReporteEspeciMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReporteEspeciActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="btnServicios.setHorizontalAlignment(SwingConstants.LEFT); &#xa;btnServicios.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));&#xa;btnServicios.setIconTextGap(10);"/>
+          </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="920" y="0" width="229" height="60"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -333,9 +374,6 @@
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ef" green="ec" red="e9" type="rgb"/>
                 </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="18" style="0"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Buscar Cajero"/>
                 <Property name="toolTipText" type="java.lang.String" value=""/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -346,7 +384,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField1ActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="String placeholder = &quot;Buscar Cajero&quot;;&#xa;&#xa;jTextField1.setText(placeholder);&#xa;jTextField1.setForeground(Color.GRAY);&#xa;&#xa;jTextField1.addFocusListener(new FocusAdapter() {&#xa;    @Override&#xa;    public void focusGained(FocusEvent e) {&#xa;        if (jTextField1.getText().equals(placeholder)) {&#xa;            jTextField1.setText(&quot;&quot;);&#xa;            jTextField1.setForeground(Color.BLACK);&#xa;        }&#xa;    }&#xa;&#xa;    @Override&#xa;    public void focusLost(FocusEvent e) {&#xa;        if (jTextField1.getText().isEmpty()) {&#xa;            jTextField1.setText(placeholder);&#xa;            jTextField1.setForeground(Color.GRAY);&#xa;        }&#xa;    }&#xa;});&#xa;&#xa;jTextField1.getDocument().addDocumentListener(new DocumentListener() {&#xa;    @Override&#xa;    public void insertUpdate(DocumentEvent e) {&#xa;        filterTable();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void removeUpdate(DocumentEvent e) {&#xa;        filterTable();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void changedUpdate(DocumentEvent e) {&#xa;        filterTable();&#xa;    }&#xa;&#xa;    private void filterTable() {&#xa;        String query = jTextField1.getText().toLowerCase().trim();&#xa;&#xa;        if (query.equals(placeholder.toLowerCase()) || query.isEmpty()) {&#xa;            TablaCajeros.setRowSorter(null);&#xa;            return;&#xa;        }&#xa;&#xa;        TableRowSorter&lt;TableModel&gt; sorter = new TableRowSorter&lt;&gt;(TablaCajeros.getModel());&#xa;        TablaCajeros.setRowSorter(sorter);&#xa;&#xa;        sorter.setRowFilter(new RowFilter&lt;TableModel, Integer&gt;() {&#xa;            @Override&#xa;            public boolean include(Entry&lt;? extends TableModel, ? extends Integer&gt; entry) {&#xa;                String nombre = entry.getStringValue(2).toLowerCase();   // columna &quot;Nombre&quot;&#xa;                String apellido = entry.getStringValue(3).toLowerCase(); // columna &quot;Apellido&quot;&#xa;                String combinado = (nombre + &quot; &quot; + apellido).toLowerCase();&#xa;                return combinado.contains(query);&#xa;            }&#xa;        });&#xa;    }&#xa;});"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="String placeholder = &quot;Buscar Cajero&quot;;&#xa;&#xa;jTextField1.setText(placeholder);&#xa;jTextField1.setForeground(Color.GRAY);&#xa;&#xa;jTextField1.addFocusListener(new FocusAdapter() {&#xa;    @Override&#xa;    public void focusGained(FocusEvent e) {&#xa;        if (jTextField1.getText().equals(placeholder)) {&#xa;            jTextField1.setText(&quot;&quot;);&#xa;            jTextField1.setForeground(Color.BLACK);&#xa;        }&#xa;    }&#xa;&#xa;    @Override&#xa;    public void focusLost(FocusEvent e) {&#xa;        if (jTextField1.getText().isEmpty()) {&#xa;            jTextField1.setText(placeholder);&#xa;            jTextField1.setForeground(Color.GRAY);&#xa;        }&#xa;    }&#xa;});&#xa;&#xa;jTextField1.getDocument().addDocumentListener(new DocumentListener() {&#xa;    @Override&#xa;    public void insertUpdate(DocumentEvent e) {&#xa;        filterTable();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void removeUpdate(DocumentEvent e) {&#xa;        filterTable();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void changedUpdate(DocumentEvent e) {&#xa;        filterTable();&#xa;    }&#xa;&#xa;    private void filterTable() {&#xa;        String query = normalize(jTextField1.getText().trim());&#xa;&#xa;        if (query.equals(normalize(placeholder)) || query.isEmpty()) {&#xa;            TablaCajeros.setRowSorter(null);&#xa;            return;&#xa;        }&#xa;&#xa;        TableRowSorter&lt;TableModel&gt; sorter = new TableRowSorter&lt;&gt;(TablaCajeros.getModel());&#xa;        TablaCajeros.setRowSorter(sorter);&#xa;&#xa;        sorter.setRowFilter(new RowFilter&lt;TableModel, Integer&gt;() {&#xa;            @Override&#xa;            public boolean include(Entry&lt;? extends TableModel, ? extends Integer&gt; entry) {&#xa;                String nombre = normalize(entry.getStringValue(2));&#xa;                String apellido = normalize(entry.getStringValue(3));&#xa;                String combinado = nombre + &quot; &quot; + apellido;&#xa;                return combinado.contains(query);&#xa;            }&#xa;        });&#xa;    }&#xa;&#xa;&#xa;// Funci&#xf3;n para normalizar texto (eliminar acentos y pasar a min&#xfa;sculas)&#xa;private String normalize(String text) {&#xa;    if (text == null) return &quot;&quot;;&#xa;    String normalized = Normalizer.normalize(text, Normalizer.Form.NFD);&#xa;    normalized = normalized.replaceAll(&quot;\\p{InCombiningDiacriticalMarks}+&quot;, &quot;&quot;);&#xa;    return normalized.toLowerCase();&#xa;}&#xa;});"/>
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -528,12 +566,6 @@
             </Component>
             <Component class="javax.swing.JButton" name="limpiar">
               <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="64" green="23" red="50" type="rgb"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Limpiar"/>
               </Properties>
               <Events>

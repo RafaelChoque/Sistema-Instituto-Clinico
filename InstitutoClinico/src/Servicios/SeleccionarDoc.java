@@ -75,7 +75,6 @@ public class SeleccionarDoc extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         BuscarDoctores.setBackground(new java.awt.Color(233, 236, 239));
-        BuscarDoctores.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         BuscarDoctores.setText("Buscar");
         BuscarDoctores.setToolTipText("");
         BuscarDoctores.setBorder(null);
@@ -212,18 +211,17 @@ public class SeleccionarDoc extends javax.swing.JFrame {
             }
         });
         DatosMedico.setEditable(false);
-        DatosMedico.setBackground(Color.WHITE);
-        DatosMedico.setForeground(Color.BLACK);
-        DatosMedico.setBorder(javax.swing.BorderFactory.createLineBorder(Color.GRAY));
         jPanel1.add(DatosMedico, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, 330, -1));
 
+        btnGuardar.setBackground(new java.awt.Color(51, 153, 0));
+        btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 90, -1, -1));
+        jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 80, 110, 30));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Médico:");
