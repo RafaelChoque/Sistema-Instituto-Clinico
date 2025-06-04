@@ -9,14 +9,12 @@ import com.itextpdf.text.pdf.*;
 import javax.swing.*;
 import java.awt.Desktop;
 import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import ConexionLogin.Conexion;
 import ConexionLogin.Login;
 import ConexionLogin.Session;
 import com.formdev.flatlaf.FlatLightLaf;
-import com.itextpdf.text.pdf.draw.LineSeparator;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.sql.Connection;
@@ -37,11 +35,14 @@ import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.text.Normalizer;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 
 /**
  *
@@ -61,24 +62,75 @@ public class GenerarFicha extends javax.swing.JFrame {
     public GenerarFicha(int idusuario) {
         this.idusuario = idusuario;
         initComponents();
+
+        if (BuscarItemsNombre.getText().isEmpty()) {
+            lblBuscarItems.setVisible(true);
+        } else {
+            lblBuscarItems.setVisible(false);
+        }
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         cargarServicios();
+
         ListaItems.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         cargarTablaAfiches();
+        aplicarColorFilasAlternadas(TablaAfiches);
+
     }
+    private TableRowSorter<DefaultTableModel> sorter;
 
     private GenerarFicha() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    private void aplicarColorFilasAlternadas(JTable tabla) {
+        TableCellRenderer renderer = new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                if (isSelected) {
+                    setBackground(table.getSelectionBackground());
+                    setForeground(table.getSelectionForeground());
+                } else {
+                    if (row % 2 == 0) {
+                        setBackground(Color.WHITE);
+                        setForeground(Color.BLACK);
+                    } else {
+                        setBackground(new Color(240, 240, 240));
+                        setForeground(Color.BLACK);
+                    }
+                }
+
+                return this;
+            }
+        };
+
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setCellRenderer(renderer);
+        }
     }
 
     public void generarFichaFormatoRecibo(
             String nombrePaciente, String apellidoPaciente, String nombreDoctor,
             Date fecha, Date hora, String formaPago, String medioPago,
             double total, ListModel<Servicio> servicios,
-            int numeroFicha, int anioFicha, Date fechaGuardado, String nombreUsuario) {
+            int numeroFicha, int anioFicha, Date fechaGuardado, String nombreUsuario,
+            int id_afiche) {
 
         try {
-            String nombreArchivo = String.format("ficha_%s_%d.pdf", nombrePaciente.replaceAll("\\s+", ""), System.currentTimeMillis());
+            String[] partesNombreDoctor = nombreDoctor.trim().split("\\s+");
+            String apellidoDoc = partesNombreDoctor.length > 1 ? partesNombreDoctor[partesNombreDoctor.length - 1] : "";
+            String nombreDoc = partesNombreDoctor.length > 1 ? partesNombreDoctor[0] : partesNombreDoctor[0];
+
+            apellidoDoc = apellidoDoc.replaceAll("\\s+", "");
+            nombreDoc = nombreDoc.replaceAll("\\s+", "");
+
+            SimpleDateFormat sdfNombreArchivo = new SimpleDateFormat("yyyyMMdd");
+            String fechaFormato = sdfNombreArchivo.format(fechaGuardado);
+
+            String nombreArchivo = String.format("ficha_%s%s_%d_%s.pdf", apellidoDoc, nombreDoc, id_afiche, fechaFormato);
             File pdfFile = new File(nombreArchivo);
 
             int alturaMinima = 260;
@@ -89,12 +141,12 @@ public class GenerarFicha extends javax.swing.JFrame {
             document.open();
 
             generarPaginaRecibo(document, nombrePaciente, apellidoPaciente, nombreDoctor, fecha, hora,
-                    formaPago, medioPago, total, servicios, numeroFicha, anioFicha, fechaGuardado, nombreUsuario);
+                    formaPago, medioPago, total, servicios, numeroFicha, anioFicha, fechaGuardado, nombreUsuario, id_afiche);
 
             document.newPage();
 
             generarPaginaRecibo(document, nombrePaciente, apellidoPaciente, nombreDoctor, fecha, hora,
-                    formaPago, medioPago, total, servicios, numeroFicha, anioFicha, fechaGuardado, nombreUsuario);
+                    formaPago, medioPago, total, servicios, numeroFicha, anioFicha, fechaGuardado, nombreUsuario, id_afiche);
 
             document.close();
             writer.flush();
@@ -113,21 +165,75 @@ public class GenerarFicha extends javax.swing.JFrame {
         }
     }
 
+    private DefaultListModel<String> modeloOriginal;
+
+    public class TipoPrecioItem {
+
+        private String valor;
+        private String descripcion;
+
+        public TipoPrecioItem(String valor, String descripcion) {
+            this.valor = valor;
+            this.descripcion = descripcion;
+        }
+
+        public String getValor() {
+            return valor;
+        }
+
+        @Override
+        public String toString() {
+            return descripcion;
+        }
+    }
+
     private void generarPaginaRecibo(Document document,
             String nombrePaciente, String apellidoPaciente, String nombreDoctor,
             Date fecha, Date hora, String formaPago, String medioPago,
             double total, ListModel<Servicio> servicios,
-            int numeroFicha, int anioFicha, Date fechaGuardado, String nombreUsuario) throws Exception {
+            int numeroFicha, int anioFicha, Date fechaGuardado, String nombreUsuario,
+            int idAfiche) throws Exception {
 
-Font fontNormal = new Font(Font.FontFamily.HELVETICA, 8, Font.NORMAL);
-Font fontBold = new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD);
-Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
+        Font fontNormal = new Font(Font.FontFamily.HELVETICA, 8, Font.NORMAL);
+        Font fontBold = new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD);
+        Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
         Font fontLinea = new Font(Font.FontFamily.COURIER, 5, Font.NORMAL);
+        Font fontIdFicha = new Font(Font.FontFamily.HELVETICA, 4, Font.NORMAL);
 
-        Image logo = Image.getInstance("src/Imagenes/LogoSantaFe.jpg");
-        logo.scaleToFit(70, 70);
-        logo.setAlignment(Image.ALIGN_LEFT);
-        document.add(logo);
+        InputStream is = getClass().getClassLoader().getResourceAsStream("Imagenes/LogoSantaFe.jpg");
+        if (is == null) {
+            throw new IOException("No se encontró la imagen LogoSantaFe.jpg en el classpath.");
+        }
+
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        int nRead;
+        byte[] data = new byte[1024];
+        while ((nRead = is.read(data, 0, data.length)) != -1) {
+            buffer.write(data, 0, nRead);
+        }
+        buffer.flush();
+
+        Image logo = Image.getInstance(buffer.toByteArray());
+
+        logo.scaleToFit(90, 90);
+        PdfPTable tablaCabeceraLogoID = new PdfPTable(2);
+        tablaCabeceraLogoID.setWidthPercentage(100);
+        tablaCabeceraLogoID.setWidths(new float[]{1f, 1f});
+        tablaCabeceraLogoID.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+
+        PdfPCell cellLogo = new PdfPCell(logo);
+        cellLogo.setBorder(Rectangle.NO_BORDER);
+        cellLogo.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cellLogo.setVerticalAlignment(Element.ALIGN_TOP);
+        tablaCabeceraLogoID.addCell(cellLogo);
+
+        PdfPCell cellIdFicha = new PdfPCell(new Phrase("" + idAfiche, fontIdFicha));
+        cellIdFicha.setBorder(Rectangle.NO_BORDER);
+        cellIdFicha.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        cellIdFicha.setVerticalAlignment(Element.ALIGN_TOP);
+        tablaCabeceraLogoID.addCell(cellIdFicha);
+
+        document.add(tablaCabeceraLogoID);
 
         PdfPTable tablaCabecera = new PdfPTable(1);
         tablaCabecera.setWidthPercentage(100);
@@ -182,12 +288,6 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
         tablaDatos.setSpacingBefore(0f);
         tablaDatos.setSpacingAfter(0f);
         tablaDatos.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-
-        PdfPCell cellFecha = new PdfPCell(new Phrase(new Chunk("Fecha emisión: " + fechaStr, fontNormal)));
-        cellFecha.setBorder(Rectangle.NO_BORDER);
-        cellFecha.setPaddingTop(2f);
-        cellFecha.setPaddingBottom(2f);
-        tablaDatos.addCell(cellFecha);
 
         PdfPCell cellPaciente = new PdfPCell(new Phrase(new Chunk("Paciente: " + nombrePaciente + " " + apellidoPaciente, fontNormal)));
         cellPaciente.setBorder(Rectangle.NO_BORDER);
@@ -276,13 +376,14 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
         separador1.setBorder(Rectangle.NO_BORDER);
         separador1.setPaddingTop(0f);
         separador1.setPaddingBottom(0f);
+        separador1.setHorizontalAlignment(Element.ALIGN_CENTER);
+
         tablaSeparador1.addCell(separador1);
+
         document.add(tablaSeparador1);
 
         PdfPTable tablaTotal = new PdfPTable(2);
         tablaTotal.setWidthPercentage(100);
-        tablaTotal.setSpacingBefore(0f);
-        tablaTotal.setSpacingAfter(0f);
         tablaTotal.setWidths(new float[]{2f, 1f});
         tablaTotal.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 
@@ -347,6 +448,7 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
     private void initComponents() {
 
         Superior = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         btnCerrarSesion = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         ListaPersonal = new javax.swing.JLabel();
@@ -356,15 +458,6 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
         jLabel9 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        AgregarTecnico1 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        FechaAtencion = new com.toedter.calendar.JDateChooser();
-        NombreDoctor = new javax.swing.JTextField();
-        SeleccionarDoc = new javax.swing.JButton();
-        Hora = new javax.swing.JSpinner();
-        jLabel18 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -372,29 +465,38 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
         Apellido = new javax.swing.JTextField();
         ID = new javax.swing.JTextField();
         AgregarTecnico = new javax.swing.JLabel();
-        guardar = new javax.swing.JButton();
-        limpiar = new javax.swing.JButton();
-        jPanel6 = new javax.swing.JPanel();
-        AgregarTecnico3 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        btnVistaPrevia = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        TotalSumaServicios = new javax.swing.JTextField();
+        SeleccionarDoc = new javax.swing.JButton();
+        NombreDoctor = new javax.swing.JTextField();
+        FechaAtencion = new com.toedter.calendar.JDateChooser();
+        Hora = new javax.swing.JSpinner();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        AgregarTecnico1 = new javax.swing.JLabel();
+        lblBuscarItems = new javax.swing.JLabel();
+        BuscarItemsNombre = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         ListaItems = new javax.swing.JList<>();
-        jScrollPane3 = new javax.swing.JScrollPane();
+        jLabel11 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        AgregarTecnico3 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        ComboTipoPrecio = new javax.swing.JComboBox<>();
+        btnVistaPrevia = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         ListaItemsSeleccionados = new javax.swing.JList<>();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        BuscarItemsNombre = new javax.swing.JTextField();
-        ComboTipoPrecio = new javax.swing.JComboBox<>();
-        jPanel5 = new javax.swing.JPanel();
+        TotalSumaServicios = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         AgregarTecnico2 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         formadepago = new javax.swing.JLabel();
-        FormaPago = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
         TipoPago = new javax.swing.JComboBox<>();
+        FormaPago = new javax.swing.JComboBox<>();
+        guardar = new javax.swing.JButton();
+        limpiar = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
         FondoGris = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -404,9 +506,12 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
         Superior.setBackground(new java.awt.Color(80, 35, 100));
         Superior.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cerrarsesion.png"))); // NOI18N
+        Superior.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1890, 0, 20, 60));
+
         btnCerrarSesion.setBackground(new java.awt.Color(33, 14, 68));
         btnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnCerrarSesion.setForeground(new java.awt.Color(241, 241, 241));
+        btnCerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
         btnCerrarSesion.setText("Cerrar Sesión");
         btnCerrarSesion.setBorder(null);
         btnCerrarSesion.setHorizontalAlignment(SwingConstants.LEFT);
@@ -422,7 +527,7 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
                 btnCerrarSesionActionPerformed(evt);
             }
         });
-        Superior.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1690, 0, 229, 60));
+        Superior.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1740, 0, 180, 60));
 
         getContentPane().add(Superior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1920, 60));
 
@@ -433,6 +538,7 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
         ListaPersonal.setText("Lista de Fichas ");
         jPanel2.add(ListaPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 160, -1));
 
+        TablaAfiches.setAutoCreateRowSorter(true);
         TablaAfiches.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -466,6 +572,9 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
         TablaAfiches.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         TablaAfiches.setFocusable(false);
         jScrollPane1.setViewportView(TablaAfiches);
+        if (TablaAfiches.getColumnModel().getColumnCount() > 0) {
+            TablaAfiches.getColumnModel().getColumn(0).setResizable(false);
+        }
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 1190, 860));
 
@@ -486,7 +595,7 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
                 jTextField1ActionPerformed(evt);
             }
         });
-        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 15, 130, 20));
+        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 5, 150, 40));
         String placeholder = "Buscar Fichas";
 
         jTextField1.setText(placeholder);
@@ -527,17 +636,9 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
             }
 
             private void filterTable() {
-                String query = jTextField1.getText().toLowerCase();
+                String query = jTextField1.getText();
 
-                if (query.equals(placeholder.toLowerCase())) {
-                    TablaAfiches.setRowSorter(null);
-                    return;
-                }
-
-                TableRowSorter<TableModel> sorter = new TableRowSorter<>(TablaAfiches.getModel());
-                TablaAfiches.setRowSorter(sorter);
-
-                if (query.trim().isEmpty()) {
+                if (query.equalsIgnoreCase(placeholder) || query.trim().isEmpty()) {
                     sorter.setRowFilter(null);
                 } else {
                     sorter.setRowFilter(RowFilter.regexFilter("(?i)" + query, 1, 3));
@@ -549,51 +650,6 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
         jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 5, 190, 40));
 
         jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 1190, 910));
-
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        AgregarTecnico1.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
-        AgregarTecnico1.setText("Glosa");
-        jPanel3.add(AgregarTecnico1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 60, -1));
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel6.setText("Doctor:");
-        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
-
-        jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel17.setText("Hora de Atencion:");
-        jPanel3.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
-        jPanel3.add(FechaAtencion, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 70, 310, -1));
-
-        NombreDoctor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NombreDoctorActionPerformed(evt);
-            }
-        });
-        jPanel3.add(NombreDoctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 40, 310, -1));
-
-        SeleccionarDoc.setBackground(new java.awt.Color(29, 41, 57));
-        SeleccionarDoc.setForeground(new java.awt.Color(255, 255, 255));
-        SeleccionarDoc.setText("Seleccionar Doctor");
-        SeleccionarDoc.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SeleccionarDocActionPerformed(evt);
-            }
-        });
-        jPanel3.add(SeleccionarDoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 40, 140, -1));
-
-        Hora.setModel(new SpinnerDateModel());
-        JSpinner.DateEditor horaficha = new JSpinner.DateEditor(Hora, "HH:mm");
-        Hora.setEditor(horaficha);
-        jPanel3.add(Hora, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 100, 70, -1));
-
-        jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel18.setText("Fecha de Atencion:");
-        jPanel3.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, -1, -1));
-
-        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 160, 670, 150));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(194, 194, 194)));
@@ -614,14 +670,14 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
                 NombreActionPerformed(evt);
             }
         });
-        jPanel1.add(Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 40, 460, -1));
+        jPanel1.add(Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 40, 470, -1));
 
         Apellido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ApellidoActionPerformed(evt);
             }
         });
-        jPanel1.add(Apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, 460, -1));
+        jPanel1.add(Apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, 470, -1));
 
         ID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -634,88 +690,59 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
         AgregarTecnico.setText("Datos del Paciente");
         jPanel1.add(AgregarTecnico, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 210, -1));
 
-        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 50, 660, 120));
-
-        guardar.setBackground(new java.awt.Color(29, 41, 57));
-        guardar.setForeground(new java.awt.Color(255, 255, 255));
-        guardar.setText("Guardar e Imprimir");
-        guardar.addActionListener(new java.awt.event.ActionListener() {
+        SeleccionarDoc.setBackground(new java.awt.Color(33, 14, 68));
+        SeleccionarDoc.setForeground(new java.awt.Color(255, 255, 255));
+        SeleccionarDoc.setText("Seleccionar Doctor");
+        SeleccionarDoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                guardarActionPerformed(evt);
+                SeleccionarDocActionPerformed(evt);
             }
         });
-        jPanel2.add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 860, 140, 20));
+        jPanel1.add(SeleccionarDoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 140, 140, -1));
 
-        limpiar.setBackground(new java.awt.Color(29, 41, 57));
-        limpiar.setForeground(new java.awt.Color(255, 255, 255));
-        limpiar.setText("Limpiar");
-        limpiar.addActionListener(new java.awt.event.ActionListener() {
+        NombreDoctor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                limpiarActionPerformed(evt);
+                NombreDoctorActionPerformed(evt);
             }
         });
-        jPanel2.add(limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1370, 860, 100, -1));
+        jPanel1.add(NombreDoctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, 310, -1));
+        jPanel1.add(FechaAtencion, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 170, 310, -1));
 
-        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        Hora.setModel(new SpinnerDateModel());
+        JSpinner.DateEditor horaficha = new JSpinner.DateEditor(Hora, "HH:mm");
+        Hora.setEditor(horaficha);
+        jPanel1.add(Hora, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 200, 70, -1));
 
-        AgregarTecnico3.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
-        AgregarTecnico3.setText("Servicios:");
-        jPanel6.add(AgregarTecnico3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 110, -1));
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel17.setText("Hora de Atencion:");
+        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, -1, -1));
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel8.setText("Tipo de precio:");
-        jPanel6.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 110, -1, 20));
+        jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel18.setText("Fecha de Atencion:");
+        jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, -1, -1));
 
-        btnVistaPrevia.setBackground(new java.awt.Color(29, 41, 57));
-        btnVistaPrevia.setForeground(new java.awt.Color(255, 255, 255));
-        btnVistaPrevia.setText("Agregar y calcular");
-        btnVistaPrevia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVistaPreviaActionPerformed(evt);
-            }
-        });
-        jPanel6.add(btnVistaPrevia, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 393, 180, 20));
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel6.setText("Doctor:");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, 20));
 
-        jLabel3.setText("Total:");
-        jPanel6.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 360, -1, 20));
+        AgregarTecnico1.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        AgregarTecnico1.setText("Detalles");
+        jPanel1.add(AgregarTecnico1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 100, -1));
 
-        TotalSumaServicios.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TotalSumaServiciosActionPerformed(evt);
-            }
-        });
-        jPanel6.add(TotalSumaServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 360, 240, -1));
+        lblBuscarItems.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblBuscarItems.setForeground(new java.awt.Color(136, 134, 133));
+        lblBuscarItems.setText("Buscar Servicios");
+        lblBuscarItems.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jPanel1.add(lblBuscarItems, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, 100, 30));
 
-        ListaItems.setModel(new javax.swing.AbstractListModel<String>(){
-            String[] strings = {};
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(ListaItems);
-
-        jPanel6.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 220, 270));
-        jPanel6.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
-
-        ListaItemsSeleccionados.setModel(new DefaultListModel<Servicio>());
-        jScrollPane4.setViewportView(ListaItemsSeleccionados);
-
-        jPanel6.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 110, 240, 240));
-
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel10.setText("Buscar:");
-        jPanel6.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, 20));
-
-        jLabel1.setText("Servicios seleccionados:");
-        jPanel6.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 90, -1, -1));
-
+        BuscarItemsNombre.setBackground(new java.awt.Color(233, 236, 239));
+        BuscarItemsNombre.setBorder(null);
         BuscarItemsNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BuscarItemsNombreActionPerformed(evt);
             }
         });
-        jPanel6.add(BuscarItemsNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 220, -1));
+        jPanel1.add(BuscarItemsNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, 190, 30));
         BuscarItemsNombre.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) {
                 filtrarLista();
@@ -729,47 +756,163 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
                 filtrarLista();
             }
         });
+        BuscarItemsNombre.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                lblBuscarItems.setVisible(false);
+            }
 
-        ComboTipoPrecio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Normal", "Emergencia"}));
-        ComboTipoPrecio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ComboTipoPrecioActionPerformed(evt);
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (BuscarItemsNombre.getText().isEmpty()) {
+                    lblBuscarItems.setVisible(true);
+                }
             }
         });
-        jPanel6.add(ComboTipoPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 140, -1, -1));
+        BuscarItemsNombre.getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) {
+                lblBuscarItems.setVisible(false);
+                filtrarLista();
+            }
 
-        jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 300, 670, 430));
+            public void removeUpdate(DocumentEvent e) {
+                if (BuscarItemsNombre.getText().isEmpty()) {
+                    lblBuscarItems.setVisible(true);
+                } else {
+                    lblBuscarItems.setVisible(false);
+                }
+                filtrarLista();
+            }
 
-        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+            public void changedUpdate(DocumentEvent e) {
+                if (BuscarItemsNombre.getText().isEmpty()) {
+                    lblBuscarItems.setVisible(true);
+                } else {
+                    lblBuscarItems.setVisible(false);
+                }
+                filtrarLista();
+            }
+        });
 
-        AgregarTecnico2.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
-        AgregarTecnico2.setText("Forma de pago");
-        jPanel5.add(AgregarTecnico2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 160, -1));
+        ListaItems.setModel(new javax.swing.AbstractListModel<String>(){
+            String[] strings = {};
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(ListaItems);
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel7.setText("Medio de pago:");
-        jPanel5.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, -1, -1));
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 220, 270));
 
-        formadepago.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        formadepago.setText("Forma de Pago:");
-        jPanel5.add(formadepago, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, -1));
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 275, -1, -1));
 
-        FormaPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Contado"}));
-        jPanel5.add(FormaPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 440, -1));
+        jPanel7.setBackground(new java.awt.Color(233, 236, 239));
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 220, 30));
 
-        TipoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Efectivo", "QR", "Tarjeta"}));
-        jPanel5.add(TipoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, 440, -1));
+        AgregarTecnico3.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        AgregarTecnico3.setText("Servicios");
+        jPanel1.add(AgregarTecnico3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, 110, -1));
 
-        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 720, 670, 130));
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel8.setText("Tipo de precio:");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 330, -1, 20));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1880, 980));
+        ComboTipoPrecio.setModel(new javax.swing.DefaultComboBoxModel<TipoPrecioItem>(
+            new TipoPrecioItem[] {
+                new TipoPrecioItem("normal", "Normal"),
+                new TipoPrecioItem("emergencia", "Emergencia (+30%)")
+            }
+        )
+    );
+    ComboTipoPrecio.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            ComboTipoPrecioActionPerformed(evt);
+        }
+    });
+    jPanel1.add(ComboTipoPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 360, 140, -1));
 
-        FondoGris.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Background.jpg"))); // NOI18N
-        getContentPane().add(FondoGris, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1920, 1080));
+    btnVistaPrevia.setBackground(new java.awt.Color(33, 14, 68));
+    btnVistaPrevia.setForeground(new java.awt.Color(255, 255, 255));
+    btnVistaPrevia.setText("Agregar y calcular");
+    btnVistaPrevia.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnVistaPreviaActionPerformed(evt);
+        }
+    });
+    jPanel1.add(btnVistaPrevia, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 400, 140, 20));
 
-        pack();
+    jScrollPane4.setBorder(javax.swing.BorderFactory.createTitledBorder("Servicios Agregados:"));
+
+    ListaItemsSeleccionados.setModel(new DefaultListModel<Servicio>());
+    jScrollPane4.setViewportView(ListaItemsSeleccionados);
+
+    jPanel1.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 300, 230, 280));
+
+    TotalSumaServicios.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            TotalSumaServiciosActionPerformed(evt);
+        }
+    });
+    jPanel1.add(TotalSumaServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 590, 230, -1));
+
+    jLabel3.setText("Total:");
+    jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 590, -1, 20));
+
+    AgregarTecnico2.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+    AgregarTecnico2.setText("Pago");
+    jPanel1.add(AgregarTecnico2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 640, 160, -1));
+
+    formadepago.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+    formadepago.setText("Forma de Pago:");
+    jPanel1.add(formadepago, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 670, -1, -1));
+
+    jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+    jLabel7.setText("Medio de pago:");
+    jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 700, -1, 20));
+
+    TipoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Efectivo", "QR", "Tarjeta"}));
+    jPanel1.add(TipoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 700, 460, -1));
+
+    FormaPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Contado"}));
+    jPanel1.add(FormaPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 670, 460, -1));
+
+    guardar.setBackground(new java.awt.Color(33, 14, 68));
+    guardar.setForeground(new java.awt.Color(255, 255, 255));
+    guardar.setText("Guardar e Imprimir");
+    guardar.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            guardarActionPerformed(evt);
+        }
+    });
+    jPanel1.add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 750, 140, 20));
+
+    limpiar.setBackground(new java.awt.Color(33, 14, 68));
+    limpiar.setForeground(new java.awt.Color(255, 255, 255));
+    limpiar.setText("Limpiar");
+    limpiar.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            limpiarActionPerformed(evt);
+        }
+    });
+    jPanel1.add(limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 750, 100, -1));
+
+    jPanel3.setBackground(new java.awt.Color(204, 204, 204));
+    jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 100, 630, 1));
+
+    jPanel5.setBackground(new java.awt.Color(204, 204, 204));
+    jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 625, 630, 1));
+
+    jPanel6.setBackground(new java.awt.Color(204, 204, 204));
+    jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 230, 630, 1));
+
+    jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 50, 660, 780));
+
+    getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1880, 980));
+
+    FondoGris.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Background.jpg"))); // NOI18N
+    getContentPane().add(FondoGris, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1920, 1080));
+
+    pack();
     }// </editor-fold>//GEN-END:initComponents
     private void cargarServicios() {
         modeloLista.clear();
@@ -799,20 +942,43 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
+
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                switch (columnIndex) {
+                    case 0:
+                        return Integer.class;
+                    case 1:
+                        return String.class;
+                    case 2:
+                        return LocalDate.class;
+                    case 3:
+                        return String.class;
+                    case 4:
+                        return String.class;
+                    case 5:
+                        return String.class;
+                    case 6:
+                        return Double.class;
+                    default:
+                        return Object.class;
+                }
+            }
         };
+
         modelo.setColumnIdentifiers(new Object[]{
             "ID", "Paciente", "Fecha Atención", "Hora Atención", "Forma de Pago", "Medio de Pago", "Total de Precio"
         });
 
         String sql = """
-        SELECT 
-            a.id_afiche, CONCAT(a.nombre_paciente, ' ', a.apellido_paciente) AS paciente,
-            a.fecha_atencion,
-            a.hora_atencion,
-            a.forma_pago,
-            a.medio_pago,
-            a.precio_total
-        FROM afiches a
+    SELECT 
+        a.id_afiche, CONCAT(a.nombre_paciente, ' ', a.apellido_paciente) AS paciente,
+        a.fecha_atencion,
+        a.hora_atencion,
+        a.forma_pago,
+        a.medio_pago,
+        a.precio_total
+    FROM afiches a
     """;
 
         try (Connection con = Conexion.obtenerConexion(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
@@ -830,6 +996,14 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
             }
 
             TablaAfiches.setModel(modelo);
+
+            sorter = new TableRowSorter<>(modelo);
+            TablaAfiches.setRowSorter(sorter);
+
+            List<RowSorter.SortKey> sortKeys = new ArrayList<>();
+            sortKeys.add(new RowSorter.SortKey(0, SortOrder.DESCENDING));
+            sorter.setSortKeys(sortKeys);
+            sorter.sort();
 
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al cargar afiches: " + ex.getMessage());
@@ -870,7 +1044,8 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
 
     private void actualizarPreciosYTotal() {
         DefaultListModel<Servicio> modelo = (DefaultListModel<Servicio>) ListaItemsSeleccionados.getModel();
-        String tipoPrecio = ComboTipoPrecio.getSelectedItem().toString().toLowerCase();
+        TipoPrecioItem tipoPrecioItem = (TipoPrecioItem) ComboTipoPrecio.getSelectedItem();
+        String tipoPrecio = tipoPrecioItem.getValor();
 
         try {
             Connection con = Conexion.obtenerConexion();
@@ -1026,7 +1201,8 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
             psInsert.close();
 
             ListModel<Servicio> itemsSeleccionados = ListaItemsSeleccionados.getModel();
-            String tipoPrecio = ComboTipoPrecio.getSelectedItem().toString().toLowerCase();
+            TipoPrecioItem tipoPrecioItem = (TipoPrecioItem) ComboTipoPrecio.getSelectedItem();
+            String tipoPrecio = tipoPrecioItem.getValor();
 
             String sqlServicio = "SELECT id_servicio FROM servicios WHERE nombre_servicio = ?";
             PreparedStatement psServicio = con.prepareStatement(sqlServicio);
@@ -1047,6 +1223,7 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
                     psDetalle.setInt(1, idAfiche);
                     psDetalle.setInt(2, idServicio);
                     psDetalle.setString(3, tipoPrecio);
+
                     psDetalle.executeUpdate();
                 }
 
@@ -1072,7 +1249,8 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
                     siguienteNumero,
                     anioCorto,
                     fechaGuardado,
-                    Session.getNombreCompleto()
+                    Session.getNombreCompleto(),
+                    idAfiche
             );
             limpiarCampos();
         } catch (Exception e) {
@@ -1137,7 +1315,8 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
 
         try {
             Connection con = Conexion.obtenerConexion();
-            String tipoPrecio = ComboTipoPrecio.getSelectedItem().toString().toLowerCase();
+            TipoPrecioItem tipoPrecioItem = (TipoPrecioItem) ComboTipoPrecio.getSelectedItem();
+            String tipoPrecio = tipoPrecioItem.getValor();
 
             for (String item : seleccionados) {
                 boolean yaExiste = false;
@@ -1179,10 +1358,6 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
         // TODO add your handling code here:
     }//GEN-LAST:event_TotalSumaServiciosActionPerformed
 
-    private void BuscarItemsNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarItemsNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BuscarItemsNombreActionPerformed
-
     private void ComboTipoPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboTipoPrecioActionPerformed
         actualizarPreciosYTotal();
     }//GEN-LAST:event_ComboTipoPrecioActionPerformed
@@ -1197,6 +1372,10 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
         cerrar.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
+
+    private void BuscarItemsNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarItemsNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BuscarItemsNombreActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1229,7 +1408,7 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
     private javax.swing.JLabel AgregarTecnico3;
     private javax.swing.JTextField Apellido;
     private javax.swing.JTextField BuscarItemsNombre;
-    private javax.swing.JComboBox<String> ComboTipoPrecio;
+    private javax.swing.JComboBox<TipoPrecioItem> ComboTipoPrecio;
     private com.toedter.calendar.JDateChooser FechaAtencion;
     private javax.swing.JLabel FondoGris;
     private javax.swing.JComboBox<String> FormaPago;
@@ -1250,7 +1429,7 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
     private javax.swing.JLabel formadepago;
     private javax.swing.JButton guardar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
@@ -1267,11 +1446,12 @@ Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel lblBuscarItems;
     private javax.swing.JButton limpiar;
     // End of variables declaration//GEN-END:variables
 }
