@@ -44,6 +44,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.text.Normalizer;
+import javax.swing.text.AbstractDocument;
 
 
 /**
@@ -64,6 +65,7 @@ public class GenerarFicha extends javax.swing.JFrame {
     public GenerarFicha(int idusuario) {
         this.idusuario = idusuario;
         initComponents();
+        ((AbstractDocument) NotasTextArea.getDocument()).setDocumentFilter(new LimiteCaracteresDocumentFilter(140));
 
         if (BuscarItemsNombre.getText().isEmpty()) {
             lblBuscarItems.setVisible(true);
@@ -208,7 +210,7 @@ public class GenerarFicha extends javax.swing.JFrame {
         Font fontBold = new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD);
         Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
         Font fontLinea = new Font(Font.FontFamily.COURIER, 5, Font.NORMAL);
-        Font fontIdFicha = new Font(Font.FontFamily.HELVETICA, 6, Font.ITALIC);
+        Font fontIdFicha = new Font(Font.FontFamily.HELVETICA, 8, Font.NORMAL);
 
         InputStream is = getClass().getClassLoader().getResourceAsStream("Imagenes/LogoSantaFe.jpg");
         if (is == null) {
@@ -533,6 +535,7 @@ public class GenerarFicha extends javax.swing.JFrame {
         jPanel8 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         NotasTextArea = new javax.swing.JTextArea();
+        ContadorTextField = new javax.swing.JLabel();
         FondoGris = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -752,6 +755,7 @@ public class GenerarFicha extends javax.swing.JFrame {
                 NombreDoctorActionPerformed(evt);
             }
         });
+        NombreDoctor.setEditable(false);
         jPanel1.add(NombreDoctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, 310, -1));
         jPanel1.add(FechaAtencion, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 170, 310, -1));
 
@@ -890,6 +894,11 @@ public class GenerarFicha extends javax.swing.JFrame {
     jScrollPane4.setBorder(javax.swing.BorderFactory.createTitledBorder("Servicios Agregados:"));
 
     ListaItemsSeleccionados.setModel(new DefaultListModel<Servicio>());
+    ListaItemsSeleccionados.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            ListaItemsSeleccionadoMouseClicked(evt);
+        }
+    });
     jScrollPane4.setViewportView(ListaItemsSeleccionados);
 
     jPanel1.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 300, 230, 280));
@@ -963,6 +972,30 @@ public class GenerarFicha extends javax.swing.JFrame {
     NotasTextArea.setWrapStyleWord(true);
 
     jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 780, 610, 80));
+
+    ContadorTextField.setText("0/140");
+    jPanel1.add(ContadorTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 760, -1, -1));
+    NotasTextArea.getDocument().addDocumentListener(new DocumentListener() {
+        private void actualizarContador() {
+            int longitud = NotasTextArea.getText().length();
+            ContadorTextField.setText(longitud + "/140");
+        }
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            actualizarContador();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            actualizarContador();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            actualizarContador();
+        }
+    });
 
     jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 50, 660, 910));
 
@@ -1455,6 +1488,15 @@ public class GenerarFicha extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_BuscarItemsNombreActionPerformed
 
+    private void ListaItemsSeleccionadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListaItemsSeleccionadoMouseClicked
+        int index = ListaItemsSeleccionados.locationToIndex(evt.getPoint());
+        if (index >= 0) {
+            DefaultListModel<Servicio> modelo = (DefaultListModel<Servicio>) ListaItemsSeleccionados.getModel();
+            modelo.remove(index);
+            actualizarTotal();
+        }
+    }//GEN-LAST:event_ListaItemsSeleccionadoMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1488,6 +1530,7 @@ public class GenerarFicha extends javax.swing.JFrame {
     private javax.swing.JTextField Apellido;
     private javax.swing.JTextField BuscarItemsNombre;
     private javax.swing.JComboBox<TipoPrecioItem> ComboTipoPrecio;
+    private javax.swing.JLabel ContadorTextField;
     private com.toedter.calendar.JDateChooser FechaAtencion;
     private javax.swing.JLabel FondoGris;
     private javax.swing.JComboBox<String> FormaPago;

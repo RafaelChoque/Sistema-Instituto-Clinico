@@ -535,7 +535,14 @@ private void cargarTabla() {
             ex.printStackTrace();
         }
     }
-
+    public static String normalizar(String input) {
+        if (input == null) {
+            return null;
+        }
+        String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
+        normalized = normalized.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+        return normalized.toLowerCase();
+    }
     private void tblServiciosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblServiciosMouseClicked
         try {
             int fila = tblServicios.getSelectedRow();
@@ -592,8 +599,22 @@ private void cargarTabla() {
         try {
             Connection con = Conexion.obtenerConexion();
 
+            String nombreNormalizado = normalizar(nombreTxt);
+
+            PreparedStatement checkStmt = con.prepareStatement(
+                    "SELECT COUNT(*) FROM servicios WHERE estado = 1 AND LOWER(CONVERT(nombre_servicio USING utf8)) = ?"
+            );
+            checkStmt.setString(1, nombreNormalizado);
+            ResultSet rs = checkStmt.executeQuery();
+            rs.next();
+            int count = rs.getInt(1);
+            if (count > 0) {
+                JOptionPane.showMessageDialog(null, "Ya existe un servicio activo con ese nombre.");
+                return;
+            }
+
             PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO servicios (nombre_servicio, descripcion, precio_normal, precio_emergencia) VALUES (?, ?, ?, ?)"
+                    "INSERT INTO servicios (nombre_servicio, descripcion, precio_normal, precio_emergencia, estado) VALUES (?, ?, ?, ?, 1)"
             );
             ps.setString(1, nombreTxt);
             if (descripcionTxt.isEmpty()) {
@@ -611,11 +632,7 @@ private void cargarTabla() {
             limpiar();
             cargarTabla();
         } catch (SQLException ex) {
-            if (ex.getMessage().contains("Duplicate entry")) {
-                JOptionPane.showMessageDialog(null, "El nombre del servicio ya existe. Por favor, elija otro.");
-            } else {
-                JOptionPane.showMessageDialog(null, "Error en la base de datos: " + ex.getMessage());
-            }
+            JOptionPane.showMessageDialog(null, "Error en la base de datos: " + ex.getMessage());
             ex.printStackTrace();
         }
     }//GEN-LAST:event_btnGuardarActionPerformed

@@ -836,7 +836,55 @@ public class AdministradorCajeros extends javax.swing.JFrame {
     }//GEN-LAST:event_limpiarActionPerformed
 
     private void HabilitarDeshabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HabilitarDeshabilitarActionPerformed
+        int fila = TablaCajeros.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione un cajero.");
+            return;
+        }
 
+        int idCajero = Integer.parseInt(TablaCajeros.getValueAt(fila, 0).toString());
+
+        try {
+            Connection con = Conexion.obtenerConexion();
+
+            PreparedStatement psUsuario = con.prepareStatement("SELECT id_usuario FROM cajeros WHERE id_cajero = ?");
+            psUsuario.setInt(1, idCajero);
+            ResultSet rsUsuario = psUsuario.executeQuery();
+
+            if (!rsUsuario.next()) {
+                JOptionPane.showMessageDialog(null, "No se encontró el usuario asociado al cajero.");
+                return;
+            }
+
+            int idUsuario = rsUsuario.getInt("id_usuario");
+
+            PreparedStatement psEstado = con.prepareStatement("SELECT activo FROM usuarios WHERE id_usuario = ?");
+            psEstado.setInt(1, idUsuario);
+            ResultSet rsEstado = psEstado.executeQuery();
+
+            if (!rsEstado.next()) {
+                JOptionPane.showMessageDialog(null, "No se encontró el estado del usuario.");
+                return;
+            }
+
+            int estadoActual = rsEstado.getInt("activo");
+            int nuevoEstado = (estadoActual == 1) ? 0 : 1;
+
+            PreparedStatement psActualizar = con.prepareStatement("UPDATE usuarios SET activo = ? WHERE id_usuario = ?");
+            psActualizar.setInt(1, nuevoEstado);
+            psActualizar.setInt(2, idUsuario);
+            psActualizar.executeUpdate();
+
+            String mensaje = (nuevoEstado == 1) ? "Cajero habilitado correctamente." : "Cajero deshabilitado correctamente.";
+            JOptionPane.showMessageDialog(null, mensaje);
+
+            cargarTabla();
+            limpiar();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al cambiar el estado del cajero: " + ex.getMessage());
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_HabilitarDeshabilitarActionPerformed
 
     private void btnAdminCajerosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdminCajerosMouseExited
