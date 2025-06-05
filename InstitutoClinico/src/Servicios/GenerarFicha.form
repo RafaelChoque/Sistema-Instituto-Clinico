@@ -803,11 +803,11 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Candara" size="24" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Nota"/>
+                <Property name="text" type="java.lang.String" value="Nota (Opcional)"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="20" y="750" width="160" height="-1"/>
+                  <AbsoluteConstraints x="20" y="750" width="200" height="-1"/>
                 </Constraint>
               </Constraints>
             </Component>

@@ -117,61 +117,7 @@ public class GenerarFicha extends javax.swing.JFrame {
             tabla.getColumnModel().getColumn(i).setCellRenderer(renderer);
         }
     }
-
-    public void generarFichaFormatoRecibo(
-            String nombrePaciente, String apellidoPaciente, String nombreDoctor,
-            Date fecha, Date hora, String formaPago, String medioPago,
-            double total, ListModel<Servicio> servicios,
-            int numeroFicha, int anioFicha, Date fechaGuardado, String nombreUsuario,
-            int id_afiche) {
-
-        try {
-            String[] partesNombreDoctor = nombreDoctor.trim().split("\\s+");
-            String apellidoDoc = partesNombreDoctor.length > 1 ? partesNombreDoctor[partesNombreDoctor.length - 1] : "";
-            String nombreDoc = partesNombreDoctor.length > 1 ? partesNombreDoctor[0] : partesNombreDoctor[0];
-
-            apellidoDoc = apellidoDoc.replaceAll("\\s+", "");
-            nombreDoc = nombreDoc.replaceAll("\\s+", "");
-
-            SimpleDateFormat sdfNombreArchivo = new SimpleDateFormat("yyyyMMdd");
-            String fechaFormato = sdfNombreArchivo.format(fechaGuardado);
-
-            String nombreArchivo = String.format("ficha_%s%s_%d_%s.pdf", apellidoDoc, nombreDoc, id_afiche, fechaFormato);
-            File pdfFile = new File(nombreArchivo);
-
-            int alturaMinima = 260;
-            int altura = alturaMinima + servicios.getSize() * 8;
-            Rectangle pageSize = new Rectangle(226, altura);
-            Document document = new Document(pageSize, 10f, 10f, 5f, 5f);
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfFile));
-            document.open();
-
-            generarPaginaRecibo(document, nombrePaciente, apellidoPaciente, nombreDoctor, fecha, hora,
-                    formaPago, medioPago, total, servicios, numeroFicha, anioFicha, fechaGuardado, nombreUsuario, id_afiche);
-
-            document.newPage();
-
-            generarPaginaRecibo(document, nombrePaciente, apellidoPaciente, nombreDoctor, fecha, hora,
-                    formaPago, medioPago, total, servicios, numeroFicha, anioFicha, fechaGuardado, nombreUsuario, id_afiche);
-
-            document.close();
-            writer.flush();
-            writer.close();
-
-            if (Desktop.isDesktopSupported()) {
-                try {
-                    Desktop.getDesktop().open(pdfFile);
-                } catch (Exception ex) {
-                }
-            }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al generar PDF: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    private DefaultListModel<String> modeloOriginal;
+        private DefaultListModel<String> modeloOriginal;
 
     public class TipoPrecioItem {
 
@@ -193,18 +139,76 @@ public class GenerarFicha extends javax.swing.JFrame {
         }
     }
 
+
+    public void generarFichaFormatoRecibo(
+            String nombrePaciente, String apellidoPaciente, String nombreDoctor,
+            Date fecha, Date hora, String formaPago, String medioPago,
+            double total, ListModel<Servicio> servicios,
+            int numeroFicha, int anioFicha, Date fechaGuardado, String nombreUsuario,
+            int id_afiche, String notas) {
+
+        try {
+            String[] partesNombreDoctor = nombreDoctor.trim().split("\\s+");
+            String apellidoDoc = partesNombreDoctor.length > 1 ? partesNombreDoctor[partesNombreDoctor.length - 1] : "";
+            String nombreDoc = partesNombreDoctor.length > 1 ? partesNombreDoctor[0] : partesNombreDoctor[0];
+
+            apellidoDoc = apellidoDoc.replaceAll("\\s+", "");
+            nombreDoc = nombreDoc.replaceAll("\\s+", "");
+
+            SimpleDateFormat sdfNombreArchivo = new SimpleDateFormat("yyyyMMdd");
+            String fechaFormato = sdfNombreArchivo.format(fechaGuardado);
+
+            String nombreArchivo = String.format("ficha_%s%s_%d_%s.pdf", apellidoDoc, nombreDoc, id_afiche, fechaFormato);
+            File pdfFile = new File(nombreArchivo);
+
+            int alturaMinima = 260;
+            int altura = alturaMinima + servicios.getSize() * 8;
+
+            if (notas != null && !notas.trim().isEmpty()) {
+                int lineasNotas = notas.split("\n").length;
+                altura += (lineasNotas * 20); 
+            }
+            Rectangle pageSize = new Rectangle(226, altura);
+            Document document = new Document(pageSize, 10f, 10f, 5f, 5f);
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfFile));
+            document.open();
+
+            generarPaginaRecibo(document, nombrePaciente, apellidoPaciente, nombreDoctor, fecha, hora,
+                    formaPago, medioPago, total, servicios, numeroFicha, anioFicha, fechaGuardado, nombreUsuario, id_afiche, notas);
+
+            document.newPage();
+
+            generarPaginaRecibo(document, nombrePaciente, apellidoPaciente, nombreDoctor, fecha, hora,
+                    formaPago, medioPago, total, servicios, numeroFicha, anioFicha, fechaGuardado, nombreUsuario, id_afiche, notas);
+
+            document.close();
+            writer.flush();
+            writer.close();
+
+            if (Desktop.isDesktopSupported()) {
+                try {
+                    Desktop.getDesktop().open(pdfFile);
+                } catch (Exception ex) {
+                }
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al generar PDF: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
     private void generarPaginaRecibo(Document document,
             String nombrePaciente, String apellidoPaciente, String nombreDoctor,
             Date fecha, Date hora, String formaPago, String medioPago,
             double total, ListModel<Servicio> servicios,
             int numeroFicha, int anioFicha, Date fechaGuardado, String nombreUsuario,
-            int idAfiche) throws Exception {
+            int idAfiche, String notas) throws Exception {
 
         Font fontNormal = new Font(Font.FontFamily.HELVETICA, 8, Font.NORMAL);
         Font fontBold = new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD);
         Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
         Font fontLinea = new Font(Font.FontFamily.COURIER, 5, Font.NORMAL);
-        Font fontIdFicha = new Font(Font.FontFamily.HELVETICA, 4, Font.NORMAL);
+        Font fontIdFicha = new Font(Font.FontFamily.HELVETICA, 6, Font.ITALIC);
 
         InputStream is = getClass().getClassLoader().getResourceAsStream("Imagenes/LogoSantaFe.jpg");
         if (is == null) {
@@ -427,6 +431,28 @@ public class GenerarFicha extends javax.swing.JFrame {
         PdfPTable tablaInfo = new PdfPTable(1);
         tablaInfo.setWidthPercentage(100);
         tablaInfo.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+        
+                if (notas != null && !notas.trim().isEmpty()) {
+            PdfPTable tablaNotas = new PdfPTable(1);
+            tablaNotas.setWidthPercentage(100);
+            tablaNotas.setSpacingBefore(2f);
+            tablaNotas.setSpacingAfter(2f);
+            tablaNotas.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+
+            PdfPCell tituloNotas = new PdfPCell(new Phrase("Nota:", fontBold));
+            tituloNotas.setBorder(Rectangle.NO_BORDER);
+            tituloNotas.setHorizontalAlignment(Element.ALIGN_LEFT);
+            tituloNotas.setPaddingBottom(1f);
+            tablaNotas.addCell(tituloNotas);
+
+            PdfPCell contenidoNotas = new PdfPCell(new Phrase(notas, fontIdFicha));
+            contenidoNotas.setBorder(Rectangle.NO_BORDER);
+            contenidoNotas.setHorizontalAlignment(Element.ALIGN_LEFT);
+            contenidoNotas.setPaddingBottom(2f);
+            tablaNotas.addCell(contenidoNotas);
+
+            document.add(tablaNotas);
+        }
 
         tablaInfo.addCell(new Phrase("Forma de pago: " + formaPago, fontNormal));
         tablaInfo.addCell(new Phrase("Medio de pago: " + medioPago, fontNormal));
@@ -924,8 +950,8 @@ public class GenerarFicha extends javax.swing.JFrame {
     jPanel1.add(AgregarTecnico4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 640, 160, -1));
 
     AgregarTecnico2.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
-    AgregarTecnico2.setText("Nota");
-    jPanel1.add(AgregarTecnico2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 750, 160, -1));
+    AgregarTecnico2.setText("Nota (Opcional)");
+    jPanel1.add(AgregarTecnico2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 750, 200, -1));
 
     jPanel8.setBackground(new java.awt.Color(204, 204, 204));
     jPanel1.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 735, 630, 1));
@@ -1300,7 +1326,8 @@ public class GenerarFicha extends javax.swing.JFrame {
                     anioCorto,
                     fechaGuardado,
                     Session.getNombreCompleto(),
-                    idAfiche
+                    idAfiche,
+                    notas
             );
             limpiarCampos();
         } catch (Exception e) {
