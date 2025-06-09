@@ -439,7 +439,6 @@ public class ReportesCampoProfesional extends javax.swing.JFrame {
          PreparedStatement ps = con.prepareStatement(sql);
          ResultSet rs = ps.executeQuery()) {
 
-        // Mapa para evitar duplicados ignorando tildes y mayúsculas/minúsculas
         Map<String, String> categoriasUnicas = new TreeMap<>();
 
         while (rs.next()) {
@@ -587,7 +586,6 @@ private void cargaTablaReporte() {
         return;
     }
 
-    // Normalizar las fechas para filtrar correctamente
     Calendar calDesde = Calendar.getInstance();
     calDesde.setTime(desde);
     calDesde.set(Calendar.HOUR_OF_DAY, 0);
@@ -611,14 +609,13 @@ private void cargaTablaReporte() {
 
     List<RowFilter<Object, Object>> filtros = new ArrayList<>();
 
-    // Filtro por "Campo Profesional" (columna 2), ignorando tildes y mayúsculas/minúsculas
     if (categoriaSeleccionada != null && !categoriaSeleccionada.equals("Todos") && !categoriaSeleccionada.trim().isEmpty()) {
         final String filtroSinTildes = quitarTildes(categoriaSeleccionada.toLowerCase());
 
         filtros.add(new RowFilter<Object, Object>() {
             @Override
             public boolean include(Entry<? extends Object, ? extends Object> entry) {
-                String valorCelda = entry.getStringValue(2); // columna Campo Profesional
+                String valorCelda = entry.getStringValue(2);
                 if (valorCelda == null) return false;
 
                 String valorSinTildes = quitarTildes(valorCelda.toLowerCase());
@@ -627,7 +624,6 @@ private void cargaTablaReporte() {
         });
     }
 
-    // Filtro por fecha (columna 3, ya que las columnas son: 0=ID, 1=Doctor, 2=Campo Profesional, 3=Fecha ...)
     filtros.add(new RowFilter<Object, Object>() {
         @Override
         public boolean include(Entry<? extends Object, ? extends Object> entry) {
@@ -709,7 +705,7 @@ private void cargaTablaReporte() {
                             .trim();
                     sumaTotal += Double.parseDouble(strVal);
                 } catch (NumberFormatException e) {
-                    e.printStackTrace(); // O ignora silenciosamente si prefieres
+                    e.printStackTrace(); 
                 }
             }
         }

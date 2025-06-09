@@ -18,36 +18,13 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,108,0,0,4,-109"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,8,0,0,4,5"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
     <Property name="useNullLayout" type="boolean" value="false"/>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JTextField" name="BuscarDoctores">
-      <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="ef" green="ec" red="e9" type="rgb"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Buscar"/>
-        <Property name="toolTipText" type="java.lang.String" value=""/>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="null"/>
-        </Property>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BuscarDoctoresActionPerformed"/>
-      </Events>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="String placeholder = &quot;Buscar Doctor&quot;;&#xa;&#xa;BuscarDoctores.setText(placeholder);&#xa;BuscarDoctores.setForeground(Color.GRAY);&#xa;&#xa;BuscarDoctores.addFocusListener(new FocusAdapter() {&#xa;    @Override&#xa;    public void focusGained(FocusEvent e) {&#xa;        if (BuscarDoctores.getText().equals(placeholder)) {&#xa;            BuscarDoctores.setText(&quot;&quot;);&#xa;            BuscarDoctores.setForeground(Color.BLACK);&#xa;        }&#xa;    }&#xa;&#xa;    @Override&#xa;    public void focusLost(FocusEvent e) {&#xa;        if (BuscarDoctores.getText().isEmpty()) {&#xa;            BuscarDoctores.setText(placeholder);&#xa;            BuscarDoctores.setForeground(Color.GRAY);&#xa;        }&#xa;    }&#xa;});&#xa;&#xa;BuscarDoctores.getDocument().addDocumentListener(new DocumentListener() {&#xa;    @Override&#xa;    public void insertUpdate(DocumentEvent e) {&#xa;        filterTable();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void removeUpdate(DocumentEvent e) {&#xa;        filterTable();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void changedUpdate(DocumentEvent e) {&#xa;        filterTable();&#xa;    }&#xa;&#xa;private void filterTable() {&#xa;    String query = quitarTildes(BuscarDoctores.getText().toLowerCase().trim());&#xa;&#xa;    if (query.equals(quitarTildes(placeholder.toLowerCase()))) {&#xa;        TablaMedicos.setRowSorter(null);&#xa;        return;&#xa;    }&#xa;&#xa;    TableRowSorter&lt;TableModel&gt; sorter = (TableRowSorter&lt;TableModel&gt;) TablaMedicos.getRowSorter();&#xa;    if (sorter == null) {&#xa;        sorter = new TableRowSorter&lt;&gt;(TablaMedicos.getModel());&#xa;        TablaMedicos.setRowSorter(sorter);&#xa;    }&#xa;&#xa;    if (query.isEmpty()) {&#xa;        sorter.setRowFilter(null);&#xa;    } else {&#xa;        sorter.setRowFilter(new RowFilter&lt;TableModel, Integer&gt;() {&#xa;            @Override&#xa;            public boolean include(Entry&lt;? extends TableModel, ? extends Integer&gt; entry) {&#xa;&#xa;                String nombre = quitarTildes(entry.getStringValue(1).toLowerCase());&#xa;                String apellido = quitarTildes(entry.getStringValue(2).toLowerCase());&#xa;                return nombre.contains(query) || apellido.contains(query);&#xa;            }&#xa;        });&#xa;    }&#xa;}&#xa;&#xa;&#xa;});"/>
-      </AuxValues>
-      <Constraints>
-        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="90" y="70" width="140" height="20"/>
-        </Constraint>
-      </Constraints>
-    </Component>
     <Container class="javax.swing.JPanel" name="jPanel1">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -56,7 +33,7 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="20" y="20" width="1130" height="580"/>
+          <AbsoluteConstraints x="10" y="10" width="1010" height="500"/>
         </Constraint>
       </Constraints>
 
@@ -83,7 +60,7 @@
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="20" y="130" width="1090" height="430"/>
+              <AbsoluteConstraints x="20" y="120" width="970" height="360"/>
             </Constraint>
           </Constraints>
 
@@ -157,7 +134,7 @@
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="90" y="90" width="330" height="-1"/>
+              <AbsoluteConstraints x="90" y="80" width="330" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -176,7 +153,7 @@
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="1000" y="80" width="110" height="30"/>
+              <AbsoluteConstraints x="880" y="80" width="110" height="30"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -189,7 +166,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="30" y="90" width="-1" height="-1"/>
+              <AbsoluteConstraints x="30" y="80" width="-1" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -201,7 +178,30 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="40" y="50" width="-1" height="-1"/>
+              <AbsoluteConstraints x="40" y="40" width="30" height="30"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JTextField" name="BuscarDoctores">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ef" green="ec" red="e9" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Buscar"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BuscarDoctoresActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="String placeholder = &quot;Buscar Doctor&quot;;&#xa;&#xa;BuscarDoctores.setText(placeholder);&#xa;BuscarDoctores.setForeground(Color.GRAY);&#xa;&#xa;BuscarDoctores.addFocusListener(new FocusAdapter() {&#xa;    @Override&#xa;    public void focusGained(FocusEvent e) {&#xa;        if (BuscarDoctores.getText().equals(placeholder)) {&#xa;            BuscarDoctores.setText(&quot;&quot;);&#xa;            BuscarDoctores.setForeground(Color.BLACK);&#xa;        }&#xa;    }&#xa;&#xa;    @Override&#xa;    public void focusLost(FocusEvent e) {&#xa;        if (BuscarDoctores.getText().isEmpty()) {&#xa;            BuscarDoctores.setText(placeholder);&#xa;            BuscarDoctores.setForeground(Color.GRAY);&#xa;        }&#xa;    }&#xa;});&#xa;&#xa;BuscarDoctores.getDocument().addDocumentListener(new DocumentListener() {&#xa;    @Override&#xa;    public void insertUpdate(DocumentEvent e) {&#xa;        filterTable();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void removeUpdate(DocumentEvent e) {&#xa;        filterTable();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void changedUpdate(DocumentEvent e) {&#xa;        filterTable();&#xa;    }&#xa;&#xa;private void filterTable() {&#xa;    String query = quitarTildes(BuscarDoctores.getText().toLowerCase().trim());&#xa;&#xa;    if (query.equals(quitarTildes(placeholder.toLowerCase()))) {&#xa;        TablaMedicos.setRowSorter(null);&#xa;        return;&#xa;    }&#xa;&#xa;    TableRowSorter&lt;TableModel&gt; sorter = (TableRowSorter&lt;TableModel&gt;) TablaMedicos.getRowSorter();&#xa;    if (sorter == null) {&#xa;        sorter = new TableRowSorter&lt;&gt;(TablaMedicos.getModel());&#xa;        TablaMedicos.setRowSorter(sorter);&#xa;    }&#xa;&#xa;    if (query.isEmpty()) {&#xa;        sorter.setRowFilter(null);&#xa;    } else {&#xa;        sorter.setRowFilter(new RowFilter&lt;TableModel, Integer&gt;() {&#xa;            @Override&#xa;            public boolean include(Entry&lt;? extends TableModel, ? extends Integer&gt; entry) {&#xa;&#xa;                String nombre = quitarTildes(entry.getStringValue(1).toLowerCase());&#xa;                String apellido = quitarTildes(entry.getStringValue(2).toLowerCase());&#xa;                return nombre.contains(query) || apellido.contains(query);&#xa;            }&#xa;        });&#xa;    }&#xa;}&#xa;&#xa;&#xa;});"/>
+          </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="80" y="40" width="140" height="30"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -213,7 +213,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="30" y="40" width="190" height="40"/>
+              <AbsoluteConstraints x="30" y="40" width="190" height="30"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -227,7 +227,7 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="0" y="0" width="1170" height="620"/>
+          <AbsoluteConstraints x="0" y="0" width="1030" height="520"/>
         </Constraint>
       </Constraints>
     </Component>

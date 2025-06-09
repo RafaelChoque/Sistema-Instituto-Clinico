@@ -94,7 +94,7 @@ public class ServiciosPrecios extends javax.swing.JFrame {
         btnListaLaboratorios = new javax.swing.JButton();
         btnReportePagos = new javax.swing.JButton();
         btnServicios = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         btnCerrarSesion = new javax.swing.JButton();
         btnReporteEspeci = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -103,7 +103,6 @@ public class ServiciosPrecios extends javax.swing.JFrame {
         tblServicios = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         NombreServicio = new javax.swing.JTextField();
@@ -133,7 +132,6 @@ public class ServiciosPrecios extends javax.swing.JFrame {
         Superior.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnAdminCajeros.setBackground(new java.awt.Color(33, 14, 68));
-        btnAdminCajeros.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAdminCajeros.setForeground(new java.awt.Color(241, 241, 241));
         btnAdminCajeros.setText("Administracion de Cajeros");
         btnAdminCajeros.setBorder(null);
@@ -150,10 +148,9 @@ public class ServiciosPrecios extends javax.swing.JFrame {
                 btnAdminCajerosActionPerformed(evt);
             }
         });
-        Superior.add(btnAdminCajeros, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 229, 60));
+        Superior.add(btnAdminCajeros, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 40));
 
         btnListaLaboratorios.setBackground(new java.awt.Color(33, 14, 68));
-        btnListaLaboratorios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnListaLaboratorios.setForeground(new java.awt.Color(241, 241, 241));
         btnListaLaboratorios.setText("Administracion de Doctores");
         btnListaLaboratorios.setBorder(null);
@@ -170,10 +167,9 @@ public class ServiciosPrecios extends javax.swing.JFrame {
                 btnListaLaboratoriosActionPerformed(evt);
             }
         });
-        Superior.add(btnListaLaboratorios, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, 229, 60));
+        Superior.add(btnListaLaboratorios, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, 190, 40));
 
         btnReportePagos.setBackground(new java.awt.Color(33, 14, 68));
-        btnReportePagos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnReportePagos.setForeground(new java.awt.Color(241, 241, 241));
         btnReportePagos.setText("Reportes de Pagos");
         btnReportePagos.setBorder(null);
@@ -190,10 +186,9 @@ public class ServiciosPrecios extends javax.swing.JFrame {
                 btnReportePagosActionPerformed(evt);
             }
         });
-        Superior.add(btnReportePagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 0, 229, 60));
+        Superior.add(btnReportePagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 0, 190, 40));
 
         btnServicios.setBackground(new java.awt.Color(33, 14, 68));
-        btnServicios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnServicios.setForeground(new java.awt.Color(241, 241, 241));
         btnServicios.setText("Servicios");
         btnServicios.setBorder(null);
@@ -210,13 +205,12 @@ public class ServiciosPrecios extends javax.swing.JFrame {
                 btnServiciosActionPerformed(evt);
             }
         });
-        Superior.add(btnServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 0, 229, 60));
+        Superior.add(btnServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 0, 190, 40));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cerrarsesion.png"))); // NOI18N
-        Superior.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1890, 0, 20, 60));
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cerrarsesion.png"))); // NOI18N
+        Superior.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1340, 0, 20, 40));
 
         btnCerrarSesion.setBackground(new java.awt.Color(33, 14, 68));
-        btnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
         btnCerrarSesion.setText("Cerrar Sesión");
         btnCerrarSesion.setBorder(null);
@@ -233,10 +227,9 @@ public class ServiciosPrecios extends javax.swing.JFrame {
                 btnCerrarSesionActionPerformed(evt);
             }
         });
-        Superior.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1740, 0, 180, 60));
+        Superior.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 0, 180, 40));
 
         btnReporteEspeci.setBackground(new java.awt.Color(33, 14, 68));
-        btnReporteEspeci.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnReporteEspeci.setForeground(new java.awt.Color(241, 241, 241));
         btnReporteEspeci.setText("Reportes de Especialidades");
         btnReporteEspeci.setBorder(null);
@@ -253,17 +246,18 @@ public class ServiciosPrecios extends javax.swing.JFrame {
                 btnReporteEspeciActionPerformed(evt);
             }
         });
-        Superior.add(btnReporteEspeci, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 0, 229, 60));
+        Superior.add(btnReporteEspeci, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 0, 190, 40));
 
-        getContentPane().add(Superior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1920, 60));
+        getContentPane().add(Superior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1370, 40));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
         jLabel1.setText("Servicios");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 110, 50));
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 110, 20));
 
+        tblServicios.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         tblServicios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -299,7 +293,7 @@ public class ServiciosPrecios extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblServicios);
 
-        jPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 1190, 860));
+        jPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 810, 620));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -314,7 +308,7 @@ public class ServiciosPrecios extends javax.swing.JFrame {
                 jTextField1ActionPerformed(evt);
             }
         });
-        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 15, 140, 20));
+        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 140, 20));
         String placeholder = "Buscar Servicio";
         jTextField1.setText(placeholder);
         jTextField1.setForeground(Color.GRAY);
@@ -383,18 +377,15 @@ public class ServiciosPrecios extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
-        jPanel4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 15, -1, -1));
-
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo_1.png"))); // NOI18N
-        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 5, 190, 40));
+        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 5, 190, 30));
 
-        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 1190, 710));
+        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 810, 660));
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(194, 194, 194)));
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel6.add(NombreServicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 50, 420, -1));
+        jPanel6.add(NombreServicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 40, 350, -1));
 
         txtID1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -403,29 +394,30 @@ public class ServiciosPrecios extends javax.swing.JFrame {
         });
         jPanel6.add(txtID1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, -48, 20, 40));
 
-        NombreService.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         NombreService.setText("Nombre del Servicio:");
-        jPanel6.add(NombreService, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, 20));
+        jPanel6.add(NombreService, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, 20));
 
         Descripcion.setColumns(20);
         Descripcion.setRows(5);
         jScrollPane1.setViewportView(Descripcion);
+        Descripcion.setLineWrap(true);
+        Descripcion.setWrapStyleWord(true);
 
-        jPanel6.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 80, 420, 130));
+        jPanel6.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 80, 350, 130));
 
-        Desc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         Desc.setText("Descripcion:");
         jPanel6.add(Desc, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, 20));
 
-        jLabel15.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        jLabel15.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
         jLabel15.setText("Datos");
-        jPanel6.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 90, 30));
+        jPanel6.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 40, 20));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnGuardar.setBackground(new java.awt.Color(80, 35, 100));
+        btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
         btnGuardar.setText("Guardar");
         btnGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -434,9 +426,10 @@ public class ServiciosPrecios extends javax.swing.JFrame {
                 btnGuardarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 110, -1));
+        jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 110, -1));
 
         btnModificar1.setBackground(new java.awt.Color(80, 35, 100));
+        btnModificar1.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         btnModificar1.setForeground(new java.awt.Color(255, 255, 255));
         btnModificar1.setText("Modificar");
         btnModificar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -445,8 +438,9 @@ public class ServiciosPrecios extends javax.swing.JFrame {
                 btnModificar1ActionPerformed(evt);
             }
         });
-        jPanel1.add(btnModificar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 110, -1));
+        jPanel1.add(btnModificar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 110, -1));
 
+        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         btnLimpiar.setText("Limpiar");
         btnLimpiar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
@@ -454,9 +448,10 @@ public class ServiciosPrecios extends javax.swing.JFrame {
                 btnLimpiarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 90, 110, -1));
+        jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 80, 110, -1));
 
         btnEliminar.setBackground(new java.awt.Color(255, 0, 0));
+        btnEliminar.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminar.setText("Eliminar");
         btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -465,38 +460,37 @@ public class ServiciosPrecios extends javax.swing.JFrame {
                 btnEliminarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 90, 110, -1));
+        jPanel1.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 80, 110, -1));
 
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel11.setText("Costo:");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, -1));
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
 
         CostoServicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CostoServicioActionPerformed(evt);
             }
         });
-        jPanel1.add(CostoServicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 50, 420, -1));
+        jPanel1.add(CostoServicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 40, 350, -1));
 
-        jLabel10.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
         jLabel10.setText("Tarifa de Servicio");
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 180, -1));
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 110, -1));
 
-        jPanel6.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 650, 140));
+        jPanel6.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 530, 140));
 
         ID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 IDActionPerformed(evt);
             }
         });
-        jPanel6.add(ID, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, 10, -1));
+        jPanel6.add(ID, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 10, 10));
 
-        jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 50, 650, 370));
+        jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 40, 530, 370));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1880, 980));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 1350, 710));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Background.jpg"))); // NOI18N
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 1080));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1400, 770));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -560,7 +554,7 @@ private void cargarTabla() {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                ID.setText(String.valueOf(idServicio)); // Asegúrate de tener este campo o eliminar esta línea si no lo necesitas
+                ID.setText(String.valueOf(idServicio));
                 NombreServicio.setText(rs.getString("nombre_servicio"));
                 Descripcion.setText(rs.getString("descripcion"));
                 CostoServicio.setText(String.valueOf(rs.getDouble("precio_normal")));
@@ -579,10 +573,15 @@ private void cargarTabla() {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         String nombreTxt = NombreServicio.getText().trim();
         String descripcionTxt = Descripcion.getText().trim();
-        String precioNormalTxt = CostoServicio.getText().trim();
+        String precioNormalTxt = CostoServicio.getText().trim().replace(',', '.');
 
         if (nombreTxt.isEmpty() || precioNormalTxt.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, rellene todos los campos obligatorios.");
+            return;
+        }
+
+        if (!precioNormalTxt.matches("\\d+(\\.\\d{1,2})?")) {
+            JOptionPane.showMessageDialog(null, "El precio debe ser un número válido (ej: 100 o 100.50).");
             return;
         }
 
@@ -648,10 +647,16 @@ private void cargarTabla() {
         int idServicio = (int) tblServicios.getValueAt(filaSeleccionada, 0);
         String nombreTxt = NombreServicio.getText().trim();
         String descripcionTxt = Descripcion.getText().trim();
-        String precioNormalTxt = CostoServicio.getText().trim();
+        String precioNormalTxt = CostoServicio.getText().trim().replace(',', '.');
 
         if (nombreTxt.isEmpty() || precioNormalTxt.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, rellene todos los campos obligatorios.");
+            return;
+        }
+
+        // Validar que el precio sea un número válido
+        if (!precioNormalTxt.matches("\\d+(\\.\\d{1,2})?")) {
+            JOptionPane.showMessageDialog(null, "El precio debe ser un número válido (ej: 100 o 100.50).");
             return;
         }
 
@@ -856,8 +861,7 @@ private void cargarTabla() {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;

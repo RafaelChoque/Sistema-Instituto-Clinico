@@ -31,7 +31,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import org.mindrot.jbcrypt.BCrypt;
+
 
 /**
  *
@@ -105,7 +105,6 @@ public class AdministradorCajeros extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaCajeros = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -138,7 +137,6 @@ public class AdministradorCajeros extends javax.swing.JFrame {
         Superior.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnAdminCajeros.setBackground(new java.awt.Color(33, 14, 68));
-        btnAdminCajeros.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAdminCajeros.setForeground(new java.awt.Color(241, 241, 241));
         btnAdminCajeros.setText("Administracion de Cajeros");
         btnAdminCajeros.setBorder(null);
@@ -155,10 +153,9 @@ public class AdministradorCajeros extends javax.swing.JFrame {
                 btnAdminCajerosActionPerformed(evt);
             }
         });
-        Superior.add(btnAdminCajeros, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 229, 60));
+        Superior.add(btnAdminCajeros, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 40));
 
         btnAdmiDoc.setBackground(new java.awt.Color(33, 14, 68));
-        btnAdmiDoc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAdmiDoc.setForeground(new java.awt.Color(241, 241, 241));
         btnAdmiDoc.setText("Administracion de Doctores");
         btnAdmiDoc.setBorder(null);
@@ -175,10 +172,9 @@ public class AdministradorCajeros extends javax.swing.JFrame {
                 btnAdmiDocActionPerformed(evt);
             }
         });
-        Superior.add(btnAdmiDoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, 229, 60));
+        Superior.add(btnAdmiDoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, 190, 40));
 
         btnReportesPagos.setBackground(new java.awt.Color(33, 14, 68));
-        btnReportesPagos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnReportesPagos.setForeground(new java.awt.Color(241, 241, 241));
         btnReportesPagos.setText("Reportes de Pagos");
         btnReportesPagos.setBorder(null);
@@ -195,10 +191,9 @@ public class AdministradorCajeros extends javax.swing.JFrame {
                 btnReportesPagosActionPerformed(evt);
             }
         });
-        Superior.add(btnReportesPagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 0, 229, 60));
+        Superior.add(btnReportesPagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 0, 190, 40));
 
         btnServicios.setBackground(new java.awt.Color(33, 14, 68));
-        btnServicios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnServicios.setForeground(new java.awt.Color(241, 241, 241));
         btnServicios.setText("Servicios");
         btnServicios.setBorder(null);
@@ -215,13 +210,12 @@ public class AdministradorCajeros extends javax.swing.JFrame {
                 btnServiciosActionPerformed(evt);
             }
         });
-        Superior.add(btnServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 0, 229, 60));
+        Superior.add(btnServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 0, 190, 40));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cerrarsesion.png"))); // NOI18N
-        Superior.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1890, 0, 20, 60));
+        Superior.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1340, 0, 20, 40));
 
         btnCerrarSesion.setBackground(new java.awt.Color(33, 14, 68));
-        btnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
         btnCerrarSesion.setText("Cerrar Sesión");
         btnCerrarSesion.setBorder(null);
@@ -238,10 +232,9 @@ public class AdministradorCajeros extends javax.swing.JFrame {
                 btnCerrarSesionActionPerformed(evt);
             }
         });
-        Superior.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1740, 0, 180, 60));
+        Superior.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 0, 170, 40));
 
         btnReporteEspeci.setBackground(new java.awt.Color(33, 14, 68));
-        btnReporteEspeci.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnReporteEspeci.setForeground(new java.awt.Color(241, 241, 241));
         btnReporteEspeci.setText("Reportes de Especialidades");
         btnReporteEspeci.setBorder(null);
@@ -258,17 +251,18 @@ public class AdministradorCajeros extends javax.swing.JFrame {
                 btnReporteEspeciActionPerformed(evt);
             }
         });
-        Superior.add(btnReporteEspeci, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 0, 229, 60));
+        Superior.add(btnReporteEspeci, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 0, 190, 40));
 
-        getContentPane().add(Superior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1920, 60));
+        getContentPane().add(Superior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1370, 40));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        ListaPersonal.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        ListaPersonal.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
         ListaPersonal.setText("Lista de Cajeros");
         jPanel2.add(ListaPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 180, -1));
 
+        TablaCajeros.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         TablaCajeros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -303,16 +297,14 @@ public class AdministradorCajeros extends javax.swing.JFrame {
         TablaCajeros.setFocusable(false);
         jScrollPane1.setViewportView(TablaCajeros);
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 1190, 860));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 830, 610));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
-        jPanel4.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 15, -1, -1));
-
         jTextField1.setBackground(new java.awt.Color(233, 236, 239));
+        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         jTextField1.setText("Buscar Cajero");
         jTextField1.setToolTipText("");
         jTextField1.setBorder(null);
@@ -321,7 +313,7 @@ public class AdministradorCajeros extends javax.swing.JFrame {
                 jTextField1ActionPerformed(evt);
             }
         });
-        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 15, 140, 20));
+        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 140, 20));
         String placeholder = "Buscar Cajero";
 
         jTextField1.setText(placeholder);
@@ -393,9 +385,9 @@ public class AdministradorCajeros extends javax.swing.JFrame {
         });
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo_1.png"))); // NOI18N
-        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 5, 190, 40));
+        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 5, 190, 30));
 
-        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 1190, 910));
+        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 830, 640));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(194, 194, 194)));
@@ -403,50 +395,49 @@ public class AdministradorCajeros extends javax.swing.JFrame {
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("Apellido:");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, 20));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, 20));
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setText("CI:");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, 20));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, -1, 20));
 
         Telefono.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TelefonoActionPerformed(evt);
             }
         });
-        jPanel1.add(Telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 140, 440, -1));
+        jPanel1.add(Telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 340, -1));
 
         Nombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NombreActionPerformed(evt);
             }
         });
-        jPanel1.add(Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 440, -1));
+        jPanel1.add(Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 50, 340, -1));
 
         Apellido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ApellidoActionPerformed(evt);
             }
         });
-        jPanel1.add(Apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 440, 20));
+        jPanel1.add(Apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, 340, -1));
 
         CI.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CIActionPerformed(evt);
             }
         });
-        jPanel1.add(CI, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 110, 440, -1));
+        jPanel1.add(CI, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, 340, -1));
 
         ID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 IDActionPerformed(evt);
             }
         });
-        jPanel1.add(ID, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, 10, -1));
+        jPanel1.add(ID, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 10, 10));
 
         guardar.setBackground(new java.awt.Color(80, 35, 100));
+        guardar.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         guardar.setForeground(new java.awt.Color(255, 255, 255));
         guardar.setText("Guardar");
         guardar.addActionListener(new java.awt.event.ActionListener() {
@@ -454,9 +445,10 @@ public class AdministradorCajeros extends javax.swing.JFrame {
                 guardarActionPerformed(evt);
             }
         });
-        jPanel1.add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 100, -1));
+        jPanel1.add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 80, -1));
 
         modificar.setBackground(new java.awt.Color(80, 35, 100));
+        modificar.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         modificar.setForeground(new java.awt.Color(255, 255, 255));
         modificar.setText("Modificar");
         modificar.addActionListener(new java.awt.event.ActionListener() {
@@ -464,9 +456,10 @@ public class AdministradorCajeros extends javax.swing.JFrame {
                 modificarActionPerformed(evt);
             }
         });
-        jPanel1.add(modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 230, 100, -1));
+        jPanel1.add(modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 230, 80, -1));
 
         eliminar.setBackground(new java.awt.Color(255, 0, 0));
+        eliminar.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         eliminar.setForeground(new java.awt.Color(255, 255, 255));
         eliminar.setText("Eliminar");
         eliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -474,17 +467,19 @@ public class AdministradorCajeros extends javax.swing.JFrame {
                 eliminarActionPerformed(evt);
             }
         });
-        jPanel1.add(eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 230, 100, -1));
+        jPanel1.add(eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 230, 80, -1));
 
+        limpiar.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         limpiar.setText("Limpiar");
         limpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 limpiarActionPerformed(evt);
             }
         });
-        jPanel1.add(limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 230, 100, -1));
+        jPanel1.add(limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 230, 80, -1));
 
         HabilitarDeshabilitar.setBackground(new java.awt.Color(80, 35, 100));
+        HabilitarDeshabilitar.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         HabilitarDeshabilitar.setForeground(new java.awt.Color(255, 255, 255));
         HabilitarDeshabilitar.setText("Habilitar/Deshabilitar");
         HabilitarDeshabilitar.addActionListener(new java.awt.event.ActionListener() {
@@ -492,36 +487,32 @@ public class AdministradorCajeros extends javax.swing.JFrame {
                 HabilitarDeshabilitarActionPerformed(evt);
             }
         });
-        jPanel1.add(HabilitarDeshabilitar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, 150, -1));
+        jPanel1.add(HabilitarDeshabilitar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 230, 120, -1));
 
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel14.setText("Dirección:");
-        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, -1, 20));
+        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, -1, 20));
 
-        jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel16.setText("Teléfono:");
-        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, 20));
-        jPanel1.add(FechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 170, 440, -1));
-        jPanel1.add(Direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 200, 440, -1));
+        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, -1, 20));
+        jPanel1.add(FechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 170, 340, -1));
+        jPanel1.add(Direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 200, 340, -1));
 
-        jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel17.setText("Fecha de Nacimiento:");
-        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, -1, 20));
+        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, -1, 20));
 
-        AgregarTecnico1.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        AgregarTecnico1.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
         AgregarTecnico1.setText("Agregar Cajeros");
         jPanel1.add(AgregarTecnico1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setText("Nombre:");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, 20));
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, 20));
 
-        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 50, 660, 270));
+        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 40, 500, 270));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1880, 980));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 1350, 710));
 
         FondoGris.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Background.jpg"))); // NOI18N
-        getContentPane().add(FondoGris, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1920, 1080));
+        getContentPane().add(FondoGris, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1366, 768));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -1004,7 +995,6 @@ public class AdministradorCajeros extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;

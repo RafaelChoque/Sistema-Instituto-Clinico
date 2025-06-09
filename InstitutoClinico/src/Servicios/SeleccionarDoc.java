@@ -59,7 +59,6 @@ public class SeleccionarDoc extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        BuscarDoctores = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         ListaPersonal = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -68,11 +67,88 @@ public class SeleccionarDoc extends javax.swing.JFrame {
         btnGuardar = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        BuscarDoctores = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         FondoGris1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        ListaPersonal.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        ListaPersonal.setText("Seleccionar Médico");
+        jPanel1.add(ListaPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 340, -1));
+
+        TablaMedicos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Nombre", "Apellido", "CI", "Categoria Profesional", "Especialidad"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        TablaMedicos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaMedicosMouseClicked(evt);
+            }
+        });
+        TablaMedicos.getTableHeader().setReorderingAllowed(false);
+        TablaMedicos.getTableHeader().setResizingAllowed(false);
+        TablaMedicos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        TablaMedicos.setFocusable(false);
+        jScrollPane1.setViewportView(TablaMedicos);
+        if (TablaMedicos.getColumnModel().getColumnCount() > 0) {
+            TablaMedicos.getColumnModel().getColumn(0).setHeaderValue("ID");
+            TablaMedicos.getColumnModel().getColumn(1).setHeaderValue("Nombre");
+            TablaMedicos.getColumnModel().getColumn(2).setHeaderValue("Apellido");
+            TablaMedicos.getColumnModel().getColumn(3).setHeaderValue("CI");
+            TablaMedicos.getColumnModel().getColumn(4).setHeaderValue("Categoria Profesional");
+            TablaMedicos.getColumnModel().getColumn(5).setHeaderValue("Especialidad");
+        }
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 970, 360));
+
+        DatosMedico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DatosMedicoActionPerformed(evt);
+            }
+        });
+        DatosMedico.setEditable(false);
+        jPanel1.add(DatosMedico, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, 330, -1));
+
+        btnGuardar.setBackground(new java.awt.Color(51, 153, 0));
+        btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 80, 110, 30));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel4.setText("Médico:");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 30, 30));
 
         BuscarDoctores.setBackground(new java.awt.Color(233, 236, 239));
         BuscarDoctores.setText("Buscar");
@@ -83,7 +159,7 @@ public class SeleccionarDoc extends javax.swing.JFrame {
                 BuscarDoctoresActionPerformed(evt);
             }
         });
-        getContentPane().add(BuscarDoctores, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, 140, 20));
+        jPanel1.add(BuscarDoctores, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, 140, 30));
         String placeholder = "Buscar Doctor";
 
         BuscarDoctores.setText(placeholder);
@@ -154,89 +230,13 @@ public class SeleccionarDoc extends javax.swing.JFrame {
 
         });
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        ListaPersonal.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
-        ListaPersonal.setText("Seleccionar Médico");
-        jPanel1.add(ListaPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 340, -1));
-
-        TablaMedicos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Nombre", "Apellido", "CI", "Categoria Profesional", "Especialidad"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        TablaMedicos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TablaMedicosMouseClicked(evt);
-            }
-        });
-        TablaMedicos.getTableHeader().setReorderingAllowed(false);
-        TablaMedicos.getTableHeader().setResizingAllowed(false);
-        TablaMedicos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        TablaMedicos.setFocusable(false);
-        jScrollPane1.setViewportView(TablaMedicos);
-        if (TablaMedicos.getColumnModel().getColumnCount() > 0) {
-            TablaMedicos.getColumnModel().getColumn(0).setHeaderValue("ID");
-            TablaMedicos.getColumnModel().getColumn(1).setHeaderValue("Nombre");
-            TablaMedicos.getColumnModel().getColumn(2).setHeaderValue("Apellido");
-            TablaMedicos.getColumnModel().getColumn(3).setHeaderValue("CI");
-            TablaMedicos.getColumnModel().getColumn(4).setHeaderValue("Categoria Profesional");
-            TablaMedicos.getColumnModel().getColumn(5).setHeaderValue("Especialidad");
-        }
-
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 1090, 430));
-
-        DatosMedico.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DatosMedicoActionPerformed(evt);
-            }
-        });
-        DatosMedico.setEditable(false);
-        jPanel1.add(DatosMedico, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, 330, -1));
-
-        btnGuardar.setBackground(new java.awt.Color(51, 153, 0));
-        btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
-        btnGuardar.setText("Guardar");
-        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 80, 110, 30));
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel4.setText("Médico:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, -1));
-
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, -1));
-
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo_1.png"))); // NOI18N
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 190, 40));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 190, 30));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 1130, 580));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 1010, 500));
 
         FondoGris1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo_3.png"))); // NOI18N
-        getContentPane().add(FondoGris1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1170, 620));
+        getContentPane().add(FondoGris1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1030, 520));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -273,10 +273,8 @@ public class SeleccionarDoc extends javax.swing.JFrame {
             String sql;
 
             if (docBuscado.isEmpty()) {
-                // Mostrar todos los médicos activos
                 sql = "SELECT id_medico, CI, nombre, apellido, categoria_profesional, categoria_profesional_otro, especialidad FROM medicos WHERE estado = 1";
             } else {
-                // Buscar por CI, Nombre o Apellido que contengan el texto buscado
                 sql = "SELECT id_medico, CI, nombre, apellido, categoria_profesional, categoria_profesional_otro, especialidad FROM medicos WHERE estado = 1 AND (CI LIKE ? OR nombre LIKE ? OR apellido LIKE ?)";
             }
 
@@ -334,7 +332,6 @@ public class SeleccionarDoc extends javax.swing.JFrame {
             TablaMedicos.setRowSelectionInterval(fila, fila);  
             filaSeleccionada = fila;                            
 
-            // Actualizar campo de texto con el nombre completo
             String nombre = TablaMedicos.getValueAt(fila, 1).toString();
             String apellido = TablaMedicos.getValueAt(fila, 2).toString();
             String nombreCompleto = nombre + " " + apellido;

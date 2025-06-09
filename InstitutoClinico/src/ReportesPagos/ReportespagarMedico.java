@@ -50,7 +50,7 @@ public class ReportespagarMedico extends javax.swing.JFrame {
 
     /**
      * Creates new form ReportesMedicos
-     */// Referencias a las columnas (fuera del método si quieres reutilizarlas)
+     */
 
 
     
@@ -556,7 +556,7 @@ private void cargaTablaReporte() {
                 int cantidadServicios = rs.getInt("cantidad_servicios");
                 String descripcion = (cantidadServicios == 1) ? "Único servicio" : "Varios servicios";
 
-                // Formatear el precio total con Bs. y 2 decimales
+
                 String totalFormateado = "Bs. " + String.format("%.2f", rs.getDouble("servicio_total"));
 
                 modelo.addRow(new Object[]{
@@ -570,7 +570,6 @@ private void cargaTablaReporte() {
                     totalFormateado
                 });
             } else {
-                // Formatear el precio de servicio con Bs. y 2 decimales
                 String precioFormateado = "Bs. " + String.format("%.2f", rs.getDouble("precio_servicio"));
 
                 modelo.addRow(new Object[]{
@@ -610,14 +609,14 @@ private void cargaTablaReporte() {
         TablaReportes.setRowSorter(sorter);
 
         if (texto.length() == 0 || texto.equals(quitarTildes("Buscar Doctor").toLowerCase())) {
-            sorter.setRowFilter(null);  // Sin filtro si está vacío o con placeholder
+            sorter.setRowFilter(null);  
             return;
         }
 
         sorter.setRowFilter(new RowFilter<TableModel, Integer>() {
             @Override
             public boolean include(Entry<? extends TableModel, ? extends Integer> entry) {
-                String doctor = entry.getStringValue(1); // columna "Doctor"
+                String doctor = entry.getStringValue(1); 
                 if (doctor == null) {
                     return false;
                 }
@@ -645,7 +644,6 @@ private void cargaTablaReporte() {
             return;
         }
 
-        // Limpiar hora de las fechas para comparar solo fechas
         Calendar calDesde = Calendar.getInstance();
         calDesde.setTime(desde);
         calDesde.set(Calendar.HOUR_OF_DAY, 0);
@@ -667,7 +665,6 @@ private void cargaTablaReporte() {
 
         List<RowFilter<Object, Object>> filtros = new ArrayList<>();
 
-        // Filtro por nombre de doctor (columna 1)
         if (!nombreDoctorFiltro.isEmpty()) {
             filtros.add(new RowFilter<>() {
                 @Override
@@ -678,7 +675,6 @@ private void cargaTablaReporte() {
             });
         }
 
-        // Filtro por fechas (columna 4)
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         filtros.add(new RowFilter<>() {
             @Override
@@ -801,12 +797,12 @@ private void cargaTablaReporte() {
     private void ReportePagosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReportePagosMouseClicked
         int filaVista = TablaReportes.getSelectedRow();
         if (filaVista == -1) {
-            return; // Nada seleccionado
+            return;
         }
         int filaModelo = TablaReportes.convertRowIndexToModel(filaVista);
 
         DefaultTableModel modelo = (DefaultTableModel) TablaReportes.getModel();
-        Object valorDoctor = modelo.getValueAt(filaModelo, 1); // Columna 1: Doctor
+        Object valorDoctor = modelo.getValueAt(filaModelo, 1);
 
         if (valorDoctor != null) {
             NombreDoctor.setText(valorDoctor.toString());
@@ -825,13 +821,12 @@ private void cargaTablaReporte() {
     private void ReporteVistaPreviaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReporteVistaPreviaMouseClicked
                 int filaVista = TablaReportes.getSelectedRow();
         if (filaVista == -1) {
-            return; // No hay selección
+            return; 
         }
         int filaModelo = TablaReportes.convertRowIndexToModel(filaVista);
         DefaultTableModel modelo = (DefaultTableModel) TablaReportes.getModel();
 
-        // Obtener doctor y mostrarlo en DoctorSeleccionado (solo vista previa)
-        Object valorDoctor = modelo.getValueAt(filaModelo, 1); // Columna 1: Doctor
+        Object valorDoctor = modelo.getValueAt(filaModelo, 1); 
         if (valorDoctor != null) {
             DoctorSeleccionado.setText(valorDoctor.toString());
         }

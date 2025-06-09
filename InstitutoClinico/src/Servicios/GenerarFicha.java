@@ -489,7 +489,6 @@ public class GenerarFicha extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaAfiches = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -511,7 +510,6 @@ public class GenerarFicha extends javax.swing.JFrame {
         BuscarItemsNombre = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         ListaItems = new javax.swing.JList<>();
-        jLabel11 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         AgregarTecnico3 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -546,10 +544,9 @@ public class GenerarFicha extends javax.swing.JFrame {
         Superior.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cerrarsesion.png"))); // NOI18N
-        Superior.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1890, 0, 20, 60));
+        Superior.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1340, -10, 20, 60));
 
         btnCerrarSesion.setBackground(new java.awt.Color(33, 14, 68));
-        btnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
         btnCerrarSesion.setText("Cerrar Sesión");
         btnCerrarSesion.setBorder(null);
@@ -566,18 +563,19 @@ public class GenerarFicha extends javax.swing.JFrame {
                 btnCerrarSesionActionPerformed(evt);
             }
         });
-        Superior.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1740, 0, 180, 60));
+        Superior.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 0, 170, 40));
 
-        getContentPane().add(Superior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1920, 60));
+        getContentPane().add(Superior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1400, 40));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        ListaPersonal.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        ListaPersonal.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
         ListaPersonal.setText("Lista de Fichas ");
         jPanel2.add(ListaPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 160, -1));
 
         TablaAfiches.setAutoCreateRowSorter(true);
+        TablaAfiches.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         TablaAfiches.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -615,16 +613,14 @@ public class GenerarFicha extends javax.swing.JFrame {
             TablaAfiches.getColumnModel().getColumn(0).setResizable(false);
         }
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 1190, 860));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 700, 600));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
-        jPanel4.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 15, -1, -1));
-
         jTextField1.setBackground(new java.awt.Color(233, 236, 239));
+        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         jTextField1.setText("Buscar Fichas");
         jTextField1.setToolTipText("");
         jTextField1.setBorder(null);
@@ -633,7 +629,7 @@ public class GenerarFicha extends javax.swing.JFrame {
                 jTextField1ActionPerformed(evt);
             }
         });
-        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 15, 130, 20));
+        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 130, 20));
         String placeholder = "Buscar Fichas";
         jTextField1.setText(placeholder);
         jTextField1.setForeground(Color.GRAY);
@@ -697,9 +693,9 @@ public class GenerarFicha extends javax.swing.JFrame {
         });
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo_1.png"))); // NOI18N
-        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 5, 190, 40));
+        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 5, 190, 30));
 
-        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 1190, 910));
+        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 700, 640));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(194, 194, 194)));
@@ -707,40 +703,39 @@ public class GenerarFicha extends javax.swing.JFrame {
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Nombre:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, 20));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, 20));
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("Apellidos:");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, 20));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 30, -1, 20));
 
         Nombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NombreActionPerformed(evt);
             }
         });
-        jPanel1.add(Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 40, 470, -1));
+        jPanel1.add(Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, 210, -1));
 
         Apellido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ApellidoActionPerformed(evt);
             }
         });
-        jPanel1.add(Apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, 470, -1));
+        jPanel1.add(Apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 30, 230, -1));
 
         ID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 IDActionPerformed(evt);
             }
         });
-        jPanel1.add(ID, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 10, 10, -1));
+        jPanel1.add(ID, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 10, 10));
 
-        AgregarTecnico.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        AgregarTecnico.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
         AgregarTecnico.setText("Datos del Paciente");
         jPanel1.add(AgregarTecnico, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 210, -1));
 
         SeleccionarDoc.setBackground(new java.awt.Color(80, 35, 100));
+        SeleccionarDoc.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         SeleccionarDoc.setForeground(new java.awt.Color(255, 255, 255));
         SeleccionarDoc.setText("Seleccionar Doctor");
         SeleccionarDoc.addActionListener(new java.awt.event.ActionListener() {
@@ -748,7 +743,7 @@ public class GenerarFicha extends javax.swing.JFrame {
                 SeleccionarDocActionPerformed(evt);
             }
         });
-        jPanel1.add(SeleccionarDoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 140, 140, -1));
+        jPanel1.add(SeleccionarDoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 100, 190, -1));
 
         NombreDoctor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -756,34 +751,32 @@ public class GenerarFicha extends javax.swing.JFrame {
             }
         });
         NombreDoctor.setEditable(false);
-        jPanel1.add(NombreDoctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, 310, -1));
-        jPanel1.add(FechaAtencion, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 170, 310, -1));
+        jPanel1.add(NombreDoctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 100, 250, -1));
+        jPanel1.add(FechaAtencion, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 130, 250, -1));
 
         Hora.setModel(new SpinnerDateModel());
         JSpinner.DateEditor horaficha = new JSpinner.DateEditor(Hora, "HH:mm");
         Hora.setEditor(horaficha);
-        jPanel1.add(Hora, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 200, 70, -1));
+        jPanel1.add(Hora, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 130, 80, -1));
 
-        jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel17.setText("Hora de Atencion:");
-        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, -1, -1));
+        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 130, -1, 20));
 
-        jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel18.setText("Fecha de Atencion:");
-        jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, -1, -1));
+        jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, -1, 20));
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setText("Doctor:");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, 20));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, 20));
 
-        AgregarTecnico1.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        AgregarTecnico1.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
         AgregarTecnico1.setText("Detalles");
-        jPanel1.add(AgregarTecnico1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 100, -1));
+        jPanel1.add(AgregarTecnico1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 100, -1));
 
+        lblBuscarItems.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         lblBuscarItems.setForeground(new java.awt.Color(136, 134, 133));
         lblBuscarItems.setText("Buscar Servicios");
         lblBuscarItems.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jPanel1.add(lblBuscarItems, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, 150, 30));
+        jPanel1.add(lblBuscarItems, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, 150, 20));
 
         BuscarItemsNombre.setBackground(new java.awt.Color(233, 236, 239));
         BuscarItemsNombre.setBorder(null);
@@ -792,7 +785,7 @@ public class GenerarFicha extends javax.swing.JFrame {
                 BuscarItemsNombreActionPerformed(evt);
             }
         });
-        jPanel1.add(BuscarItemsNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, 190, 30));
+        jPanel1.add(BuscarItemsNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, 190, 20));
         BuscarItemsNombre.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) {
                 filtrarLista();
@@ -844,6 +837,7 @@ public class GenerarFicha extends javax.swing.JFrame {
             }
         });
 
+        ListaItems.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         ListaItems.setModel(new javax.swing.AbstractListModel<String>(){
             String[] strings = {};
             public int getSize() { return strings.length; }
@@ -851,21 +845,17 @@ public class GenerarFicha extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(ListaItems);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 220, 270));
-
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 275, -1, -1));
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 220, 160));
 
         jPanel7.setBackground(new java.awt.Color(233, 236, 239));
-        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 220, 30));
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 220, 20));
 
-        AgregarTecnico3.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        AgregarTecnico3.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
         AgregarTecnico3.setText("Servicios");
-        jPanel1.add(AgregarTecnico3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, 110, -1));
+        jPanel1.add(AgregarTecnico3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 110, -1));
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel8.setText("Tipo de precio:");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 330, -1, 20));
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 260, 80, 20));
 
         ComboTipoPrecio.setModel(new javax.swing.DefaultComboBoxModel<TipoPrecioItem>(
             new TipoPrecioItem[] {
@@ -879,9 +869,10 @@ public class GenerarFicha extends javax.swing.JFrame {
             ComboTipoPrecioActionPerformed(evt);
         }
     });
-    jPanel1.add(ComboTipoPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 360, 140, -1));
+    jPanel1.add(ComboTipoPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 280, 110, -1));
 
     btnVistaPrevia.setBackground(new java.awt.Color(80, 35, 100));
+    btnVistaPrevia.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
     btnVistaPrevia.setForeground(new java.awt.Color(255, 255, 255));
     btnVistaPrevia.setText("Agregar y calcular");
     btnVistaPrevia.addActionListener(new java.awt.event.ActionListener() {
@@ -889,10 +880,11 @@ public class GenerarFicha extends javax.swing.JFrame {
             btnVistaPreviaActionPerformed(evt);
         }
     });
-    jPanel1.add(btnVistaPrevia, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 400, 140, 30));
+    jPanel1.add(btnVistaPrevia, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 310, 110, 20));
 
     jScrollPane4.setBorder(javax.swing.BorderFactory.createTitledBorder("Servicios Agregados:"));
 
+    ListaItemsSeleccionados.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
     ListaItemsSeleccionados.setModel(new DefaultListModel<Servicio>());
     ListaItemsSeleccionados.addMouseListener(new java.awt.event.MouseAdapter() {
         public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -901,33 +893,33 @@ public class GenerarFicha extends javax.swing.JFrame {
     });
     jScrollPane4.setViewportView(ListaItemsSeleccionados);
 
-    jPanel1.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 300, 230, 280));
+    jPanel1.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 220, 230, 170));
 
     TotalSumaServicios.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             TotalSumaServiciosActionPerformed(evt);
         }
     });
-    jPanel1.add(TotalSumaServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 590, 230, -1));
+    TotalSumaServicios.setEditable(false);
+    jPanel1.add(TotalSumaServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 400, 230, -1));
 
     jLabel3.setText("Total:");
-    jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 590, -1, 20));
+    jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 400, -1, 20));
 
-    formadepago.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
     formadepago.setText("Forma de Pago:");
-    jPanel1.add(formadepago, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 670, -1, -1));
+    jPanel1.add(formadepago, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, -1, 20));
 
-    jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
     jLabel7.setText("Medio de pago:");
-    jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 700, -1, 20));
+    jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 460, -1, 20));
 
     TipoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Efectivo", "QR", "Tarjeta"}));
-    jPanel1.add(TipoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 700, 460, -1));
+    jPanel1.add(TipoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 460, 180, -1));
 
     FormaPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Contado"}));
-    jPanel1.add(FormaPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 670, 460, -1));
+    jPanel1.add(FormaPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 460, 180, -1));
 
     guardar.setBackground(new java.awt.Color(80, 35, 100));
+    guardar.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
     guardar.setForeground(new java.awt.Color(255, 255, 255));
     guardar.setText("Guardar e Imprimir");
     guardar.addActionListener(new java.awt.event.ActionListener() {
@@ -935,35 +927,36 @@ public class GenerarFicha extends javax.swing.JFrame {
             guardarActionPerformed(evt);
         }
     });
-    jPanel1.add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 870, 140, 30));
+    jPanel1.add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 620, 140, 20));
 
+    limpiar.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
     limpiar.setText("Limpiar");
     limpiar.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             limpiarActionPerformed(evt);
         }
     });
-    jPanel1.add(limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 870, 100, 30));
+    jPanel1.add(limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 620, 100, 20));
 
     jPanel3.setBackground(new java.awt.Color(204, 204, 204));
-    jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 100, 630, 1));
+    jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 590, 1));
 
     jPanel5.setBackground(new java.awt.Color(204, 204, 204));
-    jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 625, 630, 1));
+    jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 430, 590, 1));
 
     jPanel6.setBackground(new java.awt.Color(204, 204, 204));
-    jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 230, 630, 1));
+    jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 590, 1));
 
-    AgregarTecnico4.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+    AgregarTecnico4.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
     AgregarTecnico4.setText("Pago");
-    jPanel1.add(AgregarTecnico4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 640, 160, -1));
+    jPanel1.add(AgregarTecnico4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 440, 160, -1));
 
-    AgregarTecnico2.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+    AgregarTecnico2.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
     AgregarTecnico2.setText("Nota (Opcional)");
-    jPanel1.add(AgregarTecnico2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 750, 200, -1));
+    jPanel1.add(AgregarTecnico2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 500, 200, -1));
 
     jPanel8.setBackground(new java.awt.Color(204, 204, 204));
-    jPanel1.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 735, 630, 1));
+    jPanel1.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 491, 590, 1));
 
     NotasTextArea.setColumns(20);
     NotasTextArea.setRows(5);
@@ -971,10 +964,11 @@ public class GenerarFicha extends javax.swing.JFrame {
     NotasTextArea.setLineWrap(true);
     NotasTextArea.setWrapStyleWord(true);
 
-    jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 780, 610, 80));
+    jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 520, 590, 90));
 
+    ContadorTextField.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
     ContadorTextField.setText("0/140");
-    jPanel1.add(ContadorTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 760, -1, -1));
+    jPanel1.add(ContadorTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 500, -1, -1));
     NotasTextArea.getDocument().addDocumentListener(new DocumentListener() {
         private void actualizarContador() {
             int longitud = NotasTextArea.getText().length();
@@ -997,12 +991,12 @@ public class GenerarFicha extends javax.swing.JFrame {
         }
     });
 
-    jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 50, 660, 910));
+    jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 50, 620, 650));
 
-    getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1880, 980));
+    getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 1350, 710));
 
     FondoGris.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Background.jpg"))); // NOI18N
-    getContentPane().add(FondoGris, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1920, 1080));
+    getContentPane().add(FondoGris, new org.netbeans.lib.awtextra.AbsoluteConstraints(-510, -40, 1910, 860));
 
     pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -1473,17 +1467,6 @@ public class GenerarFicha extends javax.swing.JFrame {
         actualizarPreciosYTotal();
     }//GEN-LAST:event_ComboTipoPrecioActionPerformed
 
-    private void btnCerrarSesionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarSesionMouseExited
-
-    }//GEN-LAST:event_btnCerrarSesionMouseExited
-
-    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
-        Login cerrar = new Login();
-        cerrar.setLocationRelativeTo(null);
-        cerrar.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnCerrarSesionActionPerformed
-
     private void BuscarItemsNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarItemsNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BuscarItemsNombreActionPerformed
@@ -1496,6 +1479,17 @@ public class GenerarFicha extends javax.swing.JFrame {
             actualizarTotal();
         }
     }//GEN-LAST:event_ListaItemsSeleccionadoMouseClicked
+
+    private void btnCerrarSesionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarSesionMouseExited
+
+    }//GEN-LAST:event_btnCerrarSesionMouseExited
+
+    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
+        Login cerrar = new Login();
+        cerrar.setLocationRelativeTo(null);
+        cerrar.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1552,7 +1546,6 @@ public class GenerarFicha extends javax.swing.JFrame {
     private javax.swing.JLabel formadepago;
     private javax.swing.JButton guardar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
@@ -1562,7 +1555,6 @@ public class GenerarFicha extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
