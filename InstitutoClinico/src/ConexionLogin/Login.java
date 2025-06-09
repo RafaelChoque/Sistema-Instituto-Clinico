@@ -80,7 +80,7 @@ public class Login extends javax.swing.JFrame {
                 btnMostrarContraseñaActionPerformed(evt);
             }
         });
-        jPanel2.add(btnMostrarContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 190, 30, 20));
+        jPanel2.add(btnMostrarContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 190, 30, 20));
 
         Contraseña.setFont(new java.awt.Font("Candara", 0, 24)); // NOI18N
         Contraseña.setForeground(new java.awt.Color(51, 51, 51));
@@ -96,7 +96,7 @@ public class Login extends javax.swing.JFrame {
                 IniciaSesionActionPerformed(evt);
             }
         });
-        jPanel2.add(IniciaSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 280, 170, 40));
+        jPanel2.add(IniciaSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 250, 170, 40));
 
         Usuario.setFont(new java.awt.Font("Candara", 0, 24)); // NOI18N
         Usuario.setForeground(new java.awt.Color(51, 51, 51));
@@ -110,10 +110,10 @@ public class Login extends javax.swing.JFrame {
         jPanel2.add(lblErrorContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 270, 20));
 
         jPanel1.setBackground(new java.awt.Color(81, 17, 114));
-        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 115, 420, 3));
+        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 115, 350, 3));
 
         jPanel3.setBackground(new java.awt.Color(81, 17, 114));
-        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 215, 420, 3));
+        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 215, 350, 3));
 
         contrasena.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         contrasena.setBorder(null);
@@ -130,7 +130,7 @@ public class Login extends javax.swing.JFrame {
                 contrasenaActionPerformed(evt);
             }
         });
-        jPanel2.add(contrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 190, 380, 30));
+        jPanel2.add(contrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 190, 310, 30));
 
         usuario.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         usuario.setBorder(null);
@@ -139,12 +139,12 @@ public class Login extends javax.swing.JFrame {
                 usuarioActionPerformed(evt);
             }
         });
-        jPanel2.add(usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 90, 410, 30));
+        jPanel2.add(usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 90, 340, 30));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 390, 490, 320));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 260, 420, 290));
 
-        lblTitulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoFinalFinal.png"))); // NOI18N
-        getContentPane().add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1920, 1080));
+        lblTitulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoFinaI.png"))); // NOI18N
+        getContentPane().add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1366, 768));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

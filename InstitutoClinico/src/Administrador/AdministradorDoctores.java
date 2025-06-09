@@ -109,6 +109,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         ListaPersonal = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaMedicos = new javax.swing.JTable();
@@ -244,7 +245,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         Superior.add(btnReporteEspeci, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 0, 190, 40));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cerrarsesion.png"))); // NOI18N
-        Superior.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1340, 0, 20, 40));
+        Superior.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1340, 10, 20, 20));
 
         btnCerrarSesion.setBackground(new java.awt.Color(33, 14, 68));
         btnCerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
@@ -270,9 +271,9 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        ListaPersonal.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
+        ListaPersonal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         ListaPersonal.setText("Lista de Médicos");
-        jPanel2.add(ListaPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 340, -1));
+        jPanel2.add(ListaPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 340, 30));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -288,7 +289,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
                 jTextField1ActionPerformed(evt);
             }
         });
-        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 130, 20));
+        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 140, 20));
         String placeholder = "Buscar Médico";
 
         jTextField1.setText(placeholder);
@@ -358,6 +359,9 @@ public class AdministradorDoctores extends javax.swing.JFrame {
             }
         });
 
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
+        jPanel4.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 20, 20));
+
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo_1.png"))); // NOI18N
         jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 5, 190, 30));
 
@@ -396,9 +400,9 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         TablaMedicos.setFocusable(false);
         jScrollPane1.setViewportView(TablaMedicos);
 
-        jPanel4.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 830, 610));
+        jPanel4.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 870, 610));
 
-        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 830, 650));
+        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 870, 650));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(194, 194, 194)));
@@ -420,45 +424,44 @@ public class AdministradorDoctores extends javax.swing.JFrame {
                 TelefonoActionPerformed(evt);
             }
         });
-        jPanel1.add(Telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 340, -1));
+        jPanel1.add(Telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 300, -1));
 
         Nombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NombreActionPerformed(evt);
             }
         });
-        jPanel1.add(Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 50, 330, -1));
+        jPanel1.add(Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 50, 300, -1));
 
         Apellido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ApellidoActionPerformed(evt);
             }
         });
-        jPanel1.add(Apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, 330, -1));
+        jPanel1.add(Apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, 300, -1));
 
         CI.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CIActionPerformed(evt);
             }
         });
-        jPanel1.add(CI, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, 340, -1));
+        jPanel1.add(CI, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, 300, -1));
 
         ID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 IDActionPerformed(evt);
             }
         });
-        jPanel1.add(ID, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 10, 10));
+        jPanel1.add(ID, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 10, 10, 10));
 
-        AgregarTecnico.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
+        AgregarTecnico.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         AgregarTecnico.setText("Agregar Médicos");
         jPanel1.add(AgregarTecnico, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 30));
 
         EspecialidadLabel.setText("Especialidad:");
-        jPanel1.add(EspecialidadLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 230, -1, 20));
+        jPanel1.add(EspecialidadLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 230, -1, 20));
 
         guardar.setBackground(new java.awt.Color(80, 35, 100));
-        guardar.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         guardar.setForeground(new java.awt.Color(255, 255, 255));
         guardar.setText("Guardar");
         guardar.addActionListener(new java.awt.event.ActionListener() {
@@ -466,10 +469,9 @@ public class AdministradorDoctores extends javax.swing.JFrame {
                 guardarActionPerformed(evt);
             }
         });
-        jPanel1.add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 100, -1));
+        jPanel1.add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 100, 30));
 
         modificar.setBackground(new java.awt.Color(80, 35, 100));
-        modificar.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         modificar.setForeground(new java.awt.Color(255, 255, 255));
         modificar.setText("Modificar");
         modificar.addActionListener(new java.awt.event.ActionListener() {
@@ -477,10 +479,9 @@ public class AdministradorDoctores extends javax.swing.JFrame {
                 modificarActionPerformed(evt);
             }
         });
-        jPanel1.add(modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 290, 100, -1));
+        jPanel1.add(modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 290, 100, 30));
 
         eliminar.setBackground(new java.awt.Color(255, 0, 0));
-        eliminar.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         eliminar.setForeground(new java.awt.Color(255, 255, 255));
         eliminar.setText("Eliminar");
         eliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -488,16 +489,15 @@ public class AdministradorDoctores extends javax.swing.JFrame {
                 eliminarActionPerformed(evt);
             }
         });
-        jPanel1.add(eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 290, 100, -1));
+        jPanel1.add(eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 290, 100, 30));
 
-        limpiar.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         limpiar.setText("Limpiar");
         limpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 limpiarActionPerformed(evt);
             }
         });
-        jPanel1.add(limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 290, 100, -1));
+        jPanel1.add(limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 290, 100, 30));
 
         jLabel14.setText("Dirección:");
         jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, -1, 20));
@@ -536,7 +536,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
                 }
             }
         });
-        jPanel1.add(Categoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, 120, -1));
+        jPanel1.add(Categoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, 110, -1));
 
         OtroLabel.setText("Nombre de Categoria:");
         jPanel1.add(OtroLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, -1, 20));
@@ -562,25 +562,25 @@ public class AdministradorDoctores extends javax.swing.JFrame {
             "Oftalmología",
             "Otorrinolaringología",
             "Radiología" }));
-jPanel1.add(Especialidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 230, 140, -1));
+jPanel1.add(Especialidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 230, 110, -1));
 
 jLabel16.setText("Teléfono:");
 jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, 20));
-jPanel1.add(FechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 170, 340, -1));
-jPanel1.add(Direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 200, 340, -1));
+jPanel1.add(FechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 170, 300, -1));
+jPanel1.add(Direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 200, 300, -1));
 
 jLabel17.setText("Fecha de Nacimiento:");
 jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, -1, 20));
 
 jLabel18.setText("Categoría Profesional:");
 jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, -1, 20));
-jPanel1.add(NombreCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 260, 170, -1));
+jPanel1.add(NombreCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 260, 130, -1));
 
 ComboCategoriaOtros.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
-jPanel1.add(ComboCategoriaOtros, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 260, 160, -1));
+jPanel1.add(ComboCategoriaOtros, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 260, 160, -1));
 cargarDatosCategoriaOtros();
 
-jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 40, 490, 330));
+jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(879, 40, 460, 330));
 
 getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 1350, 710));
 
@@ -1164,6 +1164,7 @@ private void cargarDatosCategoriaOtros() {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
