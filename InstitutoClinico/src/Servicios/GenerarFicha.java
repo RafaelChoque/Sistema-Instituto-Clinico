@@ -160,8 +160,12 @@ public class GenerarFicha extends javax.swing.JFrame {
             SimpleDateFormat sdfNombreArchivo = new SimpleDateFormat("yyyyMMdd");
             String fechaFormato = sdfNombreArchivo.format(fechaGuardado);
 
+            File carpetaFichas = new File("Fichas");
+            if (!carpetaFichas.exists()) {
+                carpetaFichas.mkdirs();
+            }
             String nombreArchivo = String.format("ficha_%s%s_%d_%s.pdf", apellidoDoc, nombreDoc, id_afiche, fechaFormato);
-            File pdfFile = new File(nombreArchivo);
+            File pdfFile = new File(carpetaFichas, nombreArchivo);
 
             int alturaMinima = 260;
             int altura = alturaMinima + servicios.getSize() * 8;

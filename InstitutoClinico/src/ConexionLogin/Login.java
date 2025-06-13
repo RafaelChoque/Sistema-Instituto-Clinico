@@ -228,70 +228,82 @@ public class Login extends javax.swing.JFrame {
 
         try {
             Connection con = Conexion.obtenerConexion();
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setString(1, user);
-            ResultSet rs = ps.executeQuery();
 
-            if (rs.next()) {
-                String p = rs.getString("contrasena");
-                String priv = rs.getString("rol");
-                boolean activo = rs.getBoolean("activo");
-                int idusuario = rs.getInt("id_usuario");
+            if (con != null) {
+                PreparedStatement ps = con.prepareStatement(query);
+                ps.setString(1, user);
+                ResultSet rs = ps.executeQuery();
 
-                if (activo) {
-                    if (priv.equals("Administrador") || priv.equals("Cajero")) {
-                        if (pass.equals(p)) {
-                            Session.setUsuario(idusuario, user, priv);
-                            String nombre = "";
-                            String apellido = "";
-                            String sqlDatos = "";
-                            if (priv.equals("Cajero")) {
-                                sqlDatos = "SELECT nombre, apellido FROM cajeros WHERE id_usuario = ?";
-                            } else if (priv.equals("Medico General") || priv.equals("Medico Especialista") || priv.equals("Medico")) {
-                                sqlDatos = "SELECT nombre, apellido FROM medicos WHERE id_usuario = ?";
-                            } else if (priv.equals("Administrador")) {
-                                nombre = "Administrador";
-                                apellido = "";
-                            }
-                            if (!sqlDatos.isEmpty()) {
-                                try {
-                                    PreparedStatement ps2 = con.prepareStatement(sqlDatos);
-                                    ps2.setInt(1, idusuario);
-                                    ResultSet rs2 = ps2.executeQuery();
-                                    if (rs2.next()) {
-                                        nombre = rs2.getString("nombre");
-                                        apellido = rs2.getString("apellido");
-                                    }
-                                    rs2.close();
-                                    ps2.close();
-                                } catch (SQLException ex) {
-                                    ex.printStackTrace();
+                if (rs.next()) {
+                    String p = rs.getString("contrasena");
+                    String priv = rs.getString("rol");
+                    boolean activo = rs.getBoolean("activo");
+                    int idusuario = rs.getInt("id_usuario");
+
+                    if (activo) {
+                        if (priv.equals("Administrador") || priv.equals("Cajero")) {
+                            if (pass.equals(p)) {
+                                Session.setUsuario(idusuario, user, priv);
+                                String nombre = "";
+                                String apellido = "";
+                                String sqlDatos = "";
+
+                                if (priv.equals("Cajero")) {
+                                    sqlDatos = "SELECT nombre, apellido FROM cajeros WHERE id_usuario = ?";
+                                } else if (priv.equals("Medico General") || priv.equals("Medico Especialista") || priv.equals("Medico")) {
+                                    sqlDatos = "SELECT nombre, apellido FROM medicos WHERE id_usuario = ?";
+                                } else if (priv.equals("Administrador")) {
+                                    nombre = "Administrador";
+                                    apellido = "";
                                 }
-                            }
-                            Session.setNombreCompleto(nombre + " " + apellido);
-                            if (priv.equals("Administrador")) {
-                                AdministradorDoctores ventanaadmin = new AdministradorDoctores();
-                                ventanaadmin.setVisible(true);
-                            } else if (priv.equals("Cajero")) {
-                                GenerarFicha ventanaCajero = new GenerarFicha(idusuario);
-                                ventanaCajero.setVisible(true);
-                            }
 
-                            this.dispose();
+                                if (!sqlDatos.isEmpty()) {
+                                    try {
+                                        PreparedStatement ps2 = con.prepareStatement(sqlDatos);
+                                        ps2.setInt(1, idusuario);
+                                        ResultSet rs2 = ps2.executeQuery();
+                                        if (rs2.next()) {
+                                            nombre = rs2.getString("nombre");
+                                            apellido = rs2.getString("apellido");
+                                        }
+                                        rs2.close();
+                                        ps2.close();
+                                    } catch (SQLException ex) {
+                                        ex.printStackTrace();
+                                    }
+                                }
+
+                                Session.setNombreCompleto(nombre + " " + apellido);
+
+                                if (priv.equals("Administrador")) {
+                                    new AdministradorDoctores().setVisible(true);
+                                } else if (priv.equals("Cajero")) {
+                                    new GenerarFicha(idusuario).setVisible(true);
+                                }
+
+                                this.dispose();
+                            } else {
+                                JOptionPane.showMessageDialog(null, "La contraseña no es correcta.");
+                            }
                         } else {
-                            JOptionPane.showMessageDialog(null, "LA CONTRASEÑA NO ES CORRECTA");
+                            JOptionPane.showMessageDialog(null, "Rol no permitido.");
                         }
                     } else {
-                        JOptionPane.showMessageDialog(null, "ROL NO PERMITIDO.");
+                        JOptionPane.showMessageDialog(null, "Su usuario está inactivo. Contacte al administrador.");
                     }
+
+                    rs.close();
+                    ps.close();
+                    con.close();
                 } else {
-                    JOptionPane.showMessageDialog(null, "SU USUARIO ESTÁ INACTIVO. CONTACTE AL ADMINISTRADOR.");
+                    JOptionPane.showMessageDialog(null, "El usuario no existe.");
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "EL USUARIO NO EXISTE");
+                JOptionPane.showMessageDialog(null, "No se pudo conectar a la base de datos.\nVerifica que MySQL esté iniciado.");
             }
         } catch (SQLException ex) {
-            System.out.println(ex.toString());
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al conectar con la base de datos:\n" + ex.getMessage());
         }
     }//GEN-LAST:event_IniciaSesionActionPerformed
 
@@ -300,64 +312,66 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_usuarioActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-    btnMostrarContraseña.setVisible(false);
-    lblTitulo.requestFocusInWindow();
-    usuario.setText("Ingrese su usuario");
-    usuario.setForeground(Color.GRAY);
-    usuario.addFocusListener(new java.awt.event.FocusAdapter() {
-        public void focusGained(java.awt.event.FocusEvent evt) {
-            if (usuario.getText().equals("Ingrese su usuario")) {
-                usuario.setText("");
-                usuario.setForeground(Color.BLACK);
+        btnMostrarContraseña.setVisible(false);
+        lblTitulo.requestFocusInWindow();
+        usuario.setText("Ingrese su usuario");
+        usuario.setForeground(Color.GRAY);
+        usuario.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (usuario.getText().equals("Ingrese su usuario")) {
+                    usuario.setText("");
+                    usuario.setForeground(Color.BLACK);
+                }
             }
-        }
-        public void focusLost(java.awt.event.FocusEvent evt) {
-            if (usuario.getText().isEmpty()) {
-                usuario.setText("Ingrese su usuario");
-                usuario.setForeground(Color.GRAY);
-            }
-        }
-    });
 
-    contrasena.setText("Ingrese su contraseña");
-    contrasena.setForeground(Color.GRAY);
-    contrasena.setEchoChar((char) 0);
-    contrasena.addFocusListener(new java.awt.event.FocusAdapter() {
-        public void focusGained(java.awt.event.FocusEvent evt) {
-            String pwd = new String(contrasena.getPassword());
-            if (pwd.equals("Ingrese su contraseña")) {
-                contrasena.setText("");
-                contrasena.setForeground(Color.BLACK);
-                contrasena.setEchoChar('•');
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (usuario.getText().isEmpty()) {
+                    usuario.setText("Ingrese su usuario");
+                    usuario.setForeground(Color.GRAY);
+                }
             }
-        }
-        public void focusLost(java.awt.event.FocusEvent evt) {
-            String pwd = new String(contrasena.getPassword());
-            if (pwd.isEmpty()) {
-                contrasena.setText("Ingrese su contraseña");
-                contrasena.setForeground(Color.GRAY);
-                contrasena.setEchoChar((char) 0);
+        });
+
+        contrasena.setText("Ingrese su contraseña");
+        contrasena.setForeground(Color.GRAY);
+        contrasena.setEchoChar((char) 0);
+        contrasena.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                String pwd = new String(contrasena.getPassword());
+                if (pwd.equals("Ingrese su contraseña")) {
+                    contrasena.setText("");
+                    contrasena.setForeground(Color.BLACK);
+                    contrasena.setEchoChar('•');
+                }
             }
-        }
-    });
+
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                String pwd = new String(contrasena.getPassword());
+                if (pwd.isEmpty()) {
+                    contrasena.setText("Ingrese su contraseña");
+                    contrasena.setForeground(Color.GRAY);
+                    contrasena.setEchoChar((char) 0);
+                }
+            }
+        });
     }//GEN-LAST:event_formWindowOpened
 
     private void contrasenaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_contrasenaFocusGained
-    if (String.valueOf(contrasena.getPassword()).equals("Ingrese su contraseña")) {
-        contrasena.setText("");
-        contrasena.setForeground(Color.BLACK);
-        contrasena.setEchoChar('•');
-    }
-    btnMostrarContraseña.setVisible(true);
+        if (String.valueOf(contrasena.getPassword()).equals("Ingrese su contraseña")) {
+            contrasena.setText("");
+            contrasena.setForeground(Color.BLACK);
+            contrasena.setEchoChar('•');
+        }
+        btnMostrarContraseña.setVisible(true);
     }//GEN-LAST:event_contrasenaFocusGained
 
     private void contrasenaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_contrasenaFocusLost
-    if (contrasena.getPassword().length == 0) {
-        contrasena.setText("Ingrese su contraseña");
-        contrasena.setForeground(Color.LIGHT_GRAY);
-        contrasena.setEchoChar((char) 0);
-        btnMostrarContraseña.setVisible(false);
-    }
+        if (contrasena.getPassword().length == 0) {
+            contrasena.setText("Ingrese su contraseña");
+            contrasena.setForeground(Color.LIGHT_GRAY);
+            contrasena.setEchoChar((char) 0);
+            btnMostrarContraseña.setVisible(false);
+        }
     }//GEN-LAST:event_contrasenaFocusLost
 
     /**
@@ -371,7 +385,7 @@ public class Login extends javax.swing.JFrame {
          */
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
