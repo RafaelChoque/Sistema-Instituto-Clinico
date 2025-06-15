@@ -119,6 +119,8 @@ public class ReportespagarMedico extends javax.swing.JFrame {
         TotalPago = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         DoctorSeleccionado = new javax.swing.JTextField();
+        TotalClinica = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         BuscadorDoctores = new javax.swing.JTextField();
@@ -323,13 +325,17 @@ public class ReportespagarMedico extends javax.swing.JFrame {
                 TotalPagoActionPerformed(evt);
             }
         });
-        jPanel1.add(TotalPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 300, 20));
+        jPanel1.add(TotalPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, 130, 20));
 
         jLabel4.setText("Total:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 60, -1, -1));
 
         DoctorSeleccionado.setEditable(false);
-        jPanel1.add(DoctorSeleccionado, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, 300, 20));
+        jPanel1.add(DoctorSeleccionado, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 30, 330, 20));
+        jPanel1.add(TotalClinica, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 60, 130, 20));
+
+        jLabel10.setText("Total:");
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
 
         jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 40, 410, 90));
 
@@ -620,6 +626,10 @@ private void cargaTablaReporte() {
 
 
     private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
+        if (NombreDoctor.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Error: Debe seleccionar un doctor antes de realizar el filtro", "Doctor no seleccionado", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         String nombreDoctorFiltro = quitarTildes(NombreDoctor.getText().trim().toLowerCase());
         Date desde = FechaDesde.getDate();
         Date hasta = FechaHasta.getDate();
@@ -748,21 +758,21 @@ private void cargaTablaReporte() {
         String seleccion = TotalDetallado.getSelectedItem().toString();
         TableModel modelo = TablaReportes.getModel();
         double sumaTotal = 0;
-
+        // Determinar índice de la columna según selección
         int colPrecio = -1;
         for (int i = 0; i < modelo.getColumnCount(); i++) {
-            String nombreCol = modelo.getColumnName(i).toLowerCase();
-            if (seleccion.equals("Total") && nombreCol.equals("servicio total")) {
+            String nombreCol = modelo.getColumnName(i).toLowerCase().trim();
+            if (seleccion.equalsIgnoreCase("Total") && nombreCol.contains("servicio total")) {
                 colPrecio = i;
                 break;
-            } else if (seleccion.equals("Detallado") && nombreCol.equals("precio del servicio")) {
+            } else if (seleccion.equalsIgnoreCase("Detallado") && nombreCol.contains("precio del servicio")) {
                 colPrecio = i;
                 break;
             }
         }
 
         if (colPrecio == -1) {
-            JOptionPane.showMessageDialog(this, "No se encontró la columna de precio correspondiente.");
+            JOptionPane.showMessageDialog(this, "No se encontró la columna de precio para la opción seleccionada.");
             return;
         }
 
@@ -775,13 +785,44 @@ private void cargaTablaReporte() {
                     String strVal = val.toString().replace("Bs.", "").replace(",", ".").trim();
                     sumaTotal += Double.parseDouble(strVal);
                 } catch (NumberFormatException e) {
-                    e.printStackTrace();
                 }
             }
         }
 
-        JOptionPane.showMessageDialog(this, "Pago total: Bs. " + String.format("%.2f", sumaTotal));
-        TotalPago.setText("Bs. " + String.format("%.2f", sumaTotal));
+        Double porcentajePago = null;
+        while (porcentajePago == null) {
+            String input = JOptionPane.showInputDialog(this, "Ingrese el porcentaje que se pagará al doctor (0 - 100):");
+
+            if (input == null) {
+                return;
+            }
+            input = input.replace(",", ".").trim();
+            try {
+                double valor = Double.parseDouble(input);
+                if (valor >= 0 && valor <= 100) {
+                    porcentajePago = valor;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ingrese un porcentaje entre 0 y 100.");
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Ingrese un número válido.");
+            }
+        }
+
+        double pagoDoctor = (sumaTotal * porcentajePago) / 100.0;
+        double pagoClinica = sumaTotal - pagoDoctor;
+
+        String totalFormateado = String.format("%.2f", sumaTotal);
+        String pagoDocFormateado = String.format("%.2f", pagoDoctor);
+        String pagoClinicaFormateado = String.format("%.2f", pagoClinica);
+
+        JOptionPane.showMessageDialog(this,
+                "Total de dinero: Bs. " + totalFormateado + "\n"
+                + "Pago al doctor (" + porcentajePago + "%): Bs. " + pagoDocFormateado + "\n"
+                + "Pago a la clínica: Bs. " + pagoClinicaFormateado);
+
+        // Mostrar el total en el campo TotalPago
+        TotalPago.setText("Bs. " + totalFormateado);
     }//GEN-LAST:event_btnCalcularPagoTotalActionPerformed
 
     private void ReportePagosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReportePagosMouseClicked
@@ -877,6 +918,7 @@ private void cargaTablaReporte() {
     private javax.swing.JTextField NombreDoctor;
     private javax.swing.JPanel Superior;
     private javax.swing.JTable TablaReportes;
+    private javax.swing.JTextField TotalClinica;
     private javax.swing.JComboBox<String> TotalDetallado;
     private javax.swing.JTextField TotalPago;
     private javax.swing.JButton btnAdminCajeros;
@@ -888,6 +930,7 @@ private void cargaTablaReporte() {
     private javax.swing.JButton btnReportePagos;
     private javax.swing.JButton btnServicios;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
