@@ -117,10 +117,12 @@ public class ReportespagarMedico extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         TotalPago = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
         DoctorSeleccionado = new javax.swing.JTextField();
-        TotalClinica = new javax.swing.JTextField();
+        TotalHospital = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        TotalDoc = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         BuscadorDoctores = new javax.swing.JTextField();
@@ -317,7 +319,7 @@ public class ReportespagarMedico extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("Doctor:");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, 20));
 
         TotalPago.setEditable(false);
         TotalPago.addActionListener(new java.awt.event.ActionListener() {
@@ -325,19 +327,27 @@ public class ReportespagarMedico extends javax.swing.JFrame {
                 TotalPagoActionPerformed(evt);
             }
         });
-        jPanel1.add(TotalPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, 130, 20));
-
-        jLabel4.setText("Total:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 60, -1, -1));
+        jPanel1.add(TotalPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 60, 130, 20));
 
         DoctorSeleccionado.setEditable(false);
-        jPanel1.add(DoctorSeleccionado, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 30, 330, 20));
-        jPanel1.add(TotalClinica, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 60, 130, 20));
+        jPanel1.add(DoctorSeleccionado, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, 310, 20));
 
-        jLabel10.setText("Total:");
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
+        TotalHospital.setEditable(false);
+        jPanel1.add(TotalHospital, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 90, 130, 20));
 
-        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 40, 410, 90));
+        jLabel10.setText("% para doctor:");
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, 20));
+
+        jLabel11.setText("Total:");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, 20));
+
+        TotalDoc.setEditable(false);
+        jPanel1.add(TotalDoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, 100, 20));
+
+        jLabel12.setText("% restante:");
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 90, -1, 20));
+
+        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 10, 440, 120));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Filtros", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
@@ -408,7 +418,7 @@ public class ReportespagarMedico extends javax.swing.JFrame {
                 NombreDoctorActionPerformed(evt);
             }
         });
-        jPanel5.add(NombreDoctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 10, 210, 20));
+        jPanel5.add(NombreDoctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 10, 210, 20));
 
         TotalDetallado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Total", "Detallado"}));
         TotalDetallado.addActionListener(new java.awt.event.ActionListener() {
@@ -421,7 +431,7 @@ public class ReportespagarMedico extends javax.swing.JFrame {
         jLabel9.setText("Doctor seleccionado:");
         jPanel5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, -1, 20));
 
-        jPanel4.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, 700, 40));
+        jPanel4.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, 672, 40));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -435,7 +445,7 @@ public class ReportespagarMedico extends javax.swing.JFrame {
                 BuscarActionPerformed(evt);
             }
         });
-        jPanel3.add(Buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 10, 110, -1));
+        jPanel3.add(Buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 10, 110, -1));
         jPanel3.add(FechaDesde, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 210, 20));
 
         jLabel2.setText("Desde:");
@@ -451,11 +461,11 @@ public class ReportespagarMedico extends javax.swing.JFrame {
                 btnLimpiarActionPerformed(evt);
             }
         });
-        jPanel3.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 10, 110, -1));
+        jPanel3.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 10, 110, -1));
 
-        jPanel4.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 49, 908, 41));
+        jPanel4.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 49, 880, 41));
 
-        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 910, 90));
+        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, 90));
 
         btnCalcularPagoTotal.setBackground(new java.awt.Color(0, 204, 204));
         btnCalcularPagoTotal.setForeground(new java.awt.Color(255, 255, 255));
@@ -465,7 +475,7 @@ public class ReportespagarMedico extends javax.swing.JFrame {
                 btnCalcularPagoTotalActionPerformed(evt);
             }
         });
-        jPanel2.add(btnCalcularPagoTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 134, 110, 20));
+        jPanel2.add(btnCalcularPagoTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 134, 130, 20));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 1350, 710));
 
@@ -918,8 +928,9 @@ private void cargaTablaReporte() {
     private javax.swing.JTextField NombreDoctor;
     private javax.swing.JPanel Superior;
     private javax.swing.JTable TablaReportes;
-    private javax.swing.JTextField TotalClinica;
     private javax.swing.JComboBox<String> TotalDetallado;
+    private javax.swing.JTextField TotalDoc;
+    private javax.swing.JTextField TotalHospital;
     private javax.swing.JTextField TotalPago;
     private javax.swing.JButton btnAdminCajeros;
     private javax.swing.JButton btnCalcularPagoTotal;
@@ -931,9 +942,10 @@ private void cargaTablaReporte() {
     private javax.swing.JButton btnServicios;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
