@@ -60,6 +60,7 @@ public class Login extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         contrasena = new javax.swing.JPasswordField();
         usuario = new javax.swing.JTextField();
+        CerrarSesion = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -142,6 +143,14 @@ public class Login extends javax.swing.JFrame {
         jPanel2.add(usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 90, 340, 30));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 260, 420, 290));
+
+        CerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CerrarSesionActionPerformed(evt);
+            }
+        });
+        getContentPane().add(CerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 0, 50, 50));
+        CerrarSesion.getAccessibleContext().setAccessibleDescription("");
 
         lblTitulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoFinaI.png"))); // NOI18N
         getContentPane().add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1366, 768));
@@ -374,6 +383,10 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_contrasenaFocusLost
 
+    private void CerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CerrarSesionActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_CerrarSesionActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -398,6 +411,7 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CerrarSesion;
     private javax.swing.JLabel Contraseña;
     private javax.swing.JButton IniciaSesion;
     private javax.swing.JLabel Usuario;
