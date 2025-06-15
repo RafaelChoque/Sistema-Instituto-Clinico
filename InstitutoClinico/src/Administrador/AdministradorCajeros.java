@@ -635,13 +635,15 @@ public class AdministradorCajeros extends javax.swing.JFrame {
         Date fechanacimientotxt = FechaNacimiento.getDate();
         String direcciontxt = Direccion.getText().trim();
 
-        if (nombretxt.isEmpty() || apellidotxt.isEmpty() || citxt.isEmpty() || fechanacimientotxt == null) {
-            JOptionPane.showMessageDialog(null, "Por favor, rellene todos los campos obligatorios.");
+        if (nombretxt.isEmpty() || apellidotxt.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, rellene los campos obligatorios: Nombre y Apellido.");
             return;
         }
 
         try {
-            Integer.parseInt(citxt);
+            if (!citxt.isEmpty()) {
+                Integer.parseInt(citxt);
+            }
             if (!telefonotxt.isEmpty()) {
                 Integer.parseInt(telefonotxt);
             }
@@ -666,7 +668,7 @@ public class AdministradorCajeros extends javax.swing.JFrame {
                     "INSERT INTO usuarios (username, contrasena, rol, activo) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS
             );
             psUsuario.setString(1, username);
-            psUsuario.setString(2, contrasenasinEncriptada); 
+            psUsuario.setString(2, contrasenasinEncriptada);
             psUsuario.setString(3, "Cajero");
             psUsuario.setInt(4, 1);
             psUsuario.executeUpdate();
@@ -684,10 +686,21 @@ public class AdministradorCajeros extends javax.swing.JFrame {
                     "INSERT INTO cajeros (id_usuario, CI, nombre, apellido, fecha_nacimiento, telefono, direccion, estado) VALUES (?, ?, ?, ?, ?, ?, ?, 1)"
             );
             psCajero.setInt(1, idUsuario);
-            psCajero.setString(2, citxt);
+
+            if (!citxt.isEmpty()) {
+                psCajero.setString(2, citxt);
+            } else {
+                psCajero.setNull(2, java.sql.Types.VARCHAR);
+            }
+
             psCajero.setString(3, nombretxt);
             psCajero.setString(4, apellidotxt);
-            psCajero.setDate(5, new java.sql.Date(fechanacimientotxt.getTime()));
+
+            if (fechanacimientotxt != null) {
+                psCajero.setDate(5, new java.sql.Date(fechanacimientotxt.getTime()));
+            } else {
+                psCajero.setNull(5, java.sql.Types.DATE);
+            }
 
             if (!telefonotxt.isEmpty()) {
                 psCajero.setString(6, telefonotxt);
@@ -728,13 +741,15 @@ public class AdministradorCajeros extends javax.swing.JFrame {
         String direcciontxt = Direccion.getText().trim();
         int id = Integer.parseInt(ID.getText());
 
-        if (nombretxt.isEmpty() || apellidotxt.isEmpty() || citxt.isEmpty() || fechanacimientotxt == null) {
-            JOptionPane.showMessageDialog(null, "Por favor, rellene todos los campos obligatorios.");
+        if (nombretxt.isEmpty() || apellidotxt.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, rellene los campos obligatorios: Nombre y Apellido.");
             return;
         }
 
         try {
-            Integer.parseInt(citxt);
+            if (!citxt.isEmpty()) {
+                Integer.parseInt(citxt);
+            }
             if (!telefonotxt.isEmpty()) {
                 Integer.parseInt(telefonotxt);
             }
@@ -748,10 +763,21 @@ public class AdministradorCajeros extends javax.swing.JFrame {
             PreparedStatement ps = con.prepareStatement(
                     "UPDATE cajeros SET CI = ?, nombre = ?, apellido = ?, fecha_nacimiento = ?, telefono = ?, direccion = ? WHERE id_cajero = ?"
             );
-            ps.setString(1, citxt);
+
+            if (!citxt.isEmpty()) {
+                ps.setString(1, citxt);
+            } else {
+                ps.setNull(1, java.sql.Types.VARCHAR);
+            }
+
             ps.setString(2, nombretxt);
             ps.setString(3, apellidotxt);
-            ps.setDate(4, new java.sql.Date(fechanacimientotxt.getTime()));
+
+            if (fechanacimientotxt != null) {
+                ps.setDate(4, new java.sql.Date(fechanacimientotxt.getTime()));
+            } else {
+                ps.setNull(4, java.sql.Types.DATE);
+            }
 
             if (!telefonotxt.isEmpty()) {
                 ps.setString(5, telefonotxt);

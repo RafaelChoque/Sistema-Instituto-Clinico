@@ -704,24 +704,19 @@ private void cargarDatosCategoriaOtros() {
         String especialidadtxt = null;
         String categoriaProfesionalOtro = null;
 
-        if (nombretxt.isEmpty() || apellidotxt.isEmpty() || citxt.isEmpty()
-                || fechanacimientotxt == null || categoriatxt.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, rellene todos los campos obligatorios.");
+        if (nombretxt.isEmpty() || apellidotxt.isEmpty() || categoriatxt.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, rellene al menos los campos obligatorios: Nombre, Apellido y Categoría.");
             return;
         }
 
         if (categoriatxt.equals("General")) {
             especialidadtxt = "Medicina General";
         } else if (categoriatxt.equals("Especialista")) {
-            if (Especialidad.getSelectedItem() == null) {
+            if (Especialidad.getSelectedItem() == null || Especialidad.getSelectedItem().toString().trim().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Por favor, seleccione una especialidad.");
                 return;
             }
             especialidadtxt = Especialidad.getSelectedItem().toString().trim();
-            if (especialidadtxt.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Por favor, seleccione una especialidad.");
-                return;
-            }
         } else if (categoriatxt.equals("Otro")) {
             String nombreCat = NombreCategoria.getText().trim();
             Object seleccionadoCombo = ComboCategoriaOtros.getSelectedItem();
@@ -737,7 +732,9 @@ private void cargarDatosCategoriaOtros() {
         }
 
         try {
-            Integer.parseInt(citxt);
+            if (!citxt.isEmpty()) {
+                Integer.parseInt(citxt);
+            }
             if (!telefonotxt.isEmpty()) {
                 Integer.parseInt(telefonotxt);
             }
@@ -750,12 +747,24 @@ private void cargarDatosCategoriaOtros() {
             Connection con = Conexion.obtenerConexion();
 
             PreparedStatement psMedico = con.prepareStatement(
-                    "INSERT INTO medicos(CI, nombre, apellido, fecha_nacimiento, telefono, direccion, categoria_profesional, categoria_profesional_otro, especialidad, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1)");
+                    "INSERT INTO medicos(CI, nombre, apellido, fecha_nacimiento, telefono, direccion, categoria_profesional, categoria_profesional_otro, especialidad, estado) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1)"
+            );
 
-            psMedico.setString(1, citxt);
+            if (!citxt.isEmpty()) {
+                psMedico.setString(1, citxt);
+            } else {
+                psMedico.setNull(1, java.sql.Types.VARCHAR);
+            }
+
             psMedico.setString(2, nombretxt);
             psMedico.setString(3, apellidotxt);
-            psMedico.setDate(4, new java.sql.Date(fechanacimientotxt.getTime()));
+
+            if (fechanacimientotxt != null) {
+                psMedico.setDate(4, new java.sql.Date(fechanacimientotxt.getTime()));
+            } else {
+                psMedico.setNull(4, java.sql.Types.DATE);
+            }
 
             if (!telefonotxt.isEmpty()) {
                 psMedico.setString(5, telefonotxt);
@@ -791,7 +800,6 @@ private void cargarDatosCategoriaOtros() {
             cargarTabla();
             cargarDatosCategoriaOtros();
 
-
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error en la base de datos: " + ex.getMessage());
             ex.printStackTrace();
@@ -809,22 +817,17 @@ private void cargarDatosCategoriaOtros() {
         String especialidadtxt = null;
         String categoriaProfesionalOtro = null;
 
-        if (nombretxt.isEmpty() || apellidotxt.isEmpty() || citxt.isEmpty()
-                || fechanacimientotxt == null || categoriatxt.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, rellene todos los campos obligatorios.");
+        if (nombretxt.isEmpty() || apellidotxt.isEmpty() || categoriatxt.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, rellene al menos los campos obligatorios: Nombre, Apellido y Categoría.");
             return;
         }
 
         if (categoriatxt.equals("Especialista")) {
-            if (Especialidad.getSelectedItem() == null) {
+            if (Especialidad.getSelectedItem() == null || Especialidad.getSelectedItem().toString().trim().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Por favor, seleccione una especialidad.");
                 return;
             }
             especialidadtxt = Especialidad.getSelectedItem().toString().trim();
-            if (especialidadtxt.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Por favor, seleccione una especialidad.");
-                return;
-            }
         } else if (categoriatxt.equals("Otro")) {
             String nombreCat = NombreCategoria.getText().trim();
             Object seleccionadoCombo = ComboCategoriaOtros.getSelectedItem();
@@ -840,7 +843,9 @@ private void cargarDatosCategoriaOtros() {
         }
 
         try {
-            Integer.parseInt(citxt);
+            if (!citxt.isEmpty()) {
+                Integer.parseInt(citxt);
+            }
             if (!telefonotxt.isEmpty()) {
                 Integer.parseInt(telefonotxt);
             }
@@ -853,11 +858,17 @@ private void cargarDatosCategoriaOtros() {
             Connection con = Conexion.obtenerConexion();
 
             PreparedStatement psMedico = con.prepareStatement(
-                    "UPDATE medicos SET nombre=?, apellido=?, fecha_nacimiento=?, telefono=?, direccion=?, categoria_profesional=?, categoria_profesional_otro=?, especialidad=? WHERE CI=?");
+                    "UPDATE medicos SET nombre=?, apellido=?, fecha_nacimiento=?, telefono=?, direccion=?, categoria_profesional=?, categoria_profesional_otro=?, especialidad=?, CI=? WHERE id_medico=?"
+            );
 
             psMedico.setString(1, nombretxt);
             psMedico.setString(2, apellidotxt);
-            psMedico.setDate(3, new java.sql.Date(fechanacimientotxt.getTime()));
+
+            if (fechanacimientotxt != null) {
+                psMedico.setDate(3, new java.sql.Date(fechanacimientotxt.getTime()));
+            } else {
+                psMedico.setNull(3, java.sql.Types.DATE);
+            }
 
             if (!telefonotxt.isEmpty()) {
                 psMedico.setString(4, telefonotxt);
@@ -879,13 +890,20 @@ private void cargarDatosCategoriaOtros() {
                 psMedico.setNull(7, java.sql.Types.VARCHAR);
             }
 
-            if (categoriatxt.equals("Especialista")) {
+            if (especialidadtxt != null) {
                 psMedico.setString(8, especialidadtxt);
             } else {
                 psMedico.setNull(8, java.sql.Types.VARCHAR);
             }
 
-            psMedico.setString(9, citxt);
+            if (!citxt.isEmpty()) {
+                psMedico.setString(9, citxt);
+            } else {
+                psMedico.setNull(9, java.sql.Types.VARCHAR);
+            }
+
+            int medicoId = Integer.parseInt(ID.getText());
+            psMedico.setInt(10, medicoId);
 
             int filasAfectadas = psMedico.executeUpdate();
 
@@ -895,7 +913,7 @@ private void cargarDatosCategoriaOtros() {
                 cargarTabla();
                 cargarDatosCategoriaOtros();
             } else {
-                JOptionPane.showMessageDialog(null, "No se encontró el médico con la CI especificada.");
+                JOptionPane.showMessageDialog(null, "No se encontró el médico con el ID especificado.");
             }
 
         } catch (SQLException ex) {
