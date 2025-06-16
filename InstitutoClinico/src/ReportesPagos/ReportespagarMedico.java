@@ -116,7 +116,7 @@ public class ReportespagarMedico extends javax.swing.JFrame {
         ListaPersonal1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        TotalPago = new javax.swing.JTextField();
+        TotalIngreso = new javax.swing.JTextField();
         DoctorSeleccionado = new javax.swing.JTextField();
         TotalHospital = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
@@ -321,13 +321,13 @@ public class ReportespagarMedico extends javax.swing.JFrame {
         jLabel1.setText("Doctor:");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, 20));
 
-        TotalPago.setEditable(false);
-        TotalPago.addActionListener(new java.awt.event.ActionListener() {
+        TotalIngreso.setEditable(false);
+        TotalIngreso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TotalPagoActionPerformed(evt);
+                TotalIngresoActionPerformed(evt);
             }
         });
-        jPanel1.add(TotalPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 60, 130, 20));
+        jPanel1.add(TotalIngreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 60, 130, 20));
 
         DoctorSeleccionado.setEditable(false);
         jPanel1.add(DoctorSeleccionado, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, 310, 20));
@@ -498,7 +498,7 @@ private void cargaTablaReporte() {
             public boolean isCellEditable(int row, int col) { return false; }
             public Class<?> getColumnClass(int col) {
                 if (col == 0) return Integer.class;
-                return String.class; // ahora todo es String por el "Bs."
+                return String.class; 
             }
         };
     } else {
@@ -509,7 +509,7 @@ private void cargaTablaReporte() {
             public boolean isCellEditable(int row, int col) { return false; }
             public Class<?> getColumnClass(int col) {
                 if (col == 0) return Integer.class;
-                return String.class; // también todo String por "Bs."
+                return String.class;
             }
         };
     }
@@ -768,7 +768,7 @@ private void cargaTablaReporte() {
         String seleccion = TotalDetallado.getSelectedItem().toString();
         TableModel modelo = TablaReportes.getModel();
         double sumaTotal = 0;
-        // Determinar índice de la columna según selección
+
         int colPrecio = -1;
         for (int i = 0; i < modelo.getColumnCount(); i++) {
             String nombreCol = modelo.getColumnName(i).toLowerCase().trim();
@@ -802,7 +802,6 @@ private void cargaTablaReporte() {
         Double porcentajePago = null;
         while (porcentajePago == null) {
             String input = JOptionPane.showInputDialog(this, "Ingrese el porcentaje que se pagará al doctor (0 - 100):");
-
             if (input == null) {
                 return;
             }
@@ -831,8 +830,9 @@ private void cargaTablaReporte() {
                 + "Pago al doctor (" + porcentajePago + "%): Bs. " + pagoDocFormateado + "\n"
                 + "Pago a la clínica: Bs. " + pagoClinicaFormateado);
 
-        // Mostrar el total en el campo TotalPago
-        TotalPago.setText("Bs. " + totalFormateado);
+        TotalIngreso.setText("Bs. " + totalFormateado);
+        TotalDoc.setText("Bs. " + pagoDocFormateado);
+        TotalHospital.setText("Bs. " + pagoClinicaFormateado);
     }//GEN-LAST:event_btnCalcularPagoTotalActionPerformed
 
     private void ReportePagosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReportePagosMouseClicked
@@ -856,7 +856,7 @@ private void cargaTablaReporte() {
         FechaHasta.setDate(null);
         TablaReportes.setRowSorter(null);
         DoctorSeleccionado.setText("");
-        TotalPago.setText("");
+        TotalIngreso.setText("");
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void ReporteVistaPreviaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReporteVistaPreviaMouseClicked
@@ -877,9 +877,9 @@ private void cargaTablaReporte() {
         // TODO add your handling code here:
     }//GEN-LAST:event_NombreDoctorActionPerformed
 
-    private void TotalPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TotalPagoActionPerformed
+    private void TotalIngresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TotalIngresoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_TotalPagoActionPerformed
+    }//GEN-LAST:event_TotalIngresoActionPerformed
 
     private void btnReporteEspeciMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReporteEspeciMouseExited
         // TODO add your handling code here:
@@ -931,7 +931,7 @@ private void cargaTablaReporte() {
     private javax.swing.JComboBox<String> TotalDetallado;
     private javax.swing.JTextField TotalDoc;
     private javax.swing.JTextField TotalHospital;
-    private javax.swing.JTextField TotalPago;
+    private javax.swing.JTextField TotalIngreso;
     private javax.swing.JButton btnAdminCajeros;
     private javax.swing.JButton btnCalcularPagoTotal;
     private javax.swing.JButton btnCerrarSesion;

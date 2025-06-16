@@ -635,15 +635,13 @@ public class AdministradorCajeros extends javax.swing.JFrame {
         Date fechanacimientotxt = FechaNacimiento.getDate();
         String direcciontxt = Direccion.getText().trim();
 
-        if (nombretxt.isEmpty() || apellidotxt.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, rellene los campos obligatorios: Nombre y Apellido.");
+        if (nombretxt.isEmpty() || apellidotxt.isEmpty() || citxt.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, rellene los campos obligatorios: Nombre, Apellido y CI.");
             return;
         }
 
         try {
-            if (!citxt.isEmpty()) {
-                Integer.parseInt(citxt);
-            }
+            Integer.parseInt(citxt);
             if (!telefonotxt.isEmpty()) {
                 Integer.parseInt(telefonotxt);
             }
@@ -662,10 +660,23 @@ public class AdministradorCajeros extends javax.swing.JFrame {
         try {
             Connection con = Conexion.obtenerConexion();
 
+            PreparedStatement psVerificaCI = con.prepareStatement("SELECT COUNT(*) FROM cajeros WHERE CI = ?");
+            psVerificaCI.setString(1, citxt);
+            ResultSet rsCI = psVerificaCI.executeQuery();
+            if (rsCI.next() && rsCI.getInt(1) > 0) {
+                JOptionPane.showMessageDialog(null, "Ya existe un cajero registrado con el mismo CI.");
+                rsCI.close();
+                psVerificaCI.close();
+                return;
+            }
+            rsCI.close();
+            psVerificaCI.close();
+
             String contrasenasinEncriptada = contrasena;
 
             PreparedStatement psUsuario = con.prepareStatement(
-                    "INSERT INTO usuarios (username, contrasena, rol, activo) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS
+                    "INSERT INTO usuarios (username, contrasena, rol, activo) VALUES (?, ?, ?, ?)",
+                    Statement.RETURN_GENERATED_KEYS
             );
             psUsuario.setString(1, username);
             psUsuario.setString(2, contrasenasinEncriptada);
@@ -686,13 +697,7 @@ public class AdministradorCajeros extends javax.swing.JFrame {
                     "INSERT INTO cajeros (id_usuario, CI, nombre, apellido, fecha_nacimiento, telefono, direccion, estado) VALUES (?, ?, ?, ?, ?, ?, ?, 1)"
             );
             psCajero.setInt(1, idUsuario);
-
-            if (!citxt.isEmpty()) {
-                psCajero.setString(2, citxt);
-            } else {
-                psCajero.setNull(2, java.sql.Types.VARCHAR);
-            }
-
+            psCajero.setString(2, citxt);
             psCajero.setString(3, nombretxt);
             psCajero.setString(4, apellidotxt);
 
@@ -741,15 +746,13 @@ public class AdministradorCajeros extends javax.swing.JFrame {
         String direcciontxt = Direccion.getText().trim();
         int id = Integer.parseInt(ID.getText());
 
-        if (nombretxt.isEmpty() || apellidotxt.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, rellene los campos obligatorios: Nombre y Apellido.");
+        if (nombretxt.isEmpty() || apellidotxt.isEmpty() || citxt.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, rellene los campos obligatorios: Nombre, Apellido y CI.");
             return;
         }
 
         try {
-            if (!citxt.isEmpty()) {
-                Integer.parseInt(citxt);
-            }
+            Integer.parseInt(citxt);
             if (!telefonotxt.isEmpty()) {
                 Integer.parseInt(telefonotxt);
             }
@@ -760,16 +763,25 @@ public class AdministradorCajeros extends javax.swing.JFrame {
 
         try {
             Connection con = Conexion.obtenerConexion();
+
+            PreparedStatement verificarCI = con.prepareStatement("SELECT COUNT(*) FROM cajeros WHERE CI = ? AND id_cajero != ?");
+            verificarCI.setString(1, citxt);
+            verificarCI.setInt(2, id);
+            ResultSet rs = verificarCI.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                JOptionPane.showMessageDialog(null, "Otro cajero ya tiene registrado ese mismo CI.");
+                rs.close();
+                verificarCI.close();
+                return;
+            }
+            rs.close();
+            verificarCI.close();
+
             PreparedStatement ps = con.prepareStatement(
                     "UPDATE cajeros SET CI = ?, nombre = ?, apellido = ?, fecha_nacimiento = ?, telefono = ?, direccion = ? WHERE id_cajero = ?"
             );
 
-            if (!citxt.isEmpty()) {
-                ps.setString(1, citxt);
-            } else {
-                ps.setNull(1, java.sql.Types.VARCHAR);
-            }
-
+            ps.setString(1, citxt);
             ps.setString(2, nombretxt);
             ps.setString(3, apellidotxt);
 
@@ -792,8 +804,8 @@ public class AdministradorCajeros extends javax.swing.JFrame {
             }
 
             ps.setInt(7, id);
-
             ps.executeUpdate();
+
             JOptionPane.showMessageDialog(null, "Registro modificado correctamente.");
             limpiar();
             cargarTabla();

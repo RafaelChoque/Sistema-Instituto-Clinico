@@ -704,8 +704,18 @@ private void cargarDatosCategoriaOtros() {
         String especialidadtxt = null;
         String categoriaProfesionalOtro = null;
 
-        if (nombretxt.isEmpty() || apellidotxt.isEmpty() || categoriatxt.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, rellene al menos los campos obligatorios: Nombre, Apellido y Categoría.");
+        if (nombretxt.isEmpty() || apellidotxt.isEmpty() || categoriatxt.isEmpty() || citxt.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, rellene los campos obligatorios: Nombre, Apellido, Categoría y CI.");
+            return;
+        }
+
+        try {
+            Integer.parseInt(citxt);
+            if (!telefonotxt.isEmpty()) {
+                Integer.parseInt(telefonotxt);
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "CI y Teléfono deben ser números válidos.");
             return;
         }
 
@@ -732,31 +742,26 @@ private void cargarDatosCategoriaOtros() {
         }
 
         try {
-            if (!citxt.isEmpty()) {
-                Integer.parseInt(citxt);
-            }
-            if (!telefonotxt.isEmpty()) {
-                Integer.parseInt(telefonotxt);
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "CI y Teléfono deben ser números válidos.");
-            return;
-        }
-
-        try {
             Connection con = Conexion.obtenerConexion();
+
+            PreparedStatement verificarCI = con.prepareStatement("SELECT COUNT(*) FROM medicos WHERE CI = ?");
+            verificarCI.setString(1, citxt);
+            ResultSet rs = verificarCI.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                JOptionPane.showMessageDialog(null, "Ya existe un médico registrado con el mismo CI.");
+                rs.close();
+                verificarCI.close();
+                return;
+            }
+            rs.close();
+            verificarCI.close();
 
             PreparedStatement psMedico = con.prepareStatement(
                     "INSERT INTO medicos(CI, nombre, apellido, fecha_nacimiento, telefono, direccion, categoria_profesional, categoria_profesional_otro, especialidad, estado) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1)"
             );
 
-            if (!citxt.isEmpty()) {
-                psMedico.setString(1, citxt);
-            } else {
-                psMedico.setNull(1, java.sql.Types.VARCHAR);
-            }
-
+            psMedico.setString(1, citxt);
             psMedico.setString(2, nombretxt);
             psMedico.setString(3, apellidotxt);
 
@@ -795,7 +800,6 @@ private void cargarDatosCategoriaOtros() {
             psMedico.executeUpdate();
 
             JOptionPane.showMessageDialog(null, "Registro guardado correctamente.");
-
             limpiar();
             cargarTabla();
             cargarDatosCategoriaOtros();
@@ -817,8 +821,18 @@ private void cargarDatosCategoriaOtros() {
         String especialidadtxt = null;
         String categoriaProfesionalOtro = null;
 
-        if (nombretxt.isEmpty() || apellidotxt.isEmpty() || categoriatxt.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, rellene al menos los campos obligatorios: Nombre, Apellido y Categoría.");
+        if (nombretxt.isEmpty() || apellidotxt.isEmpty() || categoriatxt.isEmpty() || citxt.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, rellene los campos obligatorios: Nombre, Apellido, Categoría y CI.");
+            return;
+        }
+
+        try {
+            Integer.parseInt(citxt);
+            if (!telefonotxt.isEmpty()) {
+                Integer.parseInt(telefonotxt);
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "CI y Teléfono deben ser números válidos.");
             return;
         }
 
@@ -843,19 +857,21 @@ private void cargarDatosCategoriaOtros() {
         }
 
         try {
-            if (!citxt.isEmpty()) {
-                Integer.parseInt(citxt);
-            }
-            if (!telefonotxt.isEmpty()) {
-                Integer.parseInt(telefonotxt);
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "CI y Teléfono deben ser números válidos.");
-            return;
-        }
-
-        try {
             Connection con = Conexion.obtenerConexion();
+            int medicoId = Integer.parseInt(ID.getText());
+
+            PreparedStatement verificarCI = con.prepareStatement("SELECT COUNT(*) FROM medicos WHERE CI = ? AND id_medico != ?");
+            verificarCI.setString(1, citxt);
+            verificarCI.setInt(2, medicoId);
+            ResultSet rs = verificarCI.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                JOptionPane.showMessageDialog(null, "Otro médico ya tiene registrado ese mismo CI.");
+                rs.close();
+                verificarCI.close();
+                return;
+            }
+            rs.close();
+            verificarCI.close();
 
             PreparedStatement psMedico = con.prepareStatement(
                     "UPDATE medicos SET nombre=?, apellido=?, fecha_nacimiento=?, telefono=?, direccion=?, categoria_profesional=?, categoria_profesional_otro=?, especialidad=?, CI=? WHERE id_medico=?"
@@ -896,13 +912,7 @@ private void cargarDatosCategoriaOtros() {
                 psMedico.setNull(8, java.sql.Types.VARCHAR);
             }
 
-            if (!citxt.isEmpty()) {
-                psMedico.setString(9, citxt);
-            } else {
-                psMedico.setNull(9, java.sql.Types.VARCHAR);
-            }
-
-            int medicoId = Integer.parseInt(ID.getText());
+            psMedico.setString(9, citxt);
             psMedico.setInt(10, medicoId);
 
             int filasAfectadas = psMedico.executeUpdate();
