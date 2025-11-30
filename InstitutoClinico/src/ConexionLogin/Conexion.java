@@ -1,30 +1,33 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ConexionLogin;
 
-/**
- *
- * @author Rafael
- */
 import java.sql.*;
+import java.util.Properties;
+import java.io.InputStream;
 
 public class Conexion {
-        public static Connection obtenerConexion() {
-        String url = "jdbc:mysql://localhost:3306/ClinicaGestion?"
-                   + "useSSL=false&"
-                   + "serverTimezone=UTC";
-        String user = "root";
-        String password = "13644332"; 
 
+    public static Connection obtenerConexion() {
+        Connection con = null;
         try {
-            Connection con = DriverManager.getConnection(url, user, password);
 
-            return con;
-        } catch (SQLException ex) {
-            System.out.println("Error en la conexión: " + ex.toString());
-            return null;//.
+            Properties props = new Properties();
+            InputStream is = Conexion.class.getClassLoader().getResourceAsStream("config.properties");
+            if (is == null) {
+                throw new RuntimeException("No se encontró config.properties");
+            }
+            props.load(is);
+
+
+            String url = props.getProperty("db.url");
+            String user = props.getProperty("db.user");
+            String password = props.getProperty("db.password");
+
+
+            con = DriverManager.getConnection(url, user, password);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return con;
     }
 }

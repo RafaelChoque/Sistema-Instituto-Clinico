@@ -233,6 +233,8 @@ public class Login extends javax.swing.JFrame {
             return;
         }
 
+        UsuarioDAO.crearAdminSiNoExiste();
+
         String query = "SELECT * FROM usuarios WHERE username = ?";
 
         try {
@@ -244,24 +246,25 @@ public class Login extends javax.swing.JFrame {
                 ResultSet rs = ps.executeQuery();
 
                 if (rs.next()) {
-                    String p = rs.getString("contrasena");
-                    String priv = rs.getString("rol");
+                    String hash = rs.getString("contrasena");
+                    String rol = rs.getString("rol");
                     boolean activo = rs.getBoolean("activo");
                     int idusuario = rs.getInt("id_usuario");
 
                     if (activo) {
-                        if (priv.equals("Administrador") || priv.equals("Cajero")) {
-                            if (pass.equals(p)) {
-                                Session.setUsuario(idusuario, user, priv);
+                        if (rol.equals("Administrador") || rol.equals("Cajero")) {
+                            // Validar contraseña con bcrypt
+                            if (BCrypt.checkpw(pass, hash)) {
+                                Session.setUsuario(idusuario, user, rol);
                                 String nombre = "";
                                 String apellido = "";
                                 String sqlDatos = "";
 
-                                if (priv.equals("Cajero")) {
+                                if (rol.equals("Cajero")) {
                                     sqlDatos = "SELECT nombre, apellido FROM cajeros WHERE id_usuario = ?";
-                                } else if (priv.equals("Medico General") || priv.equals("Medico Especialista") || priv.equals("Medico")) {
+                                } else if (rol.equals("Medico General") || rol.equals("Medico Especialista") || rol.equals("Medico")) {
                                     sqlDatos = "SELECT nombre, apellido FROM medicos WHERE id_usuario = ?";
-                                } else if (priv.equals("Administrador")) {
+                                } else if (rol.equals("Administrador")) {
                                     nombre = "Administrador";
                                     apellido = "";
                                 }
@@ -284,9 +287,9 @@ public class Login extends javax.swing.JFrame {
 
                                 Session.setNombreCompleto(nombre + " " + apellido);
 
-                                if (priv.equals("Administrador")) {
+                                if (rol.equals("Administrador")) {
                                     new AdministradorDoctores().setVisible(true);
-                                } else if (priv.equals("Cajero")) {
+                                } else if (rol.equals("Cajero")) {
                                     new GenerarFicha(idusuario).setVisible(true);
                                 }
 
