@@ -233,8 +233,6 @@ public class Login extends javax.swing.JFrame {
             return;
         }
 
-        UsuarioDAO.crearAdminSiNoExiste();
-
         String query = "SELECT * FROM usuarios WHERE username = ?";
 
         try {
@@ -246,67 +244,84 @@ public class Login extends javax.swing.JFrame {
                 ResultSet rs = ps.executeQuery();
 
                 if (rs.next()) {
-                    String hash = rs.getString("contrasena");
-                    String rol = rs.getString("rol");
+                    String p = rs.getString("contrasena"); // contraseña de BD
+                    String priv = rs.getString("rol");     // rol del usuario
                     boolean activo = rs.getBoolean("activo");
                     int idusuario = rs.getInt("id_usuario");
 
-                    if (activo) {
-                        if (rol.equals("Administrador") || rol.equals("Cajero")) {
-                            // Validar contraseña con bcrypt
-                            if (BCrypt.checkpw(pass, hash)) {
-                                Session.setUsuario(idusuario, user, rol);
-                                String nombre = "";
-                                String apellido = "";
-                                String sqlDatos = "";
+                    if (!activo) {
+                        JOptionPane.showMessageDialog(null, "Su usuario está inactivo. Contacte al administrador.");
+                        return;
+                    }
 
-                                if (rol.equals("Cajero")) {
-                                    sqlDatos = "SELECT nombre, apellido FROM cajeros WHERE id_usuario = ?";
-                                } else if (rol.equals("Medico General") || rol.equals("Medico Especialista") || rol.equals("Medico")) {
-                                    sqlDatos = "SELECT nombre, apellido FROM medicos WHERE id_usuario = ?";
-                                } else if (rol.equals("Administrador")) {
-                                    nombre = "Administrador";
-                                    apellido = "";
-                                }
+                    boolean loginCorrecto = false;
 
-                                if (!sqlDatos.isEmpty()) {
-                                    try {
-                                        PreparedStatement ps2 = con.prepareStatement(sqlDatos);
-                                        ps2.setInt(1, idusuario);
-                                        ResultSet rs2 = ps2.executeQuery();
-                                        if (rs2.next()) {
-                                            nombre = rs2.getString("nombre");
-                                            apellido = rs2.getString("apellido");
-                                        }
-                                        rs2.close();
-                                        ps2.close();
-                                    } catch (SQLException ex) {
-                                        ex.printStackTrace();
-                                    }
-                                }
-
-                                Session.setNombreCompleto(nombre + " " + apellido);
-
-                                if (rol.equals("Administrador")) {
-                                    new AdministradorDoctores().setVisible(true);
-                                } else if (rol.equals("Cajero")) {
-                                    new GenerarFicha(idusuario).setVisible(true);
-                                }
-
-                                this.dispose();
-                            } else {
-                                JOptionPane.showMessageDialog(null, "La contraseña no es correcta.");
-                            }
+                    if (priv.equals("Administrador")) {
+                        // Validar contraseña con BCrypt solo para Admin
+                        if (BCrypt.checkpw(pass, p)) {
+                            loginCorrecto = true;
                         } else {
-                            JOptionPane.showMessageDialog(null, "Rol no permitido.");
+                            JOptionPane.showMessageDialog(null, "La contraseña no es correcta.");
+                            return;
                         }
                     } else {
-                        JOptionPane.showMessageDialog(null, "Su usuario está inactivo. Contacte al administrador.");
+                        // Resto de roles (Cajero, Medico, etc.) en texto plano
+                        if (pass.equals(p)) {
+                            loginCorrecto = true;
+                        } else {
+                            JOptionPane.showMessageDialog(null, "La contraseña no es correcta.");
+                            return;
+                        }
+                    }
+
+                    if (loginCorrecto) {
+                        Session.setUsuario(idusuario, user, priv);
+
+                        String nombre = "";
+                        String apellido = "";
+                        String sqlDatos = "";
+
+                        if (priv.equals("Cajero")) {
+                            sqlDatos = "SELECT nombre, apellido FROM cajeros WHERE id_usuario = ?";
+                        } else if (priv.equals("Medico General") || priv.equals("Medico Especialista") || priv.equals("Medico")) {
+                            sqlDatos = "SELECT nombre, apellido FROM medicos WHERE id_usuario = ?";
+                        } else if (priv.equals("Administrador")) {
+                            nombre = "Administrador";
+                            apellido = "";
+                        }
+
+                        if (!sqlDatos.isEmpty()) {
+                            try {
+                                PreparedStatement ps2 = con.prepareStatement(sqlDatos);
+                                ps2.setInt(1, idusuario);
+                                ResultSet rs2 = ps2.executeQuery();
+                                if (rs2.next()) {
+                                    nombre = rs2.getString("nombre");
+                                    apellido = rs2.getString("apellido");
+                                }
+                                rs2.close();
+                                ps2.close();
+                            } catch (SQLException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+
+                        Session.setNombreCompleto(nombre + " " + apellido);
+
+                        // Abrir ventana según rol
+                        if (priv.equals("Administrador")) {
+                            new AdministradorDoctores().setVisible(true);
+                        } else if (priv.equals("Cajero")) {
+                            new GenerarFicha(idusuario).setVisible(true);
+                        }
+
+                        this.dispose();
                     }
 
                     rs.close();
                     ps.close();
                     con.close();
+
                 } else {
                     JOptionPane.showMessageDialog(null, "El usuario no existe.");
                 }
