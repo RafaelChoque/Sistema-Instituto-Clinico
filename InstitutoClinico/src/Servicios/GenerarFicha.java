@@ -65,7 +65,7 @@ public class GenerarFicha extends javax.swing.JFrame {
     public GenerarFicha(int idusuario) {
         this.idusuario = idusuario;
         initComponents();
-        ((AbstractDocument) NotasTextArea.getDocument()).setDocumentFilter(new LimiteCaracteresDocumentFilter(140));
+        ((AbstractDocument) NotasTextArea.getDocument()).setDocumentFilter(new LimiteCaracteresDocumentFilter(90));
 
         if (BuscarItemsNombre.getText().isEmpty()) {
             lblBuscarItems.setVisible(true);
@@ -212,13 +212,13 @@ public class GenerarFicha extends javax.swing.JFrame {
 
         Font fontNormal = new Font(Font.FontFamily.HELVETICA, 8, Font.NORMAL);
         Font fontBold = new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD);
-        Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD);
+        Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 9, Font.BOLD);
         Font fontLinea = new Font(Font.FontFamily.COURIER, 5, Font.NORMAL);
         Font fontIdFicha = new Font(Font.FontFamily.HELVETICA, 8, Font.NORMAL);
 
-        InputStream is = getClass().getClassLoader().getResourceAsStream("Imagenes/LogoSantaFe.jpg");
+        InputStream is = getClass().getClassLoader().getResourceAsStream("Imagenes/LogoPulso.jpeg");
         if (is == null) {
-            throw new IOException("No se encontró la imagen LogoSantaFe.jpg en el classpath.");
+            throw new IOException("No se encontró la imagen LogoPulso.jpg en el classpath.");
         }
 
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
@@ -257,14 +257,14 @@ public class GenerarFicha extends javax.swing.JFrame {
         tablaCabecera.setSpacingAfter(2f);
         tablaCabecera.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 
-        PdfPCell cellCentro = new PdfPCell(new Phrase(new Chunk("Centro Médico Santa Fe", fontTitulo)));
+        PdfPCell cellCentro = new PdfPCell(new Phrase(new Chunk("CLINICA DE ESPECIALIDADES PULSO", fontTitulo)));
         cellCentro.setBorder(Rectangle.NO_BORDER);
         cellCentro.setPaddingTop(2f);
         cellCentro.setPaddingBottom(2f);
         cellCentro.setHorizontalAlignment(Element.ALIGN_CENTER);
         tablaCabecera.addCell(cellCentro);
 
-        PdfPCell cellDireccion = new PdfPCell(new Phrase(new Chunk("Zona Villa Bolívar Forno\nAv. Tiahuanacu N°17a\nLa Paz - Bolivia", fontNormal)));
+        PdfPCell cellDireccion = new PdfPCell(new Phrase(new Chunk("Zona Tupac Katari Forno\nAv. Sucre B N°166a\nTelf. Cel. 73042201 - 72540525\nLa Paz - Bolivia", fontNormal)));
         cellDireccion.setBorder(Rectangle.NO_BORDER);
         cellDireccion.setPaddingTop(2f);
         cellDireccion.setPaddingBottom(2f);
@@ -546,13 +546,13 @@ public class GenerarFicha extends javax.swing.JFrame {
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Superior.setBackground(new java.awt.Color(80, 35, 100));
+        Superior.setBackground(new java.awt.Color(0, 102, 255));
         Superior.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cerrarsesion.png"))); // NOI18N
         Superior.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1340, 10, 20, 20));
 
-        btnCerrarSesion.setBackground(new java.awt.Color(33, 14, 68));
+        btnCerrarSesion.setBackground(new java.awt.Color(7, 70, 215));
         btnCerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
         btnCerrarSesion.setText("Cerrar Sesión");
         btnCerrarSesion.setBorder(null);
@@ -743,7 +743,7 @@ public class GenerarFicha extends javax.swing.JFrame {
         AgregarTecnico.setText("Datos del Paciente");
         jPanel1.add(AgregarTecnico, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 210, -1));
 
-        SeleccionarDoc.setBackground(new java.awt.Color(80, 35, 100));
+        SeleccionarDoc.setBackground(new java.awt.Color(7, 70, 215));
         SeleccionarDoc.setForeground(new java.awt.Color(255, 255, 255));
         SeleccionarDoc.setText("Seleccionar Doctor");
         SeleccionarDoc.addActionListener(new java.awt.event.ActionListener() {
@@ -884,7 +884,7 @@ public class GenerarFicha extends javax.swing.JFrame {
     });
     jPanel1.add(ComboTipoPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 280, 110, -1));
 
-    btnVistaPrevia.setBackground(new java.awt.Color(80, 35, 100));
+    btnVistaPrevia.setBackground(new java.awt.Color(7, 70, 215));
     btnVistaPrevia.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
     btnVistaPrevia.setForeground(new java.awt.Color(255, 255, 255));
     btnVistaPrevia.setText("Agregar y calcular");
@@ -931,7 +931,7 @@ public class GenerarFicha extends javax.swing.JFrame {
     FormaPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Contado"}));
     jPanel1.add(FormaPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 460, 150, -1));
 
-    guardar.setBackground(new java.awt.Color(80, 35, 100));
+    guardar.setBackground(new java.awt.Color(7, 70, 215));
     guardar.setForeground(new java.awt.Color(255, 255, 255));
     guardar.setText("Guardar e Imprimir");
     guardar.addActionListener(new java.awt.event.ActionListener() {
@@ -978,12 +978,12 @@ public class GenerarFicha extends javax.swing.JFrame {
     jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 520, 550, 90));
 
     ContadorTextField.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-    ContadorTextField.setText("0/140");
+    ContadorTextField.setText("0/90");
     jPanel1.add(ContadorTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 500, -1, 10));
     NotasTextArea.getDocument().addDocumentListener(new DocumentListener() {
         private void actualizarContador() {
             int longitud = NotasTextArea.getText().length();
-            ContadorTextField.setText(longitud + "/140");
+            ContadorTextField.setText(longitud + "/90");
         }
 
         @Override

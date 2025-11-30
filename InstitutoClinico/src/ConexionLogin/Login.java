@@ -88,7 +88,7 @@ public class Login extends javax.swing.JFrame {
         Contraseña.setText("Contraseña");
         jPanel2.add(Contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 168, 120, -1));
 
-        IniciaSesion.setBackground(new java.awt.Color(81, 17, 114));
+        IniciaSesion.setBackground(new java.awt.Color(7, 70, 215));
         IniciaSesion.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         IniciaSesion.setForeground(new java.awt.Color(255, 255, 255));
         IniciaSesion.setText("Iniciar Sesión");
@@ -110,10 +110,10 @@ public class Login extends javax.swing.JFrame {
         lblErrorContrasena.setForeground(new java.awt.Color(255, 0, 0));
         jPanel2.add(lblErrorContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 270, 20));
 
-        jPanel1.setBackground(new java.awt.Color(81, 17, 114));
+        jPanel1.setBackground(new java.awt.Color(7, 70, 215));
         jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 115, 350, 3));
 
-        jPanel3.setBackground(new java.awt.Color(81, 17, 114));
+        jPanel3.setBackground(new java.awt.Color(7, 70, 215));
         jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 215, 350, 3));
 
         contrasena.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -152,7 +152,7 @@ public class Login extends javax.swing.JFrame {
         getContentPane().add(CerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 0, 50, 50));
         CerrarSesion.getAccessibleContext().setAccessibleDescription("");
 
-        lblTitulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoFinaI.png"))); // NOI18N
+        lblTitulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoPulsoFinall.png"))); // NOI18N
         getContentPane().add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1366, 768));
 
         pack();

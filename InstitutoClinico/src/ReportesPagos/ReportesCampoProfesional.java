@@ -137,10 +137,10 @@ public class ReportesCampoProfesional extends javax.swing.JFrame {
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Superior.setBackground(new java.awt.Color(80, 35, 100));
+        Superior.setBackground(new java.awt.Color(0, 102, 255));
         Superior.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnAdminCajeros.setBackground(new java.awt.Color(33, 14, 68));
+        btnAdminCajeros.setBackground(new java.awt.Color(7, 70, 215));
         btnAdminCajeros.setForeground(new java.awt.Color(241, 241, 241));
         btnAdminCajeros.setText("Administracion de Cajeros");
         btnAdminCajeros.setBorder(null);
@@ -159,7 +159,7 @@ public class ReportesCampoProfesional extends javax.swing.JFrame {
         });
         Superior.add(btnAdminCajeros, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 40));
 
-        btnListaLaboratorios.setBackground(new java.awt.Color(33, 14, 68));
+        btnListaLaboratorios.setBackground(new java.awt.Color(7, 70, 215));
         btnListaLaboratorios.setForeground(new java.awt.Color(241, 241, 241));
         btnListaLaboratorios.setText("Administracion de Doctores");
         btnListaLaboratorios.setBorder(null);
@@ -178,7 +178,7 @@ public class ReportesCampoProfesional extends javax.swing.JFrame {
         });
         Superior.add(btnListaLaboratorios, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, 190, 40));
 
-        btnReporteEspeci.setBackground(new java.awt.Color(33, 14, 68));
+        btnReporteEspeci.setBackground(new java.awt.Color(7, 70, 215));
         btnReporteEspeci.setForeground(new java.awt.Color(241, 241, 241));
         btnReporteEspeci.setText("Reportes de Especialidades");
         btnReporteEspeci.setBorder(null);
@@ -197,7 +197,7 @@ public class ReportesCampoProfesional extends javax.swing.JFrame {
         });
         Superior.add(btnReporteEspeci, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 0, 190, 40));
 
-        btnServicios.setBackground(new java.awt.Color(33, 14, 68));
+        btnServicios.setBackground(new java.awt.Color(7, 70, 215));
         btnServicios.setForeground(new java.awt.Color(241, 241, 241));
         btnServicios.setText("Servicios");
         btnServicios.setBorder(null);
@@ -219,7 +219,7 @@ public class ReportesCampoProfesional extends javax.swing.JFrame {
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cerrarsesion.png"))); // NOI18N
         Superior.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1340, 10, 20, 20));
 
-        btnCerrarSesion.setBackground(new java.awt.Color(33, 14, 68));
+        btnCerrarSesion.setBackground(new java.awt.Color(7, 70, 215));
         btnCerrarSesion.setForeground(new java.awt.Color(241, 241, 241));
         btnCerrarSesion.setText("Cerrar Sesión");
         btnCerrarSesion.setBorder(null);
@@ -238,7 +238,7 @@ public class ReportesCampoProfesional extends javax.swing.JFrame {
         });
         Superior.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1199, 0, 170, 40));
 
-        btnReportePagos.setBackground(new java.awt.Color(33, 14, 68));
+        btnReportePagos.setBackground(new java.awt.Color(7, 70, 215));
         btnReportePagos.setForeground(new java.awt.Color(241, 241, 241));
         btnReportePagos.setText("Reportes de Pagos");
         btnReportePagos.setBorder(null);
@@ -366,7 +366,7 @@ public class ReportesCampoProfesional extends javax.swing.JFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Buscar.setBackground(new java.awt.Color(80, 35, 100));
+        Buscar.setBackground(new java.awt.Color(7, 70, 215));
         Buscar.setForeground(new java.awt.Color(255, 255, 255));
         Buscar.setText("Aplicar");
         Buscar.addActionListener(new java.awt.event.ActionListener() {

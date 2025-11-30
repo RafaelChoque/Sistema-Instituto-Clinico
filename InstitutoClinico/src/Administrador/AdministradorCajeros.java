@@ -134,10 +134,10 @@ public class AdministradorCajeros extends javax.swing.JFrame {
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Superior.setBackground(new java.awt.Color(80, 35, 100));
+        Superior.setBackground(new java.awt.Color(0, 102, 255));
         Superior.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnAdminCajeros.setBackground(new java.awt.Color(33, 14, 68));
+        btnAdminCajeros.setBackground(new java.awt.Color(7, 70, 215));
         btnAdminCajeros.setForeground(new java.awt.Color(241, 241, 241));
         btnAdminCajeros.setText("Administracion de Cajeros");
         btnAdminCajeros.setBorder(null);
@@ -156,7 +156,7 @@ public class AdministradorCajeros extends javax.swing.JFrame {
         });
         Superior.add(btnAdminCajeros, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 40));
 
-        btnAdmiDoc.setBackground(new java.awt.Color(33, 14, 68));
+        btnAdmiDoc.setBackground(new java.awt.Color(7, 70, 215));
         btnAdmiDoc.setForeground(new java.awt.Color(241, 241, 241));
         btnAdmiDoc.setText("Administracion de Doctores");
         btnAdmiDoc.setBorder(null);
@@ -175,7 +175,7 @@ public class AdministradorCajeros extends javax.swing.JFrame {
         });
         Superior.add(btnAdmiDoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, 190, 40));
 
-        btnReportesPagos.setBackground(new java.awt.Color(33, 14, 68));
+        btnReportesPagos.setBackground(new java.awt.Color(7, 70, 215));
         btnReportesPagos.setForeground(new java.awt.Color(241, 241, 241));
         btnReportesPagos.setText("Reportes de Pagos");
         btnReportesPagos.setBorder(null);
@@ -194,7 +194,7 @@ public class AdministradorCajeros extends javax.swing.JFrame {
         });
         Superior.add(btnReportesPagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 0, 190, 40));
 
-        btnServicios.setBackground(new java.awt.Color(33, 14, 68));
+        btnServicios.setBackground(new java.awt.Color(7, 70, 215));
         btnServicios.setForeground(new java.awt.Color(241, 241, 241));
         btnServicios.setText("Servicios");
         btnServicios.setBorder(null);
@@ -216,7 +216,7 @@ public class AdministradorCajeros extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cerrarsesion.png"))); // NOI18N
         Superior.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1340, 10, 20, 20));
 
-        btnCerrarSesion.setBackground(new java.awt.Color(33, 14, 68));
+        btnCerrarSesion.setBackground(new java.awt.Color(7, 70, 215));
         btnCerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
         btnCerrarSesion.setText("Cerrar Sesión");
         btnCerrarSesion.setBorder(null);
@@ -235,7 +235,7 @@ public class AdministradorCajeros extends javax.swing.JFrame {
         });
         Superior.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 0, 170, 40));
 
-        btnReporteEspeci.setBackground(new java.awt.Color(33, 14, 68));
+        btnReporteEspeci.setBackground(new java.awt.Color(7, 70, 215));
         btnReporteEspeci.setForeground(new java.awt.Color(241, 241, 241));
         btnReporteEspeci.setText("Reportes de Especialidades");
         btnReporteEspeci.setBorder(null);
@@ -440,7 +440,7 @@ public class AdministradorCajeros extends javax.swing.JFrame {
         });
         jPanel1.add(ID, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 10, 10, 10));
 
-        guardar.setBackground(new java.awt.Color(80, 35, 100));
+        guardar.setBackground(new java.awt.Color(7, 70, 215));
         guardar.setForeground(new java.awt.Color(255, 255, 255));
         guardar.setText("Guardar");
         guardar.addActionListener(new java.awt.event.ActionListener() {
@@ -450,7 +450,7 @@ public class AdministradorCajeros extends javax.swing.JFrame {
         });
         jPanel1.add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 80, 30));
 
-        modificar.setBackground(new java.awt.Color(80, 35, 100));
+        modificar.setBackground(new java.awt.Color(7, 70, 215));
         modificar.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         modificar.setForeground(new java.awt.Color(255, 255, 255));
         modificar.setText("Modificar");
@@ -479,7 +479,7 @@ public class AdministradorCajeros extends javax.swing.JFrame {
         });
         jPanel1.add(limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 230, 80, 30));
 
-        HabilitarDeshabilitar.setBackground(new java.awt.Color(80, 35, 100));
+        HabilitarDeshabilitar.setBackground(new java.awt.Color(7, 70, 215));
         HabilitarDeshabilitar.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         HabilitarDeshabilitar.setForeground(new java.awt.Color(255, 255, 255));
         HabilitarDeshabilitar.setText("Habilitar/Deshabilitar");

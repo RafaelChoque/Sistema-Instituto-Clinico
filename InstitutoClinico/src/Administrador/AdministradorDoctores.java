@@ -146,10 +146,10 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Superior.setBackground(new java.awt.Color(80, 35, 100));
+        Superior.setBackground(new java.awt.Color(0, 102, 255));
         Superior.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnAdminCajeros.setBackground(new java.awt.Color(33, 14, 68));
+        btnAdminCajeros.setBackground(new java.awt.Color(7, 70, 215));
         btnAdminCajeros.setForeground(new java.awt.Color(241, 241, 241));
         btnAdminCajeros.setText("Administracion de Cajeros");
         btnAdminCajeros.setBorder(null);
@@ -168,7 +168,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         });
         Superior.add(btnAdminCajeros, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 40));
 
-        btnAdminDoc.setBackground(new java.awt.Color(33, 14, 68));
+        btnAdminDoc.setBackground(new java.awt.Color(7, 70, 215));
         btnAdminDoc.setForeground(new java.awt.Color(241, 241, 241));
         btnAdminDoc.setText("Administracion de Doctores");
         btnAdminDoc.setBorder(null);
@@ -187,7 +187,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         });
         Superior.add(btnAdminDoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, 190, 40));
 
-        btnReportePagos.setBackground(new java.awt.Color(33, 14, 68));
+        btnReportePagos.setBackground(new java.awt.Color(7, 70, 215));
         btnReportePagos.setForeground(new java.awt.Color(241, 241, 241));
         btnReportePagos.setText("Reportes de Pagos");
         btnReportePagos.setBorder(null);
@@ -206,7 +206,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         });
         Superior.add(btnReportePagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 0, 190, 40));
 
-        btnServicios.setBackground(new java.awt.Color(33, 14, 68));
+        btnServicios.setBackground(new java.awt.Color(7, 70, 215));
         btnServicios.setForeground(new java.awt.Color(241, 241, 241));
         btnServicios.setText("Servicios");
         btnServicios.setBorder(null);
@@ -225,7 +225,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         });
         Superior.add(btnServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 0, 190, 40));
 
-        btnReporteEspeci.setBackground(new java.awt.Color(33, 14, 68));
+        btnReporteEspeci.setBackground(new java.awt.Color(7, 70, 215));
         btnReporteEspeci.setForeground(new java.awt.Color(241, 241, 241));
         btnReporteEspeci.setText("Reportes de Especialidades");
         btnReporteEspeci.setBorder(null);
@@ -247,7 +247,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cerrarsesion.png"))); // NOI18N
         Superior.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1340, 10, 20, 20));
 
-        btnCerrarSesion.setBackground(new java.awt.Color(33, 14, 68));
+        btnCerrarSesion.setBackground(new java.awt.Color(7, 70, 215));
         btnCerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
         btnCerrarSesion.setText("Cerrar Sesión");
         btnCerrarSesion.setBorder(null);
@@ -461,7 +461,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         EspecialidadLabel.setText("Especialidad:");
         jPanel1.add(EspecialidadLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 230, -1, 20));
 
-        guardar.setBackground(new java.awt.Color(80, 35, 100));
+        guardar.setBackground(new java.awt.Color(7, 70, 215));
         guardar.setForeground(new java.awt.Color(255, 255, 255));
         guardar.setText("Guardar");
         guardar.addActionListener(new java.awt.event.ActionListener() {
@@ -471,7 +471,7 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         });
         jPanel1.add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 100, 30));
 
-        modificar.setBackground(new java.awt.Color(80, 35, 100));
+        modificar.setBackground(new java.awt.Color(7, 70, 215));
         modificar.setForeground(new java.awt.Color(255, 255, 255));
         modificar.setText("Modificar");
         modificar.addActionListener(new java.awt.event.ActionListener() {

@@ -29,7 +29,7 @@
     <Container class="javax.swing.JPanel" name="Superior">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="64" green="23" red="50" type="rgb"/>
+          <Color blue="ff" green="66" red="0" type="rgb"/>
         </Property>
       </Properties>
       <Constraints>
@@ -57,7 +57,7 @@
         <Component class="javax.swing.JButton" name="btnCerrarSesion">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="44" green="e" red="21" type="rgb"/>
+              <Color blue="d7" green="46" red="7" type="rgb"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -356,7 +356,7 @@
             <Component class="javax.swing.JButton" name="SeleccionarDoc">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="64" green="23" red="50" type="rgb"/>
+                  <Color blue="d7" green="46" red="7" type="rgb"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -586,7 +586,7 @@
             <Component class="javax.swing.JButton" name="btnVistaPrevia">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="64" green="23" red="50" type="rgb"/>
+                  <Color blue="d7" green="46" red="7" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="10" style="0"/>
@@ -718,7 +718,7 @@
             <Component class="javax.swing.JButton" name="guardar">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="64" green="23" red="50" type="rgb"/>
+                  <Color blue="d7" green="46" red="7" type="rgb"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -858,11 +858,11 @@
                   <Font name="Segoe UI" size="10" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="&quot;0/140&quot;" type="code"/>
+                  <Connection code="&quot;0/90&quot;" type="code"/>
                 </Property>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="NotasTextArea.getDocument().addDocumentListener(new DocumentListener() {&#xa;    private void actualizarContador() {&#xa;        int longitud = NotasTextArea.getText().length();&#xa;        ContadorTextField.setText(longitud + &quot;/140&quot;);&#xa;    }&#xa;&#xa;    @Override&#xa;    public void insertUpdate(DocumentEvent e) {&#xa;        actualizarContador();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void removeUpdate(DocumentEvent e) {&#xa;        actualizarContador();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void changedUpdate(DocumentEvent e) {&#xa;        actualizarContador();&#xa;    }&#xa;});"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="NotasTextArea.getDocument().addDocumentListener(new DocumentListener() {&#xa;    private void actualizarContador() {&#xa;        int longitud = NotasTextArea.getText().length();&#xa;        ContadorTextField.setText(longitud + &quot;/90&quot;);&#xa;    }&#xa;&#xa;    @Override&#xa;    public void insertUpdate(DocumentEvent e) {&#xa;        actualizarContador();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void removeUpdate(DocumentEvent e) {&#xa;        actualizarContador();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void changedUpdate(DocumentEvent e) {&#xa;        actualizarContador();&#xa;    }&#xa;});"/>
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
