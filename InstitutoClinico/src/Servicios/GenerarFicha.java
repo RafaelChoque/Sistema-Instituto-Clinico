@@ -4,6 +4,7 @@
  */
 package Servicios;
 
+import Cajero.RegistrarPacientes;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import javax.swing.*;
@@ -44,6 +45,9 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.text.Normalizer;
+import java.time.ZoneId;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.text.AbstractDocument;
 
 
@@ -59,6 +63,8 @@ public class GenerarFicha extends javax.swing.JFrame {
      * @param idusuario
      */
     private int idusuario;
+    private Map<String, Double> preciosNormal = new HashMap<>();
+    private Map<String, Double> preciosEmergencia = new HashMap<>();
 
     private DefaultListModel<String> modeloLista = new DefaultListModel<>();
 
@@ -210,13 +216,13 @@ public class GenerarFicha extends javax.swing.JFrame {
             int numeroFicha, int anioFicha, Date fechaGuardado, String nombreUsuario,
             int idAfiche, String notas) throws Exception {
 
-        Font fontNormal = new Font(Font.FontFamily.HELVETICA, 8, Font.NORMAL);
-        Font fontBold = new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD);
-        Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 9, Font.BOLD);
+        Font fontNormal = new Font(Font.FontFamily.HELVETICA, 7, Font.NORMAL);
+        Font fontBold = new Font(Font.FontFamily.HELVETICA, 7, Font.BOLD);
+        Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD);
         Font fontLinea = new Font(Font.FontFamily.COURIER, 5, Font.NORMAL);
         Font fontIdFicha = new Font(Font.FontFamily.HELVETICA, 8, Font.NORMAL);
 
-        InputStream is = getClass().getClassLoader().getResourceAsStream("Imagenes/LogoPulso.jpeg");
+        InputStream is = getClass().getClassLoader().getResourceAsStream("Imagenes/LogoVitruvioFactura.jpeg");
         if (is == null) {
             throw new IOException("No se encontró la imagen LogoPulso.jpg en el classpath.");
         }
@@ -257,7 +263,7 @@ public class GenerarFicha extends javax.swing.JFrame {
         tablaCabecera.setSpacingAfter(2f);
         tablaCabecera.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 
-        PdfPCell cellCentro = new PdfPCell(new Phrase(new Chunk("CLINICA DE ESPECIALIDADES PULSO", fontTitulo)));
+        PdfPCell cellCentro = new PdfPCell(new Phrase(new Chunk("CLINICA DE ESPECIALIDADES VITRUVIO", fontTitulo)));
         cellCentro.setBorder(Rectangle.NO_BORDER);
         cellCentro.setPaddingTop(2f);
         cellCentro.setPaddingBottom(2f);
@@ -462,7 +468,7 @@ public class GenerarFicha extends javax.swing.JFrame {
 
         tablaInfo.addCell(new Phrase("Forma de pago: " + formaPago, fontNormal));
         tablaInfo.addCell(new Phrase("Medio de pago: " + medioPago, fontNormal));
-        tablaInfo.addCell(new Phrase("Usuario responsable: " + nombreUsuario, fontNormal));
+        tablaInfo.addCell(new Phrase("Cajero responsable: " + nombreUsuario, fontNormal));
 
         PdfPCell espacio = new PdfPCell(new Phrase(" "));
         espacio.setBorder(Rectangle.NO_BORDER);
@@ -488,6 +494,9 @@ public class GenerarFicha extends javax.swing.JFrame {
         Superior = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         btnCerrarSesion = new javax.swing.JButton();
+        btnFichas = new javax.swing.JButton();
+        btnServicio = new javax.swing.JButton();
+        btnPacientes = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         ListaPersonal = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -540,6 +549,7 @@ public class GenerarFicha extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         NotasTextArea = new javax.swing.JTextArea();
         ContadorTextField = new javax.swing.JLabel();
+        SeleccionarDoc1 = new javax.swing.JButton();
         FondoGris = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -570,6 +580,63 @@ public class GenerarFicha extends javax.swing.JFrame {
             }
         });
         Superior.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 0, 170, 40));
+
+        btnFichas.setBackground(new java.awt.Color(7, 70, 215));
+        btnFichas.setForeground(new java.awt.Color(241, 241, 241));
+        btnFichas.setText("Fichas");
+        btnFichas.setBorder(null);
+        btnFichas.setHorizontalAlignment(SwingConstants.LEFT);
+        btnFichas.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+        btnFichas.setIconTextGap(10);
+        btnFichas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnFichasMouseExited(evt);
+            }
+        });
+        btnFichas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFichasActionPerformed(evt);
+            }
+        });
+        Superior.add(btnFichas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 40));
+
+        btnServicio.setBackground(new java.awt.Color(7, 70, 215));
+        btnServicio.setForeground(new java.awt.Color(241, 241, 241));
+        btnServicio.setText("Precios de Servicios");
+        btnServicio.setBorder(null);
+        btnPacientes.setHorizontalAlignment(SwingConstants.LEFT);
+        btnPacientes.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+        btnPacientes.setIconTextGap(10);
+        btnServicio.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnServicioMouseExited(evt);
+            }
+        });
+        btnServicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnServicioActionPerformed(evt);
+            }
+        });
+        Superior.add(btnServicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 0, 190, 40));
+
+        btnPacientes.setBackground(new java.awt.Color(7, 70, 215));
+        btnPacientes.setForeground(new java.awt.Color(241, 241, 241));
+        btnPacientes.setText("Pacientes");
+        btnPacientes.setBorder(null);
+        btnPacientes.setHorizontalAlignment(SwingConstants.LEFT);
+        btnPacientes.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+        btnPacientes.setIconTextGap(10);
+        btnPacientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnPacientesMouseExited(evt);
+            }
+        });
+        btnPacientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPacientesActionPerformed(evt);
+            }
+        });
+        Superior.add(btnPacientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, 190, 40));
 
         getContentPane().add(Superior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1400, 40));
 
@@ -642,8 +709,11 @@ public class GenerarFicha extends javax.swing.JFrame {
                     sorter.setRowFilter(new RowFilter<TableModel, Integer>() {
                         @Override
                         public boolean include(Entry<? extends TableModel, ? extends Integer> entry) {
-                            String texto = normalize(entry.getStringValue(1).trim());
-                            return texto.contains(query);
+                            // Columna 0 es Integer (ID)
+                            String id = normalize(String.valueOf(entry.getValue(0)));
+                            String paciente = normalize(entry.getStringValue(1).trim());
+
+                            return id.contains(query) || paciente.contains(query);
                         }
                     });
                 }
@@ -670,7 +740,7 @@ public class GenerarFicha extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Paciente", "Fecha de Atención", "Hora de Atención", "Forma de Pago", "Medio de Pago", "Total de Precio"
+                "ID", "Paciente", "Fecha de Atención", "Hora de Atención", "Estado de Ficha", "Medio de Pago", "Total de Precio"
             }
         ) {
             Class[] types = new Class [] {
@@ -760,6 +830,8 @@ public class GenerarFicha extends javax.swing.JFrame {
         });
         NombreDoctor.setEditable(false);
         jPanel1.add(NombreDoctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, 220, -1));
+
+        FechaAtencion.setDate(new Date());
         jPanel1.add(FechaAtencion, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, 220, -1));
 
         Hora.setModel(new SpinnerDateModel());
@@ -1002,6 +1074,16 @@ public class GenerarFicha extends javax.swing.JFrame {
         }
     });
 
+    SeleccionarDoc1.setBackground(new java.awt.Color(7, 70, 215));
+    SeleccionarDoc1.setForeground(new java.awt.Color(255, 255, 255));
+    SeleccionarDoc1.setText("Seleccionar Doctor");
+    SeleccionarDoc1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            SeleccionarDoc1ActionPerformed(evt);
+        }
+    });
+    jPanel1.add(SeleccionarDoc1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 100, 190, -1));
+
     jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(769, 40, 571, 660));
 
     getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 1350, 710));
@@ -1064,7 +1146,7 @@ public class GenerarFicha extends javax.swing.JFrame {
         };
 
         modelo.setColumnIdentifiers(new Object[]{
-            "ID", "Paciente", "Fecha Atención", "Hora Atención", "Forma de Pago", "Medio de Pago", "Total de Precio"
+            "ID", "Paciente", "Fecha Atención", "Hora Atención", "Estado de Ficha", "Medio de Pago", "Total de Precio"
         });
 
         String sql = """
@@ -1072,7 +1154,7 @@ public class GenerarFicha extends javax.swing.JFrame {
         a.id_afiche, CONCAT(a.nombre_paciente, ' ', a.apellido_paciente) AS paciente,
         a.fecha_atencion,
         a.hora_atencion,
-        a.forma_pago,
+        a.estado_ficha,
         a.medio_pago,
         a.precio_total
     FROM afiches a
@@ -1086,7 +1168,7 @@ public class GenerarFicha extends javax.swing.JFrame {
                     rs.getString("paciente"),
                     rs.getTimestamp("fecha_atencion").toLocalDateTime().toLocalDate(),
                     rs.getString("hora_atencion"),
-                    rs.getString("forma_pago"),
+                    rs.getString("estado_ficha"),
                     rs.getString("medio_pago"),
                     rs.getDouble("precio_total")
                 });
@@ -1189,9 +1271,27 @@ public class GenerarFicha extends javax.swing.JFrame {
     }//GEN-LAST:event_TablaAfichesMouseClicked
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
+                String query = normalize(jTextField1.getText().trim());
+        if (!query.isEmpty()) {
+            sorter.setRowFilter(new RowFilter<TableModel, Integer>() {
+                @Override
+                public boolean include(RowFilter.Entry<? extends TableModel, ? extends Integer> entry) {
+                    String id = normalize(String.valueOf(entry.getValue(0)));
+                    String paciente = normalize(entry.getStringValue(1).trim());
+                   
+                    return id.equals(query) || paciente.equalsIgnoreCase(query);
+                }
+            });
+        } else {
+            sorter.setRowFilter(null);
+        }
     }//GEN-LAST:event_jTextField1ActionPerformed
-
+        private String normalize(String text) {
+        if (text == null) return "";
+        String normalized = Normalizer.normalize(text, Normalizer.Form.NFD);
+        normalized = normalized.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+        return normalized.toLowerCase();
+    }
     private void NombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_NombreActionPerformed
@@ -1236,7 +1336,22 @@ public class GenerarFicha extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "El total del servicio no es un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
+        LocalDate fechaAtencion = fechaAtencionDate.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
 
+        LocalDate hoy = LocalDate.now();
+
+        String estadoFicha;
+        if (fechaAtencion.isBefore(hoy)) {
+            estadoFicha = "Pasada";
+        } else if (fechaAtencion.isEqual(hoy)) {
+            estadoFicha = "Hoy";
+        } else {
+            estadoFicha = "Futura";
+        }      
+    
         try {
             Connection con = Conexion.obtenerConexion();
 
@@ -1282,7 +1397,7 @@ public class GenerarFicha extends javax.swing.JFrame {
             rsMax.close();
             psMax.close();
 
-            String sqlInsert = "INSERT INTO afiches (id_cajero, id_medico, nombre_paciente, apellido_paciente, fecha_atencion, hora_atencion, forma_pago, medio_pago, precio_total, numero_ficha, anio_ficha, notas) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sqlInsert = "INSERT INTO afiches (id_cajero, id_medico, nombre_paciente, apellido_paciente, fecha_atencion, hora_atencion, forma_pago, medio_pago, precio_total, numero_ficha, anio_ficha, notas, estado_ficha) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement psInsert = con.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
             psInsert.setInt(1, idCajero);
             psInsert.setInt(2, idMedico);
@@ -1296,6 +1411,7 @@ public class GenerarFicha extends javax.swing.JFrame {
             psInsert.setInt(10, siguienteNumero);
             psInsert.setInt(11, anioCorto);
             psInsert.setString(12, notas.isEmpty() ? null : notas);
+            psInsert.setString(13, estadoFicha);
 
             int filas = psInsert.executeUpdate();
             int idAfiche = -1;
@@ -1399,7 +1515,7 @@ public class GenerarFicha extends javax.swing.JFrame {
         Nombre.setText("");
         Apellido.setText("");
         NombreDoctor.setText("");
-        FechaAtencion.setDate(null);
+        FechaAtencion.setDate(new Date());
         Hora.setValue(new Date());
         FormaPago.setSelectedIndex(0);
         TipoPago.setSelectedIndex(0);
@@ -1502,6 +1618,39 @@ public class GenerarFicha extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
+    private void btnPacientesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPacientesMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPacientesMouseExited
+
+    private void btnPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPacientesActionPerformed
+        RegistrarPacientes SelecDoc = new RegistrarPacientes(idusuario);
+        SelecDoc.setLocationRelativeTo(null);
+        SelecDoc.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnPacientesActionPerformed
+
+    private void btnFichasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFichasMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnFichasMouseExited
+
+    private void btnFichasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFichasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnFichasActionPerformed
+
+    private void SeleccionarDoc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SeleccionarDoc1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SeleccionarDoc1ActionPerformed
+
+    private void btnServicioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnServicioMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnServicioMouseExited
+
+    private void btnServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnServicioActionPerformed
+        PreciosServiciosCajero SelecDoc = new PreciosServiciosCajero();
+        SelecDoc.setLocationRelativeTo(null);
+        SelecDoc.setVisible(true);
+    }//GEN-LAST:event_btnServicioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1548,11 +1697,15 @@ public class GenerarFicha extends javax.swing.JFrame {
     private javax.swing.JTextField NombreDoctor;
     private javax.swing.JTextArea NotasTextArea;
     private javax.swing.JButton SeleccionarDoc;
+    private javax.swing.JButton SeleccionarDoc1;
     private javax.swing.JPanel Superior;
     private javax.swing.JTable TablaAfiches;
     private javax.swing.JComboBox<String> TipoPago;
     private javax.swing.JTextField TotalSumaServicios;
     private javax.swing.JButton btnCerrarSesion;
+    private javax.swing.JButton btnFichas;
+    private javax.swing.JButton btnPacientes;
+    private javax.swing.JButton btnServicio;
     private javax.swing.JButton btnVistaPrevia;
     private javax.swing.JLabel formadepago;
     private javax.swing.JButton guardar;

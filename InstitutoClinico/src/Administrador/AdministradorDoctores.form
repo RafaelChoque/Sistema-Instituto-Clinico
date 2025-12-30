@@ -112,7 +112,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReportePagosActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="btnServicios.setHorizontalAlignment(SwingConstants.LEFT); &#xa;btnServicios.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));&#xa;btnServicios.setIconTextGap(10);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="btnReportePagos.setHorizontalAlignment(SwingConstants.LEFT); &#xa;btnReportePagos.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));&#xa;btnReportePagos.setIconTextGap(10);"/>
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -154,7 +154,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="f1" green="f1" red="f1" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Reportes de Especialidades"/>
+            <Property name="text" type="java.lang.String" value="Reportes"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
             </Property>
@@ -164,7 +164,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReporteEspeciActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="btnServicios.setHorizontalAlignment(SwingConstants.LEFT); &#xa;btnServicios.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));&#xa;btnServicios.setIconTextGap(10);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="btnReporteEspeci.setHorizontalAlignment(SwingConstants.LEFT); &#xa;btnReporteEspeci.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));&#xa;btnReporteEspeci.setIconTextGap(10);"/>
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">

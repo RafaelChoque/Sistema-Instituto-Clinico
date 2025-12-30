@@ -51,7 +51,8 @@ public class ReportespagarMedico extends javax.swing.JFrame {
     /**
      * Creates new form ReportesMedicos
      */
-
+    private boolean filtroAplicado = false;
+    private TableRowSorter<DefaultTableModel> sorter;
 
     
     public ReportespagarMedico() {
@@ -59,6 +60,7 @@ public class ReportespagarMedico extends javax.swing.JFrame {
 
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         TotalDetallado.setSelectedItem("Total");
+        btnCalcularPagoTotal.setEnabled(false);
         cargaTablaReporte();
         aplicarColorFilasAlternadas(TablaReportes);
     }
@@ -191,9 +193,9 @@ public class ReportespagarMedico extends javax.swing.JFrame {
         btnReportePagos.setForeground(new java.awt.Color(241, 241, 241));
         btnReportePagos.setText("Reportes de Pagos");
         btnReportePagos.setBorder(null);
-        btnServicios.setHorizontalAlignment(SwingConstants.LEFT);
-        btnServicios.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
-        btnServicios.setIconTextGap(10);
+        btnReportePagos.setHorizontalAlignment(SwingConstants.LEFT);
+        btnReportePagos.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+        btnReportePagos.setIconTextGap(10);
         btnReportePagos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnReportePagosMouseExited(evt);
@@ -249,11 +251,11 @@ public class ReportespagarMedico extends javax.swing.JFrame {
 
         btnReporteEspeci.setBackground(new java.awt.Color(7, 70, 215));
         btnReporteEspeci.setForeground(new java.awt.Color(241, 241, 241));
-        btnReporteEspeci.setText("Reportes de Especialidades");
+        btnReporteEspeci.setText("Reportes");
         btnReporteEspeci.setBorder(null);
-        btnServicios.setHorizontalAlignment(SwingConstants.LEFT);
-        btnServicios.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
-        btnServicios.setIconTextGap(10);
+        btnReporteEspeci.setHorizontalAlignment(SwingConstants.LEFT);
+        btnReporteEspeci.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+        btnReporteEspeci.setIconTextGap(10);
         btnReporteEspeci.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnReporteEspeciMouseExited(evt);
@@ -475,7 +477,7 @@ public class ReportespagarMedico extends javax.swing.JFrame {
                 btnCalcularPagoTotalActionPerformed(evt);
             }
         });
-        jPanel2.add(btnCalcularPagoTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 134, 130, 20));
+        jPanel2.add(btnCalcularPagoTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 134, 140, 20));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 1350, 710));
 
@@ -562,7 +564,6 @@ private void cargaTablaReporte() {
                 int cantidadServicios = rs.getInt("cantidad_servicios");
                 String descripcion = (cantidadServicios == 1) ? "Único servicio" : "Varios servicios";
 
-
                 String totalFormateado = "Bs. " + String.format("%.2f", rs.getDouble("servicio_total"));
 
                 modelo.addRow(new Object[]{
@@ -593,11 +594,15 @@ private void cargaTablaReporte() {
 
         TablaReportes.setModel(modelo);
 
+        sorter = new TableRowSorter<>(modelo);
+        TablaReportes.setRowSorter(sorter);
+
     } catch (SQLException ex) {
         JOptionPane.showMessageDialog(null, "Error al cargar afiches: " + ex.getMessage());
         ex.printStackTrace();
     }
 }
+
 
 
     private String quitarTildes(String texto) {
@@ -609,23 +614,20 @@ private void cargaTablaReporte() {
     }
 
     private void filtrarLista() {
+        if (sorter == null) return;
         String texto = quitarTildes(BuscadorDoctores.getText().toLowerCase().trim());
 
-        TableRowSorter<TableModel> sorter = new TableRowSorter<>(TablaReportes.getModel());
-        TablaReportes.setRowSorter(sorter);
-
-        if (texto.length() == 0 || texto.equals(quitarTildes("Buscar Doctor").toLowerCase())) {
-            sorter.setRowFilter(null);  
+        if (texto.isEmpty() || texto.equals(quitarTildes("Buscar Doctor").toLowerCase())) {
+            sorter.setRowFilter(null);
             return;
         }
 
         sorter.setRowFilter(new RowFilter<TableModel, Integer>() {
             @Override
             public boolean include(Entry<? extends TableModel, ? extends Integer> entry) {
-                String doctor = entry.getStringValue(1); 
-                if (doctor == null) {
-                    return false;
-                }
+                String doctor = entry.getStringValue(1);
+                if (doctor == null) return false;
+
                 doctor = quitarTildes(doctor.toLowerCase());
                 return doctor.contains(texto);
             }
@@ -635,7 +637,9 @@ private void cargaTablaReporte() {
 
 
 
+
     private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
+
         if (NombreDoctor.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Error: Debe seleccionar un doctor antes de realizar el filtro", "Doctor no seleccionado", JOptionPane.ERROR_MESSAGE);
             return;
@@ -700,6 +704,8 @@ private void cargaTablaReporte() {
         });
 
         sorter.setRowFilter(RowFilter.andFilter(filtros));
+        filtroAplicado = true;
+        btnCalcularPagoTotal.setEnabled(true);
     }//GEN-LAST:event_BuscarActionPerformed
     
     private void TotalDetalladoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TotalDetalladoActionPerformed
@@ -761,10 +767,41 @@ private void cargaTablaReporte() {
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
     private void BuscadorDoctoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscadorDoctoresActionPerformed
-        // TODO add your handling code here:
+                String query = normalize(BuscadorDoctores.getText().trim());
+        if (!query.isEmpty()) {
+            sorter.setRowFilter(new RowFilter<TableModel, Integer>() {
+                @Override
+                public boolean include(RowFilter.Entry<? extends TableModel, ? extends Integer> entry) {
+                    String id = normalize(String.valueOf(entry.getValue(0)));
+                    String paciente = normalize(entry.getStringValue(1).trim());
+                   
+                    return id.equals(query) || paciente.equalsIgnoreCase(query);
+                }
+            });
+        } else {
+            sorter.setRowFilter(null);
+        }
     }//GEN-LAST:event_BuscadorDoctoresActionPerformed
-
+    private String normalize(String text) {
+        if (text == null) {
+            return "";
+        }
+        String normalized = Normalizer.normalize(text, Normalizer.Form.NFD);
+        normalized = normalized.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+        return normalized.toLowerCase();
+    }
     private void btnCalcularPagoTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularPagoTotalActionPerformed
+        if (NombreDoctor.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Debe ingresar el nombre del doctor antes de calcular el pago.",
+                    "Campo obligatorio",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            NombreDoctor.requestFocus();
+            return;
+        }
+        
         String seleccion = TotalDetallado.getSelectedItem().toString();
         TableModel modelo = TablaReportes.getModel();
         double sumaTotal = 0;
@@ -886,7 +923,7 @@ private void cargaTablaReporte() {
     }//GEN-LAST:event_btnReporteEspeciMouseExited
 
     private void btnReporteEspeciActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteEspeciActionPerformed
-        ReportesCampoProfesional reportprof = new ReportesCampoProfesional();
+        ReportesGeneral reportprof = new ReportesGeneral();
         reportprof.setLocationRelativeTo(null);
         reportprof.setVisible(true);
         this.dispose();

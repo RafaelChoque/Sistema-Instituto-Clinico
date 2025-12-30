@@ -7,7 +7,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import java.util.Date;
 import ConexionLogin.Conexion;
 import ConexionLogin.Login;
-import ReportesPagos.ReportesCampoProfesional;
+import ReportesPagos.ReportesGeneral;
 import ReportesPagos.ReportespagarMedico;
 import Servicios.ServiciosPrecios;
 import com.formdev.flatlaf.FlatLightLaf;
@@ -191,9 +191,9 @@ public class AdministradorDoctores extends javax.swing.JFrame {
         btnReportePagos.setForeground(new java.awt.Color(241, 241, 241));
         btnReportePagos.setText("Reportes de Pagos");
         btnReportePagos.setBorder(null);
-        btnServicios.setHorizontalAlignment(SwingConstants.LEFT);
-        btnServicios.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
-        btnServicios.setIconTextGap(10);
+        btnReportePagos.setHorizontalAlignment(SwingConstants.LEFT);
+        btnReportePagos.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+        btnReportePagos.setIconTextGap(10);
         btnReportePagos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnReportePagosMouseExited(evt);
@@ -227,11 +227,11 @@ public class AdministradorDoctores extends javax.swing.JFrame {
 
         btnReporteEspeci.setBackground(new java.awt.Color(7, 70, 215));
         btnReporteEspeci.setForeground(new java.awt.Color(241, 241, 241));
-        btnReporteEspeci.setText("Reportes de Especialidades");
+        btnReporteEspeci.setText("Reportes");
         btnReporteEspeci.setBorder(null);
-        btnServicios.setHorizontalAlignment(SwingConstants.LEFT);
-        btnServicios.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
-        btnServicios.setIconTextGap(10);
+        btnReporteEspeci.setHorizontalAlignment(SwingConstants.LEFT);
+        btnReporteEspeci.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+        btnReporteEspeci.setIconTextGap(10);
         btnReporteEspeci.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnReporteEspeciMouseExited(evt);
@@ -1114,7 +1114,7 @@ private void cargarDatosCategoriaOtros() {
     }//GEN-LAST:event_btnReporteEspeciMouseExited
 
     private void btnReporteEspeciActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteEspeciActionPerformed
-        ReportesCampoProfesional reportprof = new ReportesCampoProfesional();
+        ReportesGeneral reportprof = new ReportesGeneral();
         reportprof.setLocationRelativeTo(null);
         reportprof.setVisible(true);
         this.dispose();

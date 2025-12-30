@@ -8,7 +8,7 @@ import Administrador.AdministradorCajeros;
 import Administrador.AdministradorDoctores;
 import ConexionLogin.Conexion;
 import ConexionLogin.Login;
-import ReportesPagos.ReportesCampoProfesional;
+import ReportesPagos.ReportesGeneral;
 import ReportesPagos.ReportespagarMedico;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
@@ -119,8 +119,10 @@ public class ServiciosPrecios extends javax.swing.JFrame {
         btnLimpiar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
-        CostoServicio = new javax.swing.JTextField();
+        CostoServicioEmergencia = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
+        CostoServicio = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
         ID = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
 
@@ -174,9 +176,9 @@ public class ServiciosPrecios extends javax.swing.JFrame {
         btnReportePagos.setForeground(new java.awt.Color(241, 241, 241));
         btnReportePagos.setText("Reportes de Pagos");
         btnReportePagos.setBorder(null);
-        btnServicios.setHorizontalAlignment(SwingConstants.LEFT);
-        btnServicios.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
-        btnServicios.setIconTextGap(10);
+        btnReportePagos.setHorizontalAlignment(SwingConstants.LEFT);
+        btnReportePagos.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+        btnReportePagos.setIconTextGap(10);
         btnReportePagos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnReportePagosMouseExited(evt);
@@ -232,11 +234,11 @@ public class ServiciosPrecios extends javax.swing.JFrame {
 
         btnReporteEspeci.setBackground(new java.awt.Color(7, 70, 215));
         btnReporteEspeci.setForeground(new java.awt.Color(241, 241, 241));
-        btnReporteEspeci.setText("Reportes de Especialidades");
+        btnReporteEspeci.setText("Reportes");
         btnReporteEspeci.setBorder(null);
-        btnServicios.setHorizontalAlignment(SwingConstants.LEFT);
-        btnServicios.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
-        btnServicios.setIconTextGap(10);
+        btnReporteEspeci.setHorizontalAlignment(SwingConstants.LEFT);
+        btnReporteEspeci.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
+        btnReporteEspeci.setIconTextGap(10);
         btnReporteEspeci.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnReporteEspeciMouseExited(evt);
@@ -429,7 +431,7 @@ public class ServiciosPrecios extends javax.swing.JFrame {
                 btnGuardarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 110, 30));
+        jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 110, 30));
 
         btnModificar1.setBackground(new java.awt.Color(7, 70, 215));
         btnModificar1.setForeground(new java.awt.Color(255, 255, 255));
@@ -440,7 +442,7 @@ public class ServiciosPrecios extends javax.swing.JFrame {
                 btnModificar1ActionPerformed(evt);
             }
         });
-        jPanel1.add(btnModificar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 110, 30));
+        jPanel1.add(btnModificar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, 110, 30));
 
         btnLimpiar.setText("Limpiar");
         btnLimpiar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -449,7 +451,7 @@ public class ServiciosPrecios extends javax.swing.JFrame {
                 btnLimpiarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 80, 110, 30));
+        jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 110, 110, 30));
 
         btnEliminar.setBackground(new java.awt.Color(255, 0, 0));
         btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
@@ -460,10 +462,21 @@ public class ServiciosPrecios extends javax.swing.JFrame {
                 btnEliminarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 80, 110, 30));
+        jPanel1.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 110, 110, 30));
 
-        jLabel11.setText("Costo:");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+        jLabel11.setText("Costo de Emergencia:");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, -1, 20));
+
+        CostoServicioEmergencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CostoServicioEmergenciaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(CostoServicioEmergencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, 350, -1));
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel10.setText("Tarifa de Servicio");
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 160, -1));
 
         CostoServicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -472,11 +485,10 @@ public class ServiciosPrecios extends javax.swing.JFrame {
         });
         jPanel1.add(CostoServicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 40, 350, -1));
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel10.setText("Tarifa de Servicio");
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 160, -1));
+        jLabel12.setText("Costo Normal:");
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, 20));
 
-        jPanel6.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 520, 120));
+        jPanel6.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 520, 150));
 
         ID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -485,7 +497,7 @@ public class ServiciosPrecios extends javax.swing.JFrame {
         });
         jPanel6.add(ID, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 10, 10, 10));
 
-        jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 40, 520, 350));
+        jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 40, 520, -1));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 1350, 710));
 
@@ -548,7 +560,7 @@ private void cargarTabla() {
 
             Connection con = Conexion.obtenerConexion();
             PreparedStatement ps = con.prepareStatement(
-                    "SELECT nombre_servicio, descripcion, precio_normal FROM servicios WHERE id_servicio = ?"
+                    "SELECT nombre_servicio, descripcion, precio_normal, precio_emergencia FROM servicios WHERE id_servicio = ?"
             );
             ps.setInt(1, idServicio);
             ResultSet rs = ps.executeQuery();
@@ -558,6 +570,7 @@ private void cargarTabla() {
                 NombreServicio.setText(rs.getString("nombre_servicio"));
                 Descripcion.setText(rs.getString("descripcion"));
                 CostoServicio.setText(String.valueOf(rs.getDouble("precio_normal")));
+                CostoServicioEmergencia.setText(String.valueOf(rs.getDouble("precio_emergencia")));
             }
 
         } catch (SQLException ex) {
@@ -571,69 +584,59 @@ private void cargarTabla() {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        String nombreTxt = NombreServicio.getText().trim();
-        String descripcionTxt = Descripcion.getText().trim();
-        String precioNormalTxt = CostoServicio.getText().trim().replace(',', '.');
+    String nombreTxt = NombreServicio.getText().trim();
+    String descripcionTxt = Descripcion.getText().trim();
+    String precioNormalTxt = CostoServicio.getText().trim().replace(',', '.');
+    String precioEmergenciaTxt = CostoServicioEmergencia.getText().trim().replace(',', '.');
 
-        if (nombreTxt.isEmpty() || precioNormalTxt.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, rellene todos los campos obligatorios.");
-            return;
-        }
+    // Validaciones básicas
+    if (nombreTxt.isEmpty() || precioNormalTxt.isEmpty() || precioEmergenciaTxt.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Complete todos los campos obligatorios.");
+        return;
+    }
 
-        if (!precioNormalTxt.matches("\\d+(\\.\\d{1,2})?")) {
-            JOptionPane.showMessageDialog(null, "El precio debe ser un número válido (ej: 100 o 100.50).");
-            return;
-        }
 
-        double precioNormal;
-        try {
-            precioNormal = Double.parseDouble(precioNormalTxt);
-        } catch (NumberFormatException e) {
+    if (!precioNormalTxt.matches("\\d+(\\.\\d{1,2})?")
+            || !precioEmergenciaTxt.matches("\\d+(\\.\\d{1,2})?")) {
+        JOptionPane.showMessageDialog(null, "Los precios deben ser números válidos (ej: 100 o 100.50).");
+        return;
+    }
+
+    double precioNormal;
+    double precioEmergencia;
+    try {
+        precioNormal = Double.parseDouble(precioNormalTxt);
+        precioEmergencia = Double.parseDouble(precioEmergenciaTxt);
+    } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "El precio debe ser un número válido.");
-            return;
+        return;
+    }
+
+    try {
+        Connection con = Conexion.obtenerConexion();
+
+        PreparedStatement ps = con.prepareStatement(
+            "INSERT INTO servicios (nombre_servicio, descripcion, precio_normal, precio_emergencia, estado) VALUES (?, ?, ?, ?, 1)"
+        );
+        ps.setString(1, nombreTxt);
+        if (descripcionTxt.isEmpty()) {
+            ps.setNull(2, java.sql.Types.VARCHAR);
+        } else {
+            ps.setString(2, descripcionTxt);
         }
+        ps.setDouble(3, precioNormal);
+        ps.setDouble(4, precioEmergencia);
 
-        double precioEmergencia = precioNormal * 1.3;
+        ps.executeUpdate();
 
-        try {
-            Connection con = Conexion.obtenerConexion();
+        JOptionPane.showMessageDialog(null, "Servicio guardado correctamente.");
 
-            String nombreNormalizado = normalizar(nombreTxt);
-
-            PreparedStatement checkStmt = con.prepareStatement(
-                    "SELECT COUNT(*) FROM servicios WHERE estado = 1 AND LOWER(CONVERT(nombre_servicio USING utf8)) = ?"
-            );
-            checkStmt.setString(1, nombreNormalizado);
-            ResultSet rs = checkStmt.executeQuery();
-            rs.next();
-            int count = rs.getInt(1);
-            if (count > 0) {
-                JOptionPane.showMessageDialog(null, "Ya existe un servicio activo con ese nombre.");
-                return;
-            }
-
-            PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO servicios (nombre_servicio, descripcion, precio_normal, precio_emergencia, estado) VALUES (?, ?, ?, ?, 1)"
-            );
-            ps.setString(1, nombreTxt);
-            if (descripcionTxt.isEmpty()) {
-                ps.setNull(2, java.sql.Types.VARCHAR);
-            } else {
-                ps.setString(2, descripcionTxt);
-            }
-            ps.setDouble(3, precioNormal);
-            ps.setDouble(4, precioEmergencia);
-
-            ps.executeUpdate();
-
-            JOptionPane.showMessageDialog(null, "Servicio guardado correctamente.");
-
-            limpiar();
-            cargarTabla();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error en la base de datos: " + ex.getMessage());
-            ex.printStackTrace();
-        }
+        limpiar();
+        cargarTabla();
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "Error en la base de datos: " + ex.getMessage());
+        ex.printStackTrace();
+    }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnModificar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificar1ActionPerformed
@@ -648,27 +651,28 @@ private void cargarTabla() {
         String nombreTxt = NombreServicio.getText().trim();
         String descripcionTxt = Descripcion.getText().trim();
         String precioNormalTxt = CostoServicio.getText().trim().replace(',', '.');
+        String precioEmergenciaTxt = CostoServicioEmergencia.getText().trim().replace(',', '.');
 
-        if (nombreTxt.isEmpty() || precioNormalTxt.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, rellene todos los campos obligatorios.");
+        if (nombreTxt.isEmpty() || precioNormalTxt.isEmpty() || precioEmergenciaTxt.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Complete todos los campos obligatorios.");
             return;
         }
 
-        // Validar que el precio sea un número válido
-        if (!precioNormalTxt.matches("\\d+(\\.\\d{1,2})?")) {
-            JOptionPane.showMessageDialog(null, "El precio debe ser un número válido (ej: 100 o 100.50).");
+        if (!precioNormalTxt.matches("\\d+(\\.\\d{1,2})?")
+                || !precioEmergenciaTxt.matches("\\d+(\\.\\d{1,2})?")) {
+            JOptionPane.showMessageDialog(null, "Los precios deben ser números válidos.");
             return;
         }
 
         double precioNormal;
+        double precioEmergencia;
         try {
             precioNormal = Double.parseDouble(precioNormalTxt);
+            precioEmergencia = Double.parseDouble(precioEmergenciaTxt);
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "El precio debe ser un número válido.");
+            JOptionPane.showMessageDialog(null, "Error al convertir los precios.");
             return;
         }
-
-        double precioEmergencia = precioNormal * 1.3;
 
         try {
             Connection con = Conexion.obtenerConexion();
@@ -733,15 +737,16 @@ private void cargarTabla() {
     private void limpiar(){
         NombreServicio.setText("");
         Descripcion.setText("");
+        CostoServicioEmergencia.setText("");
         CostoServicio.setText("");
     }
     private void txtID1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtID1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtID1ActionPerformed
 
-    private void CostoServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CostoServicioActionPerformed
+    private void CostoServicioEmergenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CostoServicioEmergenciaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_CostoServicioActionPerformed
+    }//GEN-LAST:event_CostoServicioEmergenciaActionPerformed
 
     private void btnAdminCajerosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdminCajerosMouseExited
         // TODO add your handling code here:
@@ -807,11 +812,15 @@ private void cargarTabla() {
     }//GEN-LAST:event_btnReporteEspeciMouseExited
 
     private void btnReporteEspeciActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteEspeciActionPerformed
-        ReportesCampoProfesional reportprof = new ReportesCampoProfesional();
+        ReportesGeneral reportprof = new ReportesGeneral();
         reportprof.setLocationRelativeTo(null);
         reportprof.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnReporteEspeciActionPerformed
+
+    private void CostoServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CostoServicioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CostoServicioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -839,6 +848,7 @@ private void cargarTabla() {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField CostoServicio;
+    private javax.swing.JTextField CostoServicioEmergencia;
     private javax.swing.JLabel Desc;
     private javax.swing.JTextArea Descripcion;
     private javax.swing.JTextField ID;
@@ -858,6 +868,7 @@ private void cargarTabla() {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

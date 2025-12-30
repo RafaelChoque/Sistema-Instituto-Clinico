@@ -3,6 +3,7 @@ package ConexionLogin;
 import java.sql.*;
 import java.util.Properties;
 import java.io.InputStream;
+import javax.swing.JOptionPane;
 
 public class Conexion {
 
@@ -17,17 +18,25 @@ public class Conexion {
             }
             props.load(is);
 
-
             String url = props.getProperty("db.url");
             String user = props.getProperty("db.user");
             String password = props.getProperty("db.password");
 
-
             con = DriverManager.getConnection(url, user, password);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(
+                    null,
+                    "No se pudo conectar a la base de datos.\n\n"
+                    + "Verifique que:\n"
+                    + "- MySQL esté iniciado\n"
+                    + "Detalle técnico:\n" + e.getMessage(),
+                    "Error de conexión",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return null;
         }
+
         return con;
     }
 }

@@ -36,6 +36,7 @@ public class SeleccionarDoc extends javax.swing.JFrame {
      */
     private JTextField campoDestino;
     private int filaSeleccionada = -1;
+
     public SeleccionarDoc(JTextField campoDestino) {
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -43,7 +44,18 @@ public class SeleccionarDoc extends javax.swing.JFrame {
         this.campoDestino = campoDestino;
         cargarTabla();
 
-        
+        this.addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            @Override
+            public void windowGainedFocus(java.awt.event.WindowEvent e) {
+                // No hacemos nada cuando la ventana gana foco
+            }
+
+            @Override
+            public void windowLostFocus(java.awt.event.WindowEvent e) {
+                // Se cierra la ventana solo si pierde foco
+                dispose();
+            }
+        });  
     }
 
     private SeleccionarDoc() {
@@ -207,7 +219,9 @@ public class SeleccionarDoc extends javax.swing.JFrame {
                     return;
                 }
 
-                TableRowSorter<TableModel> sorter = (TableRowSorter<TableModel>) TablaMedicos.getRowSorter();
+                TableRowSorter<TableModel> sorter =
+                (TableRowSorter<TableModel>) TablaMedicos.getRowSorter();
+
                 if (sorter == null) {
                     sorter = new TableRowSorter<>(TablaMedicos.getModel());
                     TablaMedicos.setRowSorter(sorter);
@@ -222,7 +236,21 @@ public class SeleccionarDoc extends javax.swing.JFrame {
 
                             String nombre = quitarTildes(entry.getStringValue(1).toLowerCase());
                             String apellido = quitarTildes(entry.getStringValue(2).toLowerCase());
-                            return nombre.contains(query) || apellido.contains(query);
+
+                            Object ciObj = entry.getValue(3);
+                            String ci = ciObj == null ? "" : ciObj.toString();
+
+                            String categoria = quitarTildes(entry.getStringValue(4).toLowerCase());
+                            String especialidad = quitarTildes(entry.getStringValue(5).toLowerCase());
+
+                            String combinado = nombre + " " + apellido;
+
+                            return nombre.contains(query)
+                            || apellido.contains(query)
+                            || ci.contains(query)
+                            || categoria.contains(query)
+                            || especialidad.contains(query)
+                            || combinado.contains(query);
                         }
                     });
                 }

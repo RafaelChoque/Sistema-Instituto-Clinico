@@ -80,6 +80,84 @@
             </Constraint>
           </Constraints>
         </Component>
+        <Component class="javax.swing.JButton" name="btnFichas">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="d7" green="46" red="7" type="rgb"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="f1" green="f1" red="f1" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Fichas"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnFichasMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFichasActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="btnFichas.setHorizontalAlignment(SwingConstants.LEFT);&#xa;btnFichas.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0)); &#xa;btnFichas.setIconTextGap(10);"/>
+          </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="0" y="0" width="190" height="40"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnServicio">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="d7" green="46" red="7" type="rgb"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="f1" green="f1" red="f1" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Precios de Servicios"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnServicioMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnServicioActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="btnPacientes.setHorizontalAlignment(SwingConstants.LEFT);&#xa;btnPacientes.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0)); &#xa;btnPacientes.setIconTextGap(10);"/>
+          </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="380" y="0" width="190" height="40"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnPacientes">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="d7" green="46" red="7" type="rgb"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="f1" green="f1" red="f1" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Pacientes"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnPacientesMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPacientesActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="btnPacientes.setHorizontalAlignment(SwingConstants.LEFT);&#xa;btnPacientes.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0)); &#xa;btnPacientes.setIconTextGap(10);"/>
+          </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="190" y="0" width="190" height="40"/>
+            </Constraint>
+          </Constraints>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="jPanel2">
@@ -150,7 +228,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField1ActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="String placeholder = &quot;Buscar Fichas&quot;;&#xa;jTextField1.setText(placeholder);&#xa;jTextField1.setForeground(Color.GRAY);&#xa;&#xa;jTextField1.addFocusListener(new FocusAdapter() {&#xa;    @Override&#xa;    public void focusGained(FocusEvent e) {&#xa;        if (jTextField1.getText().equals(placeholder)) {&#xa;            jTextField1.setText(&quot;&quot;);&#xa;            jTextField1.setForeground(Color.BLACK);&#xa;        }&#xa;    }&#xa;&#xa;    @Override&#xa;    public void focusLost(FocusEvent e) {&#xa;        if (jTextField1.getText().trim().isEmpty()) {&#xa;            jTextField1.setText(placeholder);&#xa;            jTextField1.setForeground(Color.GRAY);&#xa;        }&#xa;    }&#xa;});&#xa;&#xa;jTextField1.getDocument().addDocumentListener(new DocumentListener() {&#xa;    @Override&#xa;    public void insertUpdate(DocumentEvent e) {&#xa;        filterTable();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void removeUpdate(DocumentEvent e) {&#xa;        filterTable();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void changedUpdate(DocumentEvent e) {&#xa;        filterTable();&#xa;    }&#xa;&#xa;    private void filterTable() {&#xa;        String query = normalize(jTextField1.getText().trim());&#xa;&#xa;        if (query.equals(normalize(placeholder)) || query.isEmpty()) {&#xa;            sorter.setRowFilter(null);&#xa;        } else {&#xa;            sorter.setRowFilter(new RowFilter&lt;TableModel, Integer&gt;() {&#xa;                @Override&#xa;                public boolean include(Entry&lt;? extends TableModel, ? extends Integer&gt; entry) {&#xa;                    String texto = normalize(entry.getStringValue(1).trim());&#xa;                    return texto.contains(query);&#xa;                }&#xa;            });&#xa;        }&#xa;    }&#xa;&#xa;    private String normalize(String text) {&#xa;        if (text == null) return &quot;&quot;;&#xa;        String normalized = Normalizer.normalize(text, Normalizer.Form.NFD);&#xa;        normalized = normalized.replaceAll(&quot;\\p{InCombiningDiacriticalMarks}+&quot;, &quot;&quot;);&#xa;        return normalized.toLowerCase();&#xa;    }&#xa;});"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="String placeholder = &quot;Buscar Fichas&quot;;&#xa;jTextField1.setText(placeholder);&#xa;jTextField1.setForeground(Color.GRAY);&#xa;&#xa;jTextField1.addFocusListener(new FocusAdapter() {&#xa;    @Override&#xa;    public void focusGained(FocusEvent e) {&#xa;        if (jTextField1.getText().equals(placeholder)) {&#xa;            jTextField1.setText(&quot;&quot;);&#xa;            jTextField1.setForeground(Color.BLACK);&#xa;        }&#xa;    }&#xa;&#xa;    @Override&#xa;    public void focusLost(FocusEvent e) {&#xa;        if (jTextField1.getText().trim().isEmpty()) {&#xa;            jTextField1.setText(placeholder);&#xa;            jTextField1.setForeground(Color.GRAY);&#xa;        }&#xa;    }&#xa;});&#xa;&#xa;jTextField1.getDocument().addDocumentListener(new DocumentListener() {&#xa;    @Override&#xa;    public void insertUpdate(DocumentEvent e) {&#xa;        filterTable();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void removeUpdate(DocumentEvent e) {&#xa;        filterTable();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void changedUpdate(DocumentEvent e) {&#xa;        filterTable();&#xa;    }&#xa;&#xa;    private void filterTable() {&#xa;        String query = normalize(jTextField1.getText().trim());&#xa;&#xa;        if (query.equals(normalize(placeholder)) || query.isEmpty()) {&#xa;            sorter.setRowFilter(null);&#xa;        } else {&#xa;            sorter.setRowFilter(new RowFilter&lt;TableModel, Integer&gt;() {&#xa;                @Override&#xa;                public boolean include(Entry&lt;? extends TableModel, ? extends Integer&gt; entry) {&#xa;                    // Columna 0 es Integer (ID)&#xa;                    String id = normalize(String.valueOf(entry.getValue(0)));&#xa;                    String paciente = normalize(entry.getStringValue(1).trim());&#xa;&#xa;                    return id.contains(query) || paciente.contains(query);&#xa;                }&#xa;            });&#xa;        }&#xa;    }&#xa;&#xa;    private String normalize(String text) {&#xa;        if (text == null) return &quot;&quot;;&#xa;        String normalized = Normalizer.normalize(text, Normalizer.Form.NFD);&#xa;        normalized = normalized.replaceAll(&quot;\\p{InCombiningDiacriticalMarks}+&quot;, &quot;&quot;);&#xa;        return normalized.toLowerCase();&#xa;    }&#xa;});"/>
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -206,7 +284,7 @@
                         <Column editable="false" title="Paciente" type="java.lang.String"/>
                         <Column editable="false" title="Fecha de Atenci&#xf3;n" type="java.lang.Integer"/>
                         <Column editable="false" title="Hora de Atenci&#xf3;n" type="java.lang.Integer"/>
-                        <Column editable="false" title="Forma de Pago" type="java.lang.String"/>
+                        <Column editable="false" title="Estado de Ficha" type="java.lang.String"/>
                         <Column editable="false" title="Medio de Pago" type="java.lang.String"/>
                         <Column editable="false" title="Total de Precio" type="java.lang.String"/>
                       </Table>
@@ -386,6 +464,9 @@
               </Constraints>
             </Component>
             <Component class="com.toedter.calendar.JDateChooser" name="FechaAtencion">
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="FechaAtencion.setDate(new Date());"/>
+              </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                   <AbsoluteConstraints x="120" y="130" width="220" height="-1"/>
@@ -867,6 +948,25 @@
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                   <AbsoluteConstraints x="500" y="500" width="-1" height="10"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Component class="javax.swing.JButton" name="SeleccionarDoc1">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="d7" green="46" red="7" type="rgb"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Seleccionar Doctor"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SeleccionarDoc1ActionPerformed"/>
+              </Events>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                  <AbsoluteConstraints x="360" y="100" width="190" height="-1"/>
                 </Constraint>
               </Constraints>
             </Component>

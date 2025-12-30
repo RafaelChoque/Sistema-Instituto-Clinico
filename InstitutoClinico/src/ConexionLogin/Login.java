@@ -33,6 +33,7 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        UsuarioDAO.crearAdminSiNoExiste();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         contrasena.setEchoChar('•');
         btnMostrarContraseña.setIcon(ojoOcultar);
@@ -142,7 +143,7 @@ public class Login extends javax.swing.JFrame {
         });
         jPanel2.add(usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 90, 340, 30));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 260, 420, 290));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 260, 420, 290));
 
         CerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -152,7 +153,7 @@ public class Login extends javax.swing.JFrame {
         getContentPane().add(CerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 0, 50, 50));
         CerrarSesion.getAccessibleContext().setAccessibleDescription("");
 
-        lblTitulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoPulsoFinall.png"))); // NOI18N
+        lblTitulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoLogoVitruvio.png"))); // NOI18N
         getContentPane().add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1366, 768));
 
         pack();
@@ -222,6 +223,7 @@ public class Login extends javax.swing.JFrame {
             lblErrorUsuario.setText("Por favor introduzca un usuario.");
             camposValidos = false;
         }
+
         if (pass.isEmpty() || pass.equals("Ingrese su contraseña")) {
             ImageIcon iconoAdvertencia = new ImageIcon(getClass().getResource("/imagenes/Exclamacion3.png"));
             lblErrorContrasena.setIcon(iconoAdvertencia);
@@ -235,102 +237,121 @@ public class Login extends javax.swing.JFrame {
 
         String query = "SELECT * FROM usuarios WHERE username = ?";
 
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
         try {
-            Connection con = Conexion.obtenerConexion();
 
-            if (con != null) {
-                PreparedStatement ps = con.prepareStatement(query);
-                ps.setString(1, user);
-                ResultSet rs = ps.executeQuery();
+            con = Conexion.obtenerConexion();
 
-                if (rs.next()) {
-                    String p = rs.getString("contrasena"); // contraseña de BD
-                    String priv = rs.getString("rol");     // rol del usuario
-                    boolean activo = rs.getBoolean("activo");
-                    int idusuario = rs.getInt("id_usuario");
 
-                    if (!activo) {
-                        JOptionPane.showMessageDialog(null, "Su usuario está inactivo. Contacte al administrador.");
-                        return;
-                    }
+            if (con == null) {
+                return;
+            }
 
-                    boolean loginCorrecto = false;
+            ps = con.prepareStatement(query);
+            ps.setString(1, user);
+            rs = ps.executeQuery();
 
-                    if (priv.equals("Administrador")) {
-                        // Validar contraseña con BCrypt solo para Admin
-                        if (BCrypt.checkpw(pass, p)) {
-                            loginCorrecto = true;
-                        } else {
-                            JOptionPane.showMessageDialog(null, "La contraseña no es correcta.");
-                            return;
-                        }
-                    } else {
-                        // Resto de roles (Cajero, Medico, etc.) en texto plano
-                        if (pass.equals(p)) {
-                            loginCorrecto = true;
-                        } else {
-                            JOptionPane.showMessageDialog(null, "La contraseña no es correcta.");
-                            return;
-                        }
-                    }
+            if (!rs.next()) {
+                JOptionPane.showMessageDialog(null, "El usuario no existe.");
+                return;
+            }
 
-                    if (loginCorrecto) {
-                        Session.setUsuario(idusuario, user, priv);
+            String p = rs.getString("contrasena");
+            String priv = rs.getString("rol");
+            boolean activo = rs.getBoolean("activo");
+            int idusuario = rs.getInt("id_usuario");
 
-                        String nombre = "";
-                        String apellido = "";
-                        String sqlDatos = "";
+            if (!activo) {
+                JOptionPane.showMessageDialog(null,
+                        "Su usuario está inactivo.\nContacte al administrador.");
+                return;
+            }
 
-                        if (priv.equals("Cajero")) {
-                            sqlDatos = "SELECT nombre, apellido FROM cajeros WHERE id_usuario = ?";
-                        } else if (priv.equals("Medico General") || priv.equals("Medico Especialista") || priv.equals("Medico")) {
-                            sqlDatos = "SELECT nombre, apellido FROM medicos WHERE id_usuario = ?";
-                        } else if (priv.equals("Administrador")) {
-                            nombre = "Administrador";
-                            apellido = "";
-                        }
+            boolean loginCorrecto = false;
 
-                        if (!sqlDatos.isEmpty()) {
-                            try {
-                                PreparedStatement ps2 = con.prepareStatement(sqlDatos);
-                                ps2.setInt(1, idusuario);
-                                ResultSet rs2 = ps2.executeQuery();
-                                if (rs2.next()) {
-                                    nombre = rs2.getString("nombre");
-                                    apellido = rs2.getString("apellido");
-                                }
-                                rs2.close();
-                                ps2.close();
-                            } catch (SQLException ex) {
-                                ex.printStackTrace();
-                            }
-                        }
-
-                        Session.setNombreCompleto(nombre + " " + apellido);
-
-                        // Abrir ventana según rol
-                        if (priv.equals("Administrador")) {
-                            new AdministradorDoctores().setVisible(true);
-                        } else if (priv.equals("Cajero")) {
-                            new GenerarFicha(idusuario).setVisible(true);
-                        }
-
-                        this.dispose();
-                    }
-
-                    rs.close();
-                    ps.close();
-                    con.close();
-
+            if ("Administrador".equals(priv)) {
+                if (BCrypt.checkpw(pass, p)) {
+                    loginCorrecto = true;
                 } else {
-                    JOptionPane.showMessageDialog(null, "El usuario no existe.");
+                    JOptionPane.showMessageDialog(null, "La contraseña no es correcta.");
+                    return;
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "No se pudo conectar a la base de datos.\nVerifica que MySQL esté iniciado.");
+                if (pass.equals(p)) {
+                    loginCorrecto = true;
+                } else {
+                    JOptionPane.showMessageDialog(null, "La contraseña no es correcta.");
+                    return;
+                }
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error al conectar con la base de datos:\n" + ex.getMessage());
+
+
+            Session.setUsuario(idusuario, user, priv);
+
+            String nombre = "";
+            String apellido = "";
+            String sqlDatos = "";
+
+            if ("Cajero".equals(priv)) {
+                sqlDatos = "SELECT nombre, apellido FROM cajeros WHERE id_usuario = ?";
+            } else if ("Medico General".equals(priv)
+                    || "Medico Especialista".equals(priv)
+                    || "Medico".equals(priv)) {
+                sqlDatos = "SELECT nombre, apellido FROM medicos WHERE id_usuario = ?";
+            } else if ("Administrador".equals(priv)) {
+                nombre = "Administrador";
+            }
+
+            if (!sqlDatos.isEmpty()) {
+                try (PreparedStatement ps2 = con.prepareStatement(sqlDatos)) {
+                    ps2.setInt(1, idusuario);
+                    try (ResultSet rs2 = ps2.executeQuery()) {
+                        if (rs2.next()) {
+                            nombre = rs2.getString("nombre");
+                            apellido = rs2.getString("apellido");
+                        }
+                    }
+                }
+            }
+
+            Session.setNombreCompleto(nombre + " " + apellido);
+
+            if ("Administrador".equals(priv)) {
+                new AdministradorDoctores().setVisible(true);
+            } else if ("Cajero".equals(priv)) {
+                new GenerarFicha(idusuario).setVisible(true);
+            }
+
+            this.dispose();
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,
+                    "Error inesperado durante el inicio de sesión:\n" + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception e) {
+            }
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (Exception e) {
+            }
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (Exception e) {
+            }
         }
     }//GEN-LAST:event_IniciaSesionActionPerformed
 
