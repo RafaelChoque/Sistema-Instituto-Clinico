@@ -364,14 +364,12 @@ public class ServiciosPrecios extends javax.swing.JFrame {
                 sorter.setRowFilter(new RowFilter<TableModel, Integer>() {
                     @Override
                     public boolean include(Entry<? extends TableModel, ? extends Integer> entry) {
-                        // Filtra por la columna 1
                         String textoColumna = normalize(entry.getStringValue(1).trim());
                         return textoColumna.contains(query);
                     }
                 });
             }
 
-            // Elimina tildes y pasa a minúsculas
             private String normalize(String text) {
                 if (text == null) return "";
                 String normalized = Normalizer.normalize(text, Normalizer.Form.NFD);
@@ -584,100 +582,36 @@ private void cargarTabla() {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-    String nombreTxt = NombreServicio.getText().trim();
-    String descripcionTxt = Descripcion.getText().trim();
-    String precioNormalTxt = CostoServicio.getText().trim().replace(',', '.');
-    String precioEmergenciaTxt = CostoServicioEmergencia.getText().trim().replace(',', '.');
-
-    // Validaciones básicas
-    if (nombreTxt.isEmpty() || precioNormalTxt.isEmpty() || precioEmergenciaTxt.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "Complete todos los campos obligatorios.");
-        return;
-    }
-
-
-    if (!precioNormalTxt.matches("\\d+(\\.\\d{1,2})?")
-            || !precioEmergenciaTxt.matches("\\d+(\\.\\d{1,2})?")) {
-        JOptionPane.showMessageDialog(null, "Los precios deben ser números válidos (ej: 100 o 100.50).");
-        return;
-    }
-
-    double precioNormal;
-    double precioEmergencia;
-    try {
-        precioNormal = Double.parseDouble(precioNormalTxt);
-        precioEmergencia = Double.parseDouble(precioEmergenciaTxt);
-    } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "El precio debe ser un número válido.");
-        return;
-    }
-
-    try {
-        Connection con = Conexion.obtenerConexion();
-
-        PreparedStatement ps = con.prepareStatement(
-            "INSERT INTO servicios (nombre_servicio, descripcion, precio_normal, precio_emergencia, estado) VALUES (?, ?, ?, ?, 1)"
-        );
-        ps.setString(1, nombreTxt);
-        if (descripcionTxt.isEmpty()) {
-            ps.setNull(2, java.sql.Types.VARCHAR);
-        } else {
-            ps.setString(2, descripcionTxt);
-        }
-        ps.setDouble(3, precioNormal);
-        ps.setDouble(4, precioEmergencia);
-
-        ps.executeUpdate();
-
-        JOptionPane.showMessageDialog(null, "Servicio guardado correctamente.");
-
-        limpiar();
-        cargarTabla();
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(null, "Error en la base de datos: " + ex.getMessage());
-        ex.printStackTrace();
-    }
-    }//GEN-LAST:event_btnGuardarActionPerformed
-
-    private void btnModificar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificar1ActionPerformed
-        int filaSeleccionada = tblServicios.getSelectedRow();
-
-        if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(null, "Seleccione un servicio para modificar.");
-            return;
-        }
-
-        int idServicio = (int) tblServicios.getValueAt(filaSeleccionada, 0);
         String nombreTxt = NombreServicio.getText().trim();
         String descripcionTxt = Descripcion.getText().trim();
         String precioNormalTxt = CostoServicio.getText().trim().replace(',', '.');
         String precioEmergenciaTxt = CostoServicioEmergencia.getText().trim().replace(',', '.');
 
-        if (nombreTxt.isEmpty() || precioNormalTxt.isEmpty() || precioEmergenciaTxt.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Complete todos los campos obligatorios.");
+        if (nombreTxt.isEmpty() || precioNormalTxt.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El nombre y el precio normal son obligatorios.");
             return;
         }
 
-        if (!precioNormalTxt.matches("\\d+(\\.\\d{1,2})?")
-                || !precioEmergenciaTxt.matches("\\d+(\\.\\d{1,2})?")) {
-            JOptionPane.showMessageDialog(null, "Los precios deben ser números válidos.");
+        if (!precioNormalTxt.matches("\\d+(\\.\\d{1,2})?")) {
+            JOptionPane.showMessageDialog(null, "El precio normal no es válido (ej: 100 o 100.50).");
             return;
         }
 
-        double precioNormal;
-        double precioEmergencia;
-        try {
-            precioNormal = Double.parseDouble(precioNormalTxt);
+        if (!precioEmergenciaTxt.isEmpty()
+                && !precioEmergenciaTxt.matches("\\d+(\\.\\d{1,2})?")) {
+            JOptionPane.showMessageDialog(null, "El precio de emergencia no es válido.");
+            return;
+        }
+        double precioNormal = Double.parseDouble(precioNormalTxt);
+        Double precioEmergencia = null;
+        if (!precioEmergenciaTxt.isEmpty()) {
             precioEmergencia = Double.parseDouble(precioEmergenciaTxt);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Error al convertir los precios.");
-            return;
         }
 
         try {
             Connection con = Conexion.obtenerConexion();
             PreparedStatement ps = con.prepareStatement(
-                    "UPDATE servicios SET nombre_servicio = ?, descripcion = ?, precio_normal = ?, precio_emergencia = ? WHERE id_servicio = ?"
+                    "INSERT INTO servicios (nombre_servicio, descripcion, precio_normal, precio_emergencia, estado) VALUES (?, ?, ?, ?, 1)"
             );
             ps.setString(1, nombreTxt);
             if (descripcionTxt.isEmpty()) {
@@ -686,18 +620,91 @@ private void cargarTabla() {
                 ps.setString(2, descripcionTxt);
             }
             ps.setDouble(3, precioNormal);
-            ps.setDouble(4, precioEmergencia);
-            ps.setInt(5, idServicio);
+            
+            if (precioEmergencia == null) {
+                ps.setNull(4, java.sql.Types.DOUBLE);
+            } else {
+                ps.setDouble(4, precioEmergencia);
+            }
 
             ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Servicio modificado correctamente.");
+
+            JOptionPane.showMessageDialog(null, "Servicio guardado correctamente.");
 
             limpiar();
             cargarTabla();
+
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al modificar: " + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Error en la base de datos: " + ex.getMessage());
             ex.printStackTrace();
         }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnModificar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificar1ActionPerformed
+    int filaSeleccionada = tblServicios.getSelectedRow();
+
+    if (filaSeleccionada == -1) {
+        JOptionPane.showMessageDialog(null, "Seleccione un servicio para modificar.");
+        return;
+    }
+
+    int idServicio = (int) tblServicios.getValueAt(filaSeleccionada, 0);
+    String nombreTxt = NombreServicio.getText().trim();
+    String descripcionTxt = Descripcion.getText().trim();
+    String precioNormalTxt = CostoServicio.getText().trim().replace(',', '.');
+    String precioEmergenciaTxt = CostoServicioEmergencia.getText().trim().replace(',', '.');
+
+    if (nombreTxt.isEmpty() || precioNormalTxt.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "El nombre y el precio normal son obligatorios.");
+        return;
+    }
+
+    if (!precioNormalTxt.matches("\\d+(\\.\\d{1,2})?")) {
+        JOptionPane.showMessageDialog(null, "El precio normal no es válido.");
+        return;
+    }
+
+    if (!precioEmergenciaTxt.isEmpty() &&
+        !precioEmergenciaTxt.matches("\\d+(\\.\\d{1,2})?")) {
+        JOptionPane.showMessageDialog(null, "El precio de emergencia no es válido.");
+        return;
+    }
+
+    double precioNormal = Double.parseDouble(precioNormalTxt);
+    Double precioEmergencia = null;
+
+    if (!precioEmergenciaTxt.isEmpty()) {
+        precioEmergencia = Double.parseDouble(precioEmergenciaTxt);
+    }
+
+    try {
+        Connection con = Conexion.obtenerConexion();
+        PreparedStatement ps = con.prepareStatement(
+            "UPDATE servicios SET nombre_servicio = ?, descripcion = ?, precio_normal = ?, precio_emergencia = ? WHERE id_servicio = ?"
+        );
+        ps.setString(1, nombreTxt);
+        if (descripcionTxt.isEmpty()) {
+            ps.setNull(2, java.sql.Types.VARCHAR);
+        } else {
+            ps.setString(2, descripcionTxt);
+        }
+        ps.setDouble(3, precioNormal);
+        if (precioEmergencia == null) {
+            ps.setNull(4, java.sql.Types.DOUBLE);
+        } else {
+            ps.setDouble(4, precioEmergencia);
+        }
+        ps.setInt(5, idServicio);
+
+        ps.executeUpdate();
+        JOptionPane.showMessageDialog(null, "Servicio modificado correctamente.");
+
+        limpiar();
+        cargarTabla();
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "Error al modificar: " + ex.getMessage());
+        ex.printStackTrace();
+    }
     }//GEN-LAST:event_btnModificar1ActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed

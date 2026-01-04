@@ -870,6 +870,7 @@ private void cargaTablaReporte() {
         TotalIngreso.setText("Bs. " + totalFormateado);
         TotalDoc.setText("Bs. " + pagoDocFormateado);
         TotalHospital.setText("Bs. " + pagoClinicaFormateado);
+        btnCalcularPagoTotal.setEnabled(false);
     }//GEN-LAST:event_btnCalcularPagoTotalActionPerformed
 
     private void ReportePagosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReportePagosMouseClicked
@@ -894,6 +895,7 @@ private void cargaTablaReporte() {
         TablaReportes.setRowSorter(null);
         DoctorSeleccionado.setText("");
         TotalIngreso.setText("");
+        btnCalcularPagoTotal.setEnabled(false);
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void ReporteVistaPreviaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReporteVistaPreviaMouseClicked

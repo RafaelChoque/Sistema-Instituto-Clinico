@@ -9,12 +9,15 @@ package Servicios;
  * @author Erlan
  */
 public class Servicio {
+
     private String nombre;
     private double precio;
+    private String tipoPrecio; 
 
-    public Servicio(String nombre, double precio) {
+    public Servicio(String nombre, double precio, String tipoPrecio) {
         this.nombre = nombre;
         this.precio = precio;
+        this.tipoPrecio = tipoPrecio;
     }
 
     public String getNombre() {
@@ -24,13 +27,13 @@ public class Servicio {
     public double getPrecio() {
         return precio;
     }
-    
-    public void setPrecio(double precio) {
-        this.precio = precio;
+
+    public String getTipoPrecio() {
+        return tipoPrecio;
     }
 
     @Override
     public String toString() {
-        return nombre + " - Bs " + String.format("%.2f", precio);
+        return nombre + " (" + tipoPrecio + ") - Bs. " + precio;
     }
 }

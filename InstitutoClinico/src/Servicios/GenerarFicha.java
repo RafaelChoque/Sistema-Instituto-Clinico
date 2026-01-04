@@ -81,7 +81,7 @@ public class GenerarFicha extends javax.swing.JFrame {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         cargarServicios();
 
-        ListaItems.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        ListaItems.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         cargarTablaAfiches();
         ID.setVisible(false);
         ID.setEnabled(false);
@@ -709,7 +709,6 @@ public class GenerarFicha extends javax.swing.JFrame {
                     sorter.setRowFilter(new RowFilter<TableModel, Integer>() {
                         @Override
                         public boolean include(Entry<? extends TableModel, ? extends Integer> entry) {
-                            // Columna 0 es Integer (ID)
                             String id = normalize(String.valueOf(entry.getValue(0)));
                             String paciente = normalize(entry.getStringValue(1).trim());
 
@@ -945,7 +944,7 @@ public class GenerarFicha extends javax.swing.JFrame {
         ComboTipoPrecio.setModel(new javax.swing.DefaultComboBoxModel<TipoPrecioItem>(
             new TipoPrecioItem[] {
                 new TipoPrecioItem("normal", "Normal"),
-                new TipoPrecioItem("emergencia", "Emergencia (+30%)")
+                new TipoPrecioItem("emergencia", "Emergencia")
             }
         )
     );
@@ -1221,39 +1220,7 @@ public class GenerarFicha extends javax.swing.JFrame {
         ListaItems.setModel(modeloFiltrado);
     }
 
-    private void actualizarPreciosYTotal() {
-        DefaultListModel<Servicio> modelo = (DefaultListModel<Servicio>) ListaItemsSeleccionados.getModel();
-        TipoPrecioItem tipoPrecioItem = (TipoPrecioItem) ComboTipoPrecio.getSelectedItem();
-        String tipoPrecio = tipoPrecioItem.getValor();
 
-        try {
-            Connection con = Conexion.obtenerConexion();
-
-            for (int i = 0; i < modelo.size(); i++) {
-                Servicio servicio = modelo.getElementAt(i);
-
-                String sql = "SELECT precio_normal, precio_emergencia FROM servicios WHERE nombre_servicio = ?";
-                PreparedStatement stmt = con.prepareStatement(sql);
-                stmt.setString(1, servicio.getNombre());
-                ResultSet rs = stmt.executeQuery();
-
-                if (rs.next()) {
-                    double nuevoPrecio = tipoPrecio.equals("emergencia") ? rs.getDouble("precio_emergencia") : rs.getDouble("precio_normal");
-                    servicio.setPrecio(nuevoPrecio);
-                }
-
-                rs.close();
-                stmt.close();
-            }
-
-            con.close();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error al actualizar precios: " + ex.getMessage());
-        }
-
-        ListaItemsSeleccionados.repaint();
-        actualizarTotal();
-    }
 
     private void actualizarTotal() {
         DefaultListModel<Servicio> modelo = (DefaultListModel<Servicio>) ListaItemsSeleccionados.getModel();
@@ -1336,7 +1303,7 @@ public class GenerarFicha extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "El total del servicio no es un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         LocalDate fechaAtencion = fechaAtencionDate.toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
@@ -1350,8 +1317,8 @@ public class GenerarFicha extends javax.swing.JFrame {
             estadoFicha = "Hoy";
         } else {
             estadoFicha = "Futura";
-        }      
-    
+        }
+
         try {
             Connection con = Conexion.obtenerConexion();
 
@@ -1431,8 +1398,6 @@ public class GenerarFicha extends javax.swing.JFrame {
             psInsert.close();
 
             ListModel<Servicio> itemsSeleccionados = ListaItemsSeleccionados.getModel();
-            TipoPrecioItem tipoPrecioItem = (TipoPrecioItem) ComboTipoPrecio.getSelectedItem();
-            String tipoPrecio = tipoPrecioItem.getValor();
 
             String sqlServicio = "SELECT id_servicio FROM servicios WHERE nombre_servicio = ?";
             PreparedStatement psServicio = con.prepareStatement(sqlServicio);
@@ -1441,6 +1406,7 @@ public class GenerarFicha extends javax.swing.JFrame {
             PreparedStatement psDetalle = con.prepareStatement(sqlDetalle);
 
             for (int i = 0; i < itemsSeleccionados.getSize(); i++) {
+
                 Servicio servicio = itemsSeleccionados.getElementAt(i);
                 String nombreServicio = servicio.getNombre();
 
@@ -1452,7 +1418,8 @@ public class GenerarFicha extends javax.swing.JFrame {
 
                     psDetalle.setInt(1, idAfiche);
                     psDetalle.setInt(2, idServicio);
-                    psDetalle.setString(3, tipoPrecio);
+
+                    psDetalle.setString(3, servicio.getTipoPrecio());
 
                     psDetalle.executeUpdate();
                 }
@@ -1462,6 +1429,7 @@ public class GenerarFicha extends javax.swing.JFrame {
 
             psServicio.close();
             psDetalle.close();
+
             con.close();
 
             JOptionPane.showMessageDialog(this, "Ficha y detalles guardados con éxito.");
@@ -1536,53 +1504,68 @@ public class GenerarFicha extends javax.swing.JFrame {
     }//GEN-LAST:event_SeleccionarDocActionPerformed
 
     private void btnVistaPreviaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVistaPreviaActionPerformed
-        List<String> seleccionados = ListaItems.getSelectedValuesList();
+        String item = ListaItems.getSelectedValue();
 
-        DefaultListModel<Servicio> modeloSeleccionados;
-        if (ListaItemsSeleccionados.getModel() instanceof DefaultListModel) {
-            modeloSeleccionados = (DefaultListModel<Servicio>) ListaItemsSeleccionados.getModel();
-        } else {
-            modeloSeleccionados = new DefaultListModel<>();
+        if (item == null) {
+            JOptionPane.showMessageDialog(this, "Seleccione un servicio.");
+            return;
         }
 
-        try {
-            Connection con = Conexion.obtenerConexion();
-            TipoPrecioItem tipoPrecioItem = (TipoPrecioItem) ComboTipoPrecio.getSelectedItem();
-            String tipoPrecio = tipoPrecioItem.getValor();
+        DefaultListModel<Servicio> modelo;
+        if (ListaItemsSeleccionados.getModel() instanceof DefaultListModel) {
+            modelo = (DefaultListModel<Servicio>) ListaItemsSeleccionados.getModel();
+        } else {
+            modelo = new DefaultListModel<>();
+        }
 
-            for (String item : seleccionados) {
-                boolean yaExiste = false;
+        for (int i = 0; i < modelo.size(); i++) {
+            if (modelo.getElementAt(i).getNombre().equals(item)) {
+                JOptionPane.showMessageDialog(this, "El servicio ya fue agregado.");
+                return;
+            }
+        }
 
-                for (int i = 0; i < modeloSeleccionados.size(); i++) {
-                    if (modeloSeleccionados.getElementAt(i).getNombre().equals(item)) {
-                        yaExiste = true;
-                        break;
+        TipoPrecioItem tipoPrecioItem = (TipoPrecioItem) ComboTipoPrecio.getSelectedItem();
+        String tipoPrecio = tipoPrecioItem.getValor();
+
+        try (Connection con = Conexion.obtenerConexion()) {
+
+            String sql = "SELECT precio_normal, precio_emergencia FROM servicios WHERE nombre_servicio = ?";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, item);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                double precioNormal = rs.getDouble("precio_normal");
+                Double precioEmergencia = rs.getObject("precio_emergencia", Double.class);
+
+                double precioFinal;
+
+                if ("emergencia".equals(tipoPrecio)) {
+                    if (precioEmergencia == null) {
+                        JOptionPane.showMessageDialog(this,
+                                "El servicio \"" + item + "\" no tiene precio de emergencia.\nSe usará precio normal.");
+                        precioFinal = precioNormal;
+                        tipoPrecio = "normal";
+                    } else {
+                        precioFinal = precioEmergencia;
                     }
+                } else {
+                    precioFinal = precioNormal;
                 }
 
-                if (!yaExiste) {
-                    String sql = "SELECT precio_normal, precio_emergencia FROM servicios WHERE nombre_servicio = ?";
-                    PreparedStatement stmt = con.prepareStatement(sql);
-                    stmt.setString(1, item);
-                    ResultSet rs = stmt.executeQuery();
-
-                    if (rs.next()) {
-                        double precio = tipoPrecio.equals("emergencia") ? rs.getDouble("precio_emergencia") : rs.getDouble("precio_normal");
-                        Servicio servicio = new Servicio(item, precio);
-                        modeloSeleccionados.addElement(servicio);
-                    }
-
-                    rs.close();
-                    stmt.close();
-                }
+                Servicio servicio = new Servicio(item, precioFinal, tipoPrecio);
+                modelo.addElement(servicio);
             }
 
-            con.close();
+            rs.close();
+            stmt.close();
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al agregar servicio: " + e.getMessage());
         }
 
-        ListaItemsSeleccionados.setModel(modeloSeleccionados);
+        ListaItemsSeleccionados.setModel(modelo);
         actualizarTotal();
     }//GEN-LAST:event_btnVistaPreviaActionPerformed
 
@@ -1591,7 +1574,7 @@ public class GenerarFicha extends javax.swing.JFrame {
     }//GEN-LAST:event_TotalSumaServiciosActionPerformed
 
     private void ComboTipoPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboTipoPrecioActionPerformed
-        actualizarPreciosYTotal();
+
     }//GEN-LAST:event_ComboTipoPrecioActionPerformed
 
     private void BuscarItemsNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarItemsNombreActionPerformed
